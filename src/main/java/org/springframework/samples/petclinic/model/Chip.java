@@ -1,7 +1,6 @@
 
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -25,7 +24,7 @@ public class Chip extends BaseEntity {
 	@Column(name = "geolocatable")
 	private Boolean	geolocatable;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "pet_id", referencedColumnName = "pet_id")
 	private Pet		pet;
 
