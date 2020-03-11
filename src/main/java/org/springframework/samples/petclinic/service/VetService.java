@@ -18,21 +18,18 @@ package org.springframework.samples.petclinic.service;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
-import org.springframework.samples.petclinic.repository.PetRepository;
+import org.springframework.samples.petclinic.repository.UserRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
-import org.springframework.samples.petclinic.repository.VisitRepository;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
@@ -45,15 +42,29 @@ public class VetService {
 
 	private VetRepository vetRepository;
 
+	private UserRepository userRepo;
+
+	private OwnerRepository ownerRepo;
+
 
 	@Autowired
-	public VetService(VetRepository vetRepository) {
+	public VetService(VetRepository vetRepository, UserRepository userRepo, OwnerRepository ownerRepo) {
 		this.vetRepository = vetRepository;
+		this.userRepo = userRepo;
+		this.ownerRepo = ownerRepo;
 	}		
 
 	@Transactional(readOnly = true)	
 	public Collection<Vet> findVets() throws DataAccessException {
 		return vetRepository.findAll();
+	}
+
+	//Obtinene el Owner logeado actuakmente (si es un Owner)
+	public Owner getActualOwner() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+		User aux = this.userRepo.findByUsername(currentPrincipalName);
+		return this.ownerRepo.findByUser(aux);
 	}	
 
 }

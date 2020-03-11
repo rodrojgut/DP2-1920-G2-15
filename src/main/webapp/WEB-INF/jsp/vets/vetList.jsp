@@ -5,6 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
+
+
 <petclinic:layout pageName="vets">
     <h2>Veterinarians</h2>
 
@@ -13,7 +15,7 @@
         <tr>
             <th>Name</th>
             <th>Specialties</th>
-            <th>Opinion</th>
+            <c:if test="${esOwner}"><th>Opinion</th></c:if>
         </tr>
         </thead>
         <tbody>
@@ -28,12 +30,14 @@
                     </c:forEach>
                     <c:if test="${vet.nrOfSpecialties == 0}">none</c:if>
                 </td>
-                <td>
-                    <spring:url value="/opinions/new/{vetId}" var="addOpinion">
-                    <spring:param name="vetId" value="${vet.id}"/>
-                </spring:url>
-                <a href="${fn:escapeXml(addOpinion)}" class="btn btn-default">Add Opinion</a>
-                </td>
+                <c:if test="${esOwner}">
+                    <td>
+                        <spring:url value="/opinions/new/{vetId}" var="addOpinion">
+                        <spring:param name="vetId" value="${vet.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(addOpinion)}" class="btn btn-default">Add Opinion</a>
+                    </td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>
