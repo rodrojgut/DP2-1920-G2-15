@@ -25,7 +25,7 @@ public class Chip extends BaseEntity {
 	private Boolean	geolocatable;
 
 	@OneToOne
-	@JoinColumn(name = "pet_id", referencedColumnName = "pet_id")
+	@JoinColumn(name = "pet_id", referencedColumnName = "id")
 	private Pet		pet;
 
 
