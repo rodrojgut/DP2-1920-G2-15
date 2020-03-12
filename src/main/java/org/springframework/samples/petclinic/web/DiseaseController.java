@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Enfermedad;
+import org.springframework.samples.petclinic.model.Disease;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
-import org.springframework.samples.petclinic.service.EnfermedadService;
+import org.springframework.samples.petclinic.service.DiseaseService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -41,21 +41,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Arjen Poutsma
  */
 @Controller
-@RequestMapping("/enfermedades")
-public class EnfermedadController {
+@RequestMapping("/diseases")
+public class DiseaseController {
 
 	@Autowired
-	private EnfermedadService enfermedadService;
+	private DiseaseService DiseaseService;
 
 	@Autowired
 	private PetService petService;
 
-	@GetMapping("/enfermedadesList")
-	public Iterable<Enfermedad> findEnfermedades(final ModelMap modelMap) {
+	@GetMapping("/diseasesList")
+	public Iterable<Disease> findDiseases(final ModelMap modelMap) {
 
-		Iterable<Enfermedad> enfermedades = this.enfermedadService.findAll();
-		modelMap.addAttribute("enfermedades", enfermedades);
-		return this.enfermedadService.findAll();
+		Iterable<Disease> diseases = this.DiseaseService.findAll();
+		modelMap.addAttribute("diseases", diseases);
+		return this.DiseaseService.findAll();
 	}
 
 	@ModelAttribute("pets")

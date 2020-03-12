@@ -40,11 +40,13 @@
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
 
-					<petclinic:menuItem active="${name eq 'enfermedades'}" url="/enfermedades/enfermedadesList"
-					title="enfermedades">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Enfermedades</span>
-				</petclinic:menuItem>
+				<sec:authorize access= "hasAuthority('veterinarian')">
+					<petclinic:menuItem active="${name eq 'diseases'}" url="/diseases/diseasesList"
+						title="diseases">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>Diseases</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">

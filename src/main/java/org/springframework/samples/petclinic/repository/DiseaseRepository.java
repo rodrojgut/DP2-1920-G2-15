@@ -5,13 +5,13 @@ import java.util.Collection;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.samples.petclinic.model.Enfermedad;
+import org.springframework.samples.petclinic.model.Disease;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EnfermedadRepository extends CrudRepository<Enfermedad, Integer> {
+public interface DiseaseRepository extends CrudRepository<Disease, Integer> {
 
   @Override
-  Collection<Enfermedad> findAll() throws DataAccessException;
+  Collection<Disease> findAll() throws DataAccessException;
 
 }
