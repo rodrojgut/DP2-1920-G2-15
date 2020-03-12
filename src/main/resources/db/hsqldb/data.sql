@@ -62,3 +62,11 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
+INSERT INTO enfermedades VALUES (1, 'malisimo de la muerte','LEVE','compra paracetamol');
+INSERT INTO enfermedades VALUES (2, 'tengo el coronavirus','SEVERO','la vas a espichar');
+INSERT INTO enfermedades VALUES (3, 'necrosis', 'MODERADO','no tenemos na que hacer');
+
+INSERT INTO enfermedades_pets VALUES (1,1);
+INSERT INTO enfermedades_pets VALUES (1,2);
+INSERT INTO enfermedades_pets VALUES (2,3);
+INSERT INTO enfermedades_pets VALUES (3,4);
