@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 package org.springframework.samples.petclinic.web;
+
 import java.util.Collection;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Disease;
 import org.springframework.samples.petclinic.model.Pet;
@@ -23,7 +26,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.samples.petclinic.service.PetService;
 
 /**
  * @author Juergen Hoeller
@@ -38,6 +43,9 @@ public class DiseaseController {
 	@Autowired
 	private DiseaseService DiseaseService;
 
+	@Autowired
+	private PetService PetService;
+
 	@GetMapping("/diseasesList")
 	public Iterable<Disease> findDiseases(final ModelMap modelMap) {
 
@@ -51,14 +59,15 @@ public class DiseaseController {
 		return this.DiseaseService.findPets();
 	}
 
-/*
-	@GetMapping("enfermedadesList")
-	public String mostrarEnfermedades(final ModelMap modelMap) {
-		String vista = "enfermedades/enfermedadesList";
-		Iterable<Enfermedad> enfermedades = this.enfermedadService.findAll();
-		modelMap.addAttribute("enfermedades", enfermedades);
-		return vista;
-	}*/
+	@GetMapping(value = "/new")
+	public String NewDiseases(Map<String, Object> model) {
+		Disease disease = new Disease();
+		Collection<Pet> pets = DiseaseService.findPets();
+		model.put("diseases", disease);
+		model.put("pets", pets);
+		return "diseases/createOrUpdateDiseaseForm";
+	}
+
 	/*
 	@PostMapping("/enfermedades")
 	public Enfermedad crearAdministrador(@RequestBody Enfermedad enfermedad ) {

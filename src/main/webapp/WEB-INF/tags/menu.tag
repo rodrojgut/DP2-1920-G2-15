@@ -48,6 +48,14 @@
 					</petclinic:menuItem>
 				</sec:authorize>
 
+				<sec:authorize access= "hasAuthority('veterinarian')">
+					<petclinic:menuItem active="${name eq 'diseases'}" url="/diseases/new"
+						title="Create diseases">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>Create Diseases</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
