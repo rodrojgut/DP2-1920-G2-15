@@ -18,16 +18,25 @@ package org.springframework.samples.petclinic.web;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.naming.Binding;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Disease;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.DiseaseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import net.bytebuddy.asm.Advice.Return;
+
 import org.springframework.samples.petclinic.service.PetService;
 
 /**
@@ -41,31 +50,56 @@ import org.springframework.samples.petclinic.service.PetService;
 public class DiseaseController {
 
 	@Autowired
-	private DiseaseService DiseaseService;
+	private DiseaseService diseaseService;
 
 	@Autowired
-	private PetService PetService;
+	private PetService petService;
 
 	@GetMapping("/diseasesList")
 	public Iterable<Disease> findDiseases(final ModelMap modelMap) {
 
-		Iterable<Disease> diseases = this.DiseaseService.findAll();
+		Iterable<Disease> diseases = this.diseaseService.findAll();
 		modelMap.addAttribute("diseases", diseases);
-		return this.DiseaseService.findAll();
+		return this.diseaseService.findAll();
 	}
 
 	@ModelAttribute("pets")
 	public Collection<Pet> populatePet() {
-		return this.DiseaseService.findPets();
+		return this.diseaseService.findPets();
 	}
 
-	@GetMapping(value = "/new")
+	/*@GetMapping(value = "/new")
 	public String NewDiseases(Map<String, Object> model) {
 		Disease disease = new Disease();
-		Collection<Pet> pets = DiseaseService.findPets();
+		Collection<Pet> pets = diseaseService.findPets();
 		model.put("diseases", disease);
 		model.put("pets", pets);
 		return "diseases/createOrUpdateDiseaseForm";
+	}*/
+
+	@GetMapping("/new")
+	public String createDisease(final ModelMap modelMap) {
+		String view = "diseases/createDisease";
+		Disease disease = new Disease();
+		modelMap.addAttribute("disease", disease);
+		return view;
+	}
+
+	@PostMapping("/save")
+	public String newDisease(@Valid Disease disease, BindingResult result, ModelMap modelMap){
+		String view = "diseases/diseasesList";
+		if(result.hasErrors()){
+			modelMap.addAttribute("disease", disease);
+			return "diseases/createDisease";
+		}else{
+			Collection<Pet> pet = this.diseaseService.findPets();
+			this.petService.saveAllPets(pet);;
+			this.diseaseService.save(disease);
+			
+			modelMap.addAttribute("message","Disease sucessfully saved" );
+			view = createDisease(modelMap);
+		}
+		return view;
 	}
 
 	/*

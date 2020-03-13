@@ -31,21 +31,33 @@ import org.springframework.samples.petclinic.repository.PetRepository;
 public class DiseaseService {
 
 	@Autowired
-	private DiseaseRepository DiseaseRepository;
+	private DiseaseRepository diseaseRepository;
 
 	@Autowired
-	private PetRepository PetRepository;
+	private PetRepository petRepository;
 
 
 @Transactional
 public Iterable<Disease> findAll() {
-	return this.DiseaseRepository.findAll();
+	return this.diseaseRepository.findAll();
 }
 
 @Transactional(readOnly = true)	
 public Collection<Pet> findPets() throws DataAccessException {
-	return this.PetRepository.findAll();
+	return this.petRepository.findAll();
 }	
+
+@Transactional
+public Disease save(Disease d) {		
+	Disease saved = this.diseaseRepository.save(d);
+	 return saved;
+ }
+
+/*@Transactional
+public void saveDisease(Disease disease) throws DataAccessException {
+	
+	diseas
+}	*/
 
 
 

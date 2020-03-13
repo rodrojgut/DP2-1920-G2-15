@@ -54,10 +54,21 @@ public class PetService {
 	public Collection<PetType> findPetTypes() throws DataAccessException {
 		return petRepository.findPetTypes();
 	}
+	@Transactional(readOnly = true)
+	public Collection<Pet> findAllPets() throws DataAccessException {
+		return petRepository.findAll();
+	}
+	
 	
 	@Transactional
 	public void saveVisit(Visit visit) throws DataAccessException {
 		visitRepository.save(visit);
+	}
+
+	
+	@Transactional
+	public void saveAllPets(Collection<Pet> pet) throws DataAccessException {
+		this.petRepository.save(pet);
 	}
 
 	@Transactional(readOnly = true)
