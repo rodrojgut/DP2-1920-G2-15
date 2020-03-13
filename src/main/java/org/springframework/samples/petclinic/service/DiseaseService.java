@@ -22,11 +22,11 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Disease;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repository.DiseaseRepository;
-import org.springframework.samples.petclinic.repository.VetRepository;
 import org.springframework.stereotype.Service;
-
+import org.springframework.samples.petclinic.repository.PetRepository;
 @Service
 public class DiseaseService {
 
@@ -34,7 +34,7 @@ public class DiseaseService {
 	private DiseaseRepository DiseaseRepository;
 
 	@Autowired
-	private VetRepository vetRepository;
+	private PetRepository PetRepository;
 
 
 @Transactional
@@ -43,8 +43,10 @@ public Iterable<Disease> findAll() {
 }
 
 @Transactional(readOnly = true)	
-public Collection<Vet> findVets() throws DataAccessException {
-	return this.vetRepository.findAll();
+public Collection<Pet> findPets() throws DataAccessException {
+	return this.PetRepository.findAll();
 }	
+
+
 
 }

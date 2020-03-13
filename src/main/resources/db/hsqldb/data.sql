@@ -78,4 +78,5 @@ INSERT INTO diseases_pets VALUES (3,4);
 INSERT INTO diseases_pets VALUES (4,5);
 INSERT INTO diseases_pets VALUES (5,6);
 INSERT INTO diseases_pets VALUES (6,7);
-INSERT INTO diseases_pets VALUES (7,8);
+INSERT INTO diseases_pets VALUES (6,8);
+INSERT INTO diseases_pets VALUES (7,9);

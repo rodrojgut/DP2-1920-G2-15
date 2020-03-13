@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 package org.springframework.samples.petclinic.web;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Disease;
 import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.service.DiseaseService;
-import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -47,9 +38,6 @@ public class DiseaseController {
 	@Autowired
 	private DiseaseService DiseaseService;
 
-	@Autowired
-	private PetService petService;
-
 	@GetMapping("/diseasesList")
 	public Iterable<Disease> findDiseases(final ModelMap modelMap) {
 
@@ -59,8 +47,8 @@ public class DiseaseController {
 	}
 
 	@ModelAttribute("pets")
-	public Collection<PetType> populatePetTypes() {
-		return this.petService.findPetTypes();
+	public Collection<Pet> populatePet() {
+		return this.DiseaseService.findPets();
 	}
 
 /*
