@@ -64,9 +64,9 @@ public class Pet extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Visit> visits;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "chip_id", referencedColumnName = "pet_id")
-	private Chip Chip;
+	private Chip chip;
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
@@ -115,10 +115,10 @@ public class Pet extends NamedEntity {
 	}
 
 	public Chip getChip() {
-		return Chip;
+		return chip;
 	}
 
 	public void setChip(Chip chip) {
-		Chip = chip;
+		this.chip = chip;
 	}
 }
