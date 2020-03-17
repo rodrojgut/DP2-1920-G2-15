@@ -16,7 +16,6 @@
 package org.springframework.samples.petclinic.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
@@ -52,10 +51,8 @@ public class VetController {
 		vets.getVetList().addAll(this.vetService.findVets());
 		model.put("vets", vets);
 
-		//Comprobamos si el usuario actual es un Onwer y lo introducimos en el model
-		Owner o = this.vetService.getActualOwner();
-		Boolean esOwner = o!=null;
-		model.put("esOwner", esOwner);
+	
+		
 		return "vets/vetList";
 	}
 

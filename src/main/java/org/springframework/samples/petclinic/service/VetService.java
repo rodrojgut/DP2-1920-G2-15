@@ -42,16 +42,13 @@ public class VetService {
 
 	private VetRepository vetRepository;
 
-	private UserRepository userRepo;
 
-	private OwnerRepository ownerRepo;
 
 
 	@Autowired
-	public VetService(VetRepository vetRepository, UserRepository userRepo, OwnerRepository ownerRepo) {
+	public VetService(VetRepository vetRepository) {
 		this.vetRepository = vetRepository;
-		this.userRepo = userRepo;
-		this.ownerRepo = ownerRepo;
+
 	}		
 
 	@Transactional(readOnly = true)	
@@ -59,12 +56,6 @@ public class VetService {
 		return vetRepository.findAll();
 	}
 
-	//Obtinene el Owner logeado actuakmente (si es un Owner)
-	public Owner getActualOwner() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-		User aux = this.userRepo.findByUsername(currentPrincipalName);
-		return this.ownerRepo.findByUser(aux);
-	}	
+
 
 }

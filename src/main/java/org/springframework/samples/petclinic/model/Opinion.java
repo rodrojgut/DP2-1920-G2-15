@@ -26,7 +26,7 @@ public class Opinion extends NamedEntity {
 
 	//Relations with Owner and Vet
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Owner			owner;
+	private User			user;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Vet				vet;

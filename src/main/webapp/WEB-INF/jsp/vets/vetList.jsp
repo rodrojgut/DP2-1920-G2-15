@@ -15,7 +15,7 @@
         <tr>
             <th>Name</th>
             <th>Specialties</th>
-            <c:if test="${esOwner}"><th>Opinion</th></c:if>
+            <th>Opinion</th>
         </tr>
         </thead>
         <tbody>
@@ -30,14 +30,12 @@
                     </c:forEach>
                     <c:if test="${vet.nrOfSpecialties == 0}">none</c:if>
                 </td>
-                <c:if test="${esOwner}">
                     <td>
                         <spring:url value="/opinions/new/{vetId}" var="addOpinion">
                         <spring:param name="vetId" value="${vet.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(addOpinion)}" class="btn btn-default">Add Opinion</a>
                     </td>
-                </c:if>
             </tr>
         </c:forEach>
         </tbody>

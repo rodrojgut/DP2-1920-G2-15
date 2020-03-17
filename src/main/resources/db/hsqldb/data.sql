@@ -64,11 +64,11 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
-INSERT INTO opinion(id,comentary,date,puntuation,owner_id,vet_id) VALUES (1, 'Muy buen servicio', '2020-01-04 00:00:00',5,1,1);
-INSERT INTO opinion(id,comentary,date,puntuation,owner_id,vet_id) VALUES (2, 'Me parece un borde', '2020-02-14 00:00:00',2,2,2);
-INSERT INTO opinion(id,comentary,date,puntuation,owner_id,vet_id) VALUES (3, 'Servicio decente', '2020-02-29 00:00:00',4,3,3);
-INSERT INTO opinion(id,comentary,date,puntuation,owner_id,vet_id) VALUES (4, 'Mi perrito ha curado rapido, MUCHAS GRACIAAS', '2020-03-10 00:00:00',5,4,4);
-INSERT INTO opinion(id,comentary,date,puntuation,owner_id,vet_id) VALUES (5, 'Pipo era un buen perro', '2018-06-10 00:00:00',5,5,5);
-INSERT INTO opinion(id,comentary,date,puntuation,owner_id,vet_id) VALUES (6, 'GUAU GUAU GUAAU', '2019-06-10 00:00:00',3,6,6);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (1, 'Muy buen servicio', '2020-01-04 00:00:00',5,'owner1',1);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (2, 'Me parece un borde', '2020-02-14 00:00:00',2,'owner1',2);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (3, 'Servicio decente', '2020-02-29 00:00:00',4,'owner2',3);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (4, 'Mi perrito ha curado rapido, MUCHAS GRACIAAS', '2020-03-10 00:00:00',5,'owner1',4);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (5, 'Pipo era un buen perro', '2018-06-10 00:00:00',5,'admin1',5);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (6, 'GUAU GUAU GUAAU', '2019-06-10 00:00:00',3,'owner1',6);
 
 
