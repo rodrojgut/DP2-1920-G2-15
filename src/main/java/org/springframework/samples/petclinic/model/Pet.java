@@ -65,7 +65,7 @@ public class Pet extends NamedEntity {
 	private Set<Visit> visits;
 	
 	@OneToOne
-	@JoinColumn(name = "chip_id", referencedColumnName = "pet_id")
+	@JoinColumn(name = "chip_id", referencedColumnName = "id")
 	private Chip chip;
 
 	public void setBirthDate(LocalDate birthDate) {
