@@ -55,11 +55,11 @@ public class OpinionService {
         return this.ownerRepo.findById(ownerId);
     }
 
-	public Owner getCurrentOwner() {
+	public Owner getCurrentOwner() {        
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        User aux = this.userRepo.findByUsername(currentPrincipalName);
-        return this.ownerRepo.findByUser(aux);
+        String currentPrincipalName = authentication.getName();            //Obtiene el nombre del ususario actual
+        User aux = this.userRepo.findByUsername(currentPrincipalName);     //Obtiene el usuario con ese nombre
+        return this.ownerRepo.findByUser(aux);                             //Si el usuario es owner, lo obtiene
       
 	}
 

@@ -53,10 +53,10 @@ public class OpinionController {
             return VIEWS_OPINION_CREATE_OR_UPDATE_FORM;
         } else {
             // creating owner, user and authorities
-            opinion.setDate(LocalDateTime.now());
-            opinion.setVet(this.opinionService.getVetById(vetId));
-            opinion.setOwner(this.opinionService.getCurrentOwner());
-			this.opinionService.saveOpinion(opinion);
+            opinion.setDate(LocalDateTime.now());                          //Ponemos la fecha actual
+            opinion.setVet(this.opinionService.getVetById(vetId));         //Le asociamos el vet sobre el cual actuamos
+            opinion.setOwner(this.opinionService.getCurrentOwner());       //Obtiene el owner actual para 
+			this.opinionService.saveOpinion(opinion);                      //Guardarmos la opinion en el sistema
 			
 			return "redirect:/vets/" ;
 		}
