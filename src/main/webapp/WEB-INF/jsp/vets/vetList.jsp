@@ -40,7 +40,10 @@
         </c:forEach>
         </tbody>
     </table>
-
+	
+	<spring:url value="/opinions/list" var="listOpinion"></spring:url>
+    <a href="${fn:escapeXml(listOpinion)}" class="btn btn-default">List all opinions</a>
+        
     <table class="table-buttons">
         <tr>
             <td>
