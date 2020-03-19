@@ -8,6 +8,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+
 @Entity
 @Table(name = "chips")
 public class Chip extends BaseEntity {
@@ -60,4 +61,6 @@ public class Chip extends BaseEntity {
 	public void setPet(final Pet pet) {
 		this.pet = pet;
 	}
+	
+	
 }
