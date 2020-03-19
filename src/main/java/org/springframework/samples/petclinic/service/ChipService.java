@@ -22,4 +22,10 @@ public class ChipService {
 	public Chip findChipById(int id) throws DataAccessException {
 		return chipRepository.findById(id);
 	}
+	
+	@Transactional
+	public void deleteChip(Chip chip) throws DataAccessException{
+		chip.getPet().removeChip();
+		chipRepository.delete(chip);
+	}
 }

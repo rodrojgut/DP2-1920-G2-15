@@ -120,4 +120,8 @@ public class Pet extends NamedEntity {
 	public void setChip(final Chip chip) {
 		this.chip = chip;
 	}
+
+	public void removeChip() {
+		this.chip = null;
+	}
 }

@@ -6,5 +6,7 @@ import org.springframework.samples.petclinic.model.Chip;
 
 public interface ChipRepository {
 
-	<Optional> Chip findById(int id) throws DataAccessException;
+	Chip findById(int id) throws DataAccessException;
+
+	void delete(Chip chip) throws DataAccessException;
 }
