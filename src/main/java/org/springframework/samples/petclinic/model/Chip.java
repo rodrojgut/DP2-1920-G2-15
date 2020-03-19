@@ -61,4 +61,6 @@ public class Chip extends BaseEntity {
 	public void setPet(final Pet pet) {
 		this.pet = pet;
 	}
+	
+	
 }
