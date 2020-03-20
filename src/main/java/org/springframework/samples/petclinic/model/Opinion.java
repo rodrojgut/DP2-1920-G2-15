@@ -25,9 +25,9 @@ public class Opinion extends NamedEntity {
 	private LocalDateTime	date;
 
 	//Relations with Owner and Vet
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	private User			user;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Vet				vet;
 }

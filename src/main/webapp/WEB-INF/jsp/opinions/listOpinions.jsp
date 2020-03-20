@@ -7,13 +7,17 @@
 
 <petclinic:layout pageName="opinions">
     <h2>Opinions</h2>
-
+	
+	<c:if test="${message}">
+		<c:out value="${message}"></c:out>
+	</c:if>
+	
     <table id="opinionsTable" class="table table-striped">
         <thead>
         <tr>
         	<th style="width: 150px;">Vet</th>
             <th style="width: 50px;">Puntuation</th>
-            <th style="width: 100px;">Date</th>
+            <th style="width: 200px;">Date</th>
             <th style="width: 500px">Commentary</th>
         </tr>
         </thead>
@@ -32,8 +36,20 @@
                 <td>
                     <c:out value="${opinion.comentary}"/>
                 </td>
+                <c:if test="${!mine}">
+                <td>
+               		<spring:url value="/opinions/{opinionId}/delete" var="deleteUrl">
+        				<spring:param name="opinionId" value="${opinion.id}"/>
+    				</spring:url>
+    				<a href="${fn:escapeXml(deleteUrl)}">Delete</a>
+                </td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+    <c:if test="${mine}">
+    	<spring:url value="/opinions/listMine" var="listOpinionMine"></spring:url>
+    	<a href="${fn:escapeXml(listOpinionMine)}" class="btn btn-default">List my opinions</a>
+    </c:if>
 </petclinic:layout>

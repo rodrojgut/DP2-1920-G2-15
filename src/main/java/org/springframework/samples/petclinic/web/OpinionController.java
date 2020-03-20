@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -14,6 +15,8 @@ import org.springframework.samples.petclinic.model.Opinion;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.OpinionService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -73,7 +76,30 @@ public class OpinionController {
 		opinions.forEach(x -> opinionsList.add(x));		// Introducimos las opinions en un list
 		List<Opinion> ordered = opinionsList.stream().sorted(Comparator.comparing(Opinion::getPuntuation).reversed()).collect(Collectors.toList());		// Ordenamos las opinions en orden inverso 
 		modelMap.addAttribute("opinions", ordered);
+		modelMap.addAttribute("mine", true);				// Añadimos atributo para la vista.
 		return "/opinions/listOpinions";
+	}
+
+	@GetMapping(value = "/opinions/listMine")												// ListMine para proporcionar base para el delete.
+	public String listMineOpinion(final ModelMap modelMap) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();		// Cogemos el usuario activo.
+		String currentPrincipal = auth.getName();
+		Iterable<Opinion> opinions = this.opinionService.findAllMine(currentPrincipal);     // Tomamos las opiniones de ese usuario
+		modelMap.addAttribute("opinions", opinions);
+		modelMap.addAttribute("mine", false);													// Añadimos un atributo para la vista.
+		return "/opinions/listOpinions";
+	}
+
+	@GetMapping(value = "/opinions/{opinionId}/delete")
+	public String deleteOpinion(@PathVariable("opinionId") final Integer opinionId, final ModelMap modelMap) {
+		Optional<Opinion> op = this.opinionService.findById(opinionId);
+		if (op.isPresent()) {
+			this.opinionService.deleteOpinion(op.get());
+			modelMap.addAttribute("message", "Opinion successfully deleted.");
+		} else {
+			modelMap.addAttribute("message", "Opinion not found.");
+		}
+		return "redirect:/opinions/listMine";
 	}
 
 }

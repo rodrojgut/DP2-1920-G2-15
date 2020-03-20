@@ -1,6 +1,8 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +10,10 @@ import org.springframework.samples.petclinic.model.Opinion;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.repository.OpinionRepository;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.repository.UserRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
+import org.springframework.samples.petclinic.repository.springdatajpa.SpringDataOpinionRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -24,19 +26,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class OpinionService {
 
 	@Autowired
-	private OpinionRepository	opinionRepo;
+	private SpringDataOpinionRepository	opinionRepo;
 
 	@Autowired
-	private VetRepository		vetRepo;
+	private VetRepository				vetRepo;
 
 	@Autowired
-	private OwnerRepository		ownerRepo;
+	private OwnerRepository				ownerRepo;
 
 	@Autowired
-	private UserRepository		userRepo;
+	private UserRepository				userRepo;
 
 
-	public OpinionService(final OpinionRepository repository, final VetRepository vetRepo, final OwnerRepository ownerRepo, final UserRepository userRepo) {
+	public OpinionService(final SpringDataOpinionRepository repository, final VetRepository vetRepo, final OwnerRepository ownerRepo, final UserRepository userRepo) {
 		this.opinionRepo = repository;
 		this.vetRepo = vetRepo;
 		this.ownerRepo = ownerRepo;
@@ -68,4 +70,19 @@ public class OpinionService {
 		return this.opinionRepo.findAll();
 	}
 
+	@Transactional
+	public Iterable<Opinion> findAllMine(final String username) {
+		return this.opinionRepo.findAllMine(username);
+	}
+
+	public Optional<Opinion> findById(final Integer opinionId) {
+		return this.opinionRepo.findById(opinionId);
+	}
+
+	@Transactional
+	public void deleteOpinion(final Opinion opinion) {
+		opinion.getVet().removeOpinion(opinion);
+		//opinion.getUser().removeOpinion(opinion);
+		this.opinionRepo.delete(opinion);
+	}
 }

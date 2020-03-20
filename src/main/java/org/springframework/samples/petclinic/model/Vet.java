@@ -83,4 +83,8 @@ public class Vet extends Person {
 		this.getSpecialtiesInternal().add(specialty);
 	}
 
+	// Remove Opinion
+	public void removeOpinion(final Opinion opinion) {
+		this.opinions.remove(opinion);
+	}
 }
