@@ -15,6 +15,10 @@
  */
 package org.springframework.samples.petclinic.web;
 import java.util.Collection;
+import java.util.Optional;
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Disease;
 import org.springframework.samples.petclinic.model.Pet;
@@ -23,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -50,20 +55,20 @@ public class DiseaseController {
 	public Collection<Pet> populatePet() {
 		return this.DiseaseService.findPets();
 	}
+	
 
-/*
-	@GetMapping("enfermedadesList")
-	public String mostrarEnfermedades(final ModelMap modelMap) {
-		String vista = "enfermedades/enfermedadesList";
-		Iterable<Enfermedad> enfermedades = this.enfermedadService.findAll();
-		modelMap.addAttribute("enfermedades", enfermedades);
-		return vista;
-	}*/
-	/*
-	@PostMapping("/enfermedades")
-	public Enfermedad crearAdministrador(@RequestBody Enfermedad enfermedad ) {
-		enfermedad = enfermedadService.save(enfermedad);
-		return enfermedad;
+	@GetMapping("/delete/{diseaseId}")
+	public String deleteDisease(@PathVariable("diseaseId") int diseaseId, ModelMap modelMap) {
+		
+		Optional<Disease> disease = this.DiseaseService.findDiseaseById(diseaseId);
+		
+		if(disease.isPresent()) {
+			this.DiseaseService.delete(disease.get());
+			modelMap.addAttribute("message", "Disease successfully deleted");
+		}else {
+			modelMap.addAttribute("message", "Disease not found");
+		}
+		
+		return "redirect:/diseases/diseasesList";
 	}
-*/
 }
