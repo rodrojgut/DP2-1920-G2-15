@@ -12,9 +12,7 @@
 
     <table class="table table-striped">
         <tr>
-            <th>ID</th>
-            <td><b>
-                    <c:out value="${disease.id}" /></b></td>
+        
         </tr>
         <tr>
             <th>Symptoms</th>
@@ -35,6 +33,7 @@
             </td>
         </tr>
     </table>
+    
 
     <spring:url value="{diseaseId}/edit" var="editUrl">
         <spring:param name="diseaseId" value="${disease.id}" />

@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import net.bytebuddy.asm.Advice.Return;
+import net.bytebuddy.asm.Advice.This;
 
 import org.springframework.samples.petclinic.service.PetService;
 
@@ -104,22 +105,23 @@ public class DiseaseController {
 		return view;
 	}
 
-	/*
-	@PostMapping("/enfermedades")
-	public Enfermedad crearAdministrador(@RequestBody Enfermedad enfermedad ) {
-		enfermedad = enfermedadService.save(enfermedad);
-		return enfermedad;
-	}
-*/
 
-	@GetMapping("/diseases/{diseaseId}/edit")
+
+/*	@GetMapping("/{diseaseId}/edit")
 	public String updateDisease(@PathVariable("diseaseId") int diseaseId, ModelMap model) {
 		Optional<Disease> disease = this.DiseaseService.findDiseaseById(diseaseId);
 		model.addAttribute(disease);
 		return "diseases/diseaseDetails";
 	}
-
-	@PostMapping("/diseases/{diseaseId}/edit")
+*/
+	@GetMapping("/edit/{diseaseId}")
+	public ModelAndView showDisease(@PathVariable("diseaseId") int diseaseId) {
+		ModelAndView mav = new ModelAndView("diseases/diseaseDetails");
+		mav.addObject(this.DiseaseService.findDiseaseById(diseaseId));
+		return mav;
+	}
+/*
+	@PostMapping("/{diseaseId}/edit")
 	public String processUpdateDisease(@Valid Disease disease, BindingResult result,
 			@PathVariable("diseaseId") int diseaseId) {
 		if (result.hasErrors()) {
@@ -131,10 +133,10 @@ public class DiseaseController {
 		}
 	}
 
-	@GetMapping("/diseases/{diseaseId}")
+	/*@GetMapping("/diseases/{diseaseId}")
 	public ModelAndView showDisease(@PathVariable("diseaseId") int diseaseId) {
 		ModelAndView mav = new ModelAndView("diseases/diseaseDetails");
 		mav.addObject(this.DiseaseService.findDiseaseById(diseaseId));
 		return mav;
-	}
+	}*/
 }

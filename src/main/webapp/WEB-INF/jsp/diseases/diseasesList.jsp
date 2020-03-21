@@ -37,11 +37,11 @@
                     </td>
 
                     <td>
-                        <spring:url value="/diseases/{diseaseId}/edit" var="diseaseUrl">
+                        <spring:url value="/diseases/edit/{diseaseId}" var="diseaseUrl">
                             <spring:param name="diseaseId" value="${disease.id}" />
+                             <spring:param name="pets" value="${pets}"/>
                         </spring:url>
-                        <a href="${fn:escapeXml(diseaseUrl)}">
-                            <c:out value="${disease.id}" /></a>
+                        <a href="${fn:escapeXml(diseaseUrl)}">Update</a>
                     </td>
                 </tr>
             </c:forEach>
