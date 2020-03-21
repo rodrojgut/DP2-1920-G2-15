@@ -1,12 +1,14 @@
 package org.springframework.samples.petclinic.web;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.time.LocalDateTime;
 import java.util.Map;
-
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.samples.petclinic.model.Opinion;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.OpinionService;
 import org.springframework.samples.petclinic.service.UserService;
@@ -62,6 +64,34 @@ public class OpinionController {
 		}
 	}
 
+    @GetMapping(value = "/opinions/edit/{opinionId}")
+    public String initEditForm(Map<String, Object> model, @PathVariable("opinionId") Integer opinionId){
+        Optional<Opinion> o = this.opinionService.findOpinionById(opinionId);
+        
+        User actualUser = this.opinionService.getCurrentUser();
+        if(o.isPresent()&&o.get().getUser().equals(actualUser)){
+           model.put("opinion", o.get());
+           model.put("user", o.get().getUser());
+           return VIEWS_OPINION_CREATE_OR_UPDATE_FORM;
+       }else{
+           model.put("message", "Opinion not found");
+           return "redirect:/opinions/list";
+       }
+    }
+
+    @PostMapping(value = "/opinions/edit/{opinionId}")
+    public String processEditForm(@Valid Opinion opinion ,BindingResult result,
+    @PathVariable("opinionId") Integer opinionId, Map<String, Object> model){
+        if (result.hasErrors()) {
+            return VIEWS_OPINION_CREATE_OR_UPDATE_FORM;
+        } else {
+            opinion.setId(opinionId);
+            
+			this.opinionService.saveOpinion(opinion);                      //Guardarmos la opinion en el sistema
+			
+			return "redirect:/vets/" ;
+		}
+    }
 
 
     

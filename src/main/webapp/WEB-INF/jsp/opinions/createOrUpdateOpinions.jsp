@@ -12,8 +12,11 @@
     </h2>
     <form:form modelAttribute="opinion" class="form-horizontal" id="add-opinion-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Comentary" name="comentary"/>
+            <petclinic:inputField label ="Comentary" name="comentary"/>
             <petclinic:inputField label="Puntuation" name="puntuation"/>
+            <form:hidden path="user"/>
+            <form:hidden  path="vet" />
+            <form:hidden path="date" />
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

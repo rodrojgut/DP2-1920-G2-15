@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,10 @@ public class OpinionService {
         this.vetRepo = vetRepo;
         this.ownerRepo = ownerRepo;
         this.userRepo = userRepo;
+    }
+
+    public Optional<Opinion> findOpinionById(Integer id){
+        return this.opinionRepo.findById(id);
     }
 
 	public void saveOpinion(@Valid Opinion opinion) {
