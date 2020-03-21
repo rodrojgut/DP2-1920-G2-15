@@ -30,12 +30,12 @@
                     </c:forEach>
                     <c:if test="${vet.nrOfSpecialties == 0}">none</c:if>
                 </td>
-                    <td>
-                        <spring:url value="/opinions/new/{vetId}" var="addOpinion">
-                        <spring:param name="vetId" value="${vet.id}"/>
+                <td>
+                    <spring:url value="/opinions/new/{vetId}" var="addOpinion">
+                    <spring:param name="vetId" value="${vet.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(addOpinion)}" class="btn btn-default">Add Opinion</a>
-                    </td>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
