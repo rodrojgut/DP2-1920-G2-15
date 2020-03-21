@@ -19,6 +19,12 @@
             <th style="width: 50px;">Puntuation</th>
             <th style="width: 200px;">Date</th>
             <th style="width: 500px">Commentary</th>
+            
+            <c:if test="${!mine}">
+                <th style="width: 500px">Delete</th>
+                <th style="width: 500px">Edit</th>
+            </c:if>
+
         </tr>
         </thead>
         <tbody>
@@ -42,6 +48,13 @@
         				<spring:param name="opinionId" value="${opinion.id}"/>
     				</spring:url>
     				<a href="${fn:escapeXml(deleteUrl)}">Delete</a>
+                </td>
+                
+                <td>
+               		<spring:url value="/opinions/edit/{opinionId}" var="editUrl">
+        				<spring:param name="opinionId" value="${opinion.id}"/>
+    				</spring:url>
+    				<a href="${fn:escapeXml(editUrl)}">Edit</a>
                 </td>
                 </c:if>
             </tr>

@@ -97,7 +97,7 @@ public class OpinionController {
             
 			this.opinionService.saveOpinion(opinion);                      //Guardarmos la opinion en el sistema
 			
-			return "redirect:/vets/" ;
+			return "redirect:/opinions/listMine" ;
 		}
     }
 
