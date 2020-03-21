@@ -68,7 +68,10 @@ public class PetService {
 	
 	@Transactional
 	public void saveAllPets(Collection<Pet> pet) throws DataAccessException {
-		this.petRepository.save(pet);
+		for(Pet pet1 : pet){
+			this.petRepository.save(pet1);
+		}
+		
 	}
 
 	@Transactional(readOnly = true)

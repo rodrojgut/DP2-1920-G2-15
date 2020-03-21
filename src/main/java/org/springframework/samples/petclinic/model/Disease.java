@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -17,7 +20,6 @@ import javax.validation.constraints.Pattern;
 @Entity
 @Table(name = "Diseases")
 public class Disease extends BaseEntity {
-
 	
     @NotBlank
     @Column(name = "symptoms")
@@ -39,6 +41,9 @@ public class Disease extends BaseEntity {
     private Collection<Pet>  pets;
 
 
+    public Integer getId() {
+        return id;
+    }
     public String getSymptoms() {
         return symptoms;
     }

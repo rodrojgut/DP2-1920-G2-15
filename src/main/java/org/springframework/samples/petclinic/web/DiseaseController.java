@@ -17,6 +17,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.naming.Binding;
 import javax.validation.Valid;
@@ -26,6 +27,7 @@ import org.springframework.samples.petclinic.model.Disease;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.DiseaseService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import net.bytebuddy.asm.Advice.Return;
 
@@ -50,7 +53,7 @@ import org.springframework.samples.petclinic.service.PetService;
 public class DiseaseController {
 
 	@Autowired
-	private DiseaseService diseaseService;
+	private DiseaseService DiseaseService;
 
 	@Autowired
 	private PetService petService;
@@ -58,14 +61,14 @@ public class DiseaseController {
 	@GetMapping("/diseasesList")
 	public Iterable<Disease> findDiseases(final ModelMap modelMap) {
 
-		Iterable<Disease> diseases = this.diseaseService.findAll();
+		Iterable<Disease> diseases = this.DiseaseService.findAll();
 		modelMap.addAttribute("diseases", diseases);
-		return this.diseaseService.findAll();
+		return this.DiseaseService.findAll();
 	}
 
 	@ModelAttribute("pets")
 	public Collection<Pet> populatePet() {
-		return this.diseaseService.findPets();
+		return this.DiseaseService.findPets();
 	}
 
 	/*@GetMapping(value = "/new")
@@ -85,17 +88,16 @@ public class DiseaseController {
 		return view;
 	}
 
-	@PostMapping("/save")
+	@PostMapping("/new")
 	public String newDisease(@Valid Disease disease, BindingResult result, ModelMap modelMap){
 		String view = "diseases/diseasesList";
 		if(result.hasErrors()){
 			modelMap.addAttribute("disease", disease);
 			return "diseases/createDisease";
 		}else{
-			Collection<Pet> pet = this.diseaseService.findPets();
-			this.petService.saveAllPets(pet);;
-			this.diseaseService.save(disease);
-			
+			Collection<Pet> pet = this.DiseaseService.findPets();
+			this.petService.saveAllPets(pet);
+			this.DiseaseService.save(disease);
 			modelMap.addAttribute("message","Disease sucessfully saved" );
 			view = createDisease(modelMap);
 		}
@@ -109,4 +111,30 @@ public class DiseaseController {
 		return enfermedad;
 	}
 */
+
+	@GetMapping("/diseases/{diseaseId}/edit")
+	public String updateDisease(@PathVariable("diseaseId") int diseaseId, ModelMap model) {
+		Optional<Disease> disease = this.DiseaseService.findDiseaseById(diseaseId);
+		model.addAttribute(disease);
+		return "diseases/diseaseDetails";
+	}
+
+	@PostMapping("/diseases/{diseaseId}/edit")
+	public String processUpdateDisease(@Valid Disease disease, BindingResult result,
+			@PathVariable("diseaseId") int diseaseId) {
+		if (result.hasErrors()) {
+			return "diseases/createDisease";
+		} else {
+			disease.setId(diseaseId);
+			this.DiseaseService.save(disease);
+			return "redirect:/diseases/{diseaseId}";
+		}
+	}
+
+	@GetMapping("/diseases/{diseaseId}")
+	public ModelAndView showDisease(@PathVariable("diseaseId") int diseaseId) {
+		ModelAndView mav = new ModelAndView("diseases/diseaseDetails");
+		mav.addObject(this.DiseaseService.findDiseaseById(diseaseId));
+		return mav;
+	}
 }

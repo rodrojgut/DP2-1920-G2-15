@@ -13,5 +13,4 @@ public interface DiseaseRepository extends CrudRepository<Disease, Integer> {
 
   @Override
   Collection<Disease> findAll() throws DataAccessException;
-
 }

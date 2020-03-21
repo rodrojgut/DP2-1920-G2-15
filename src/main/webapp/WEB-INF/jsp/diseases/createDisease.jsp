@@ -12,33 +12,36 @@
     </h2>
     <form:form modelAttribute="disease" class="form-horizontal" id="add-disease-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="symptoms" name="symptoms"/>
-                <!--<select name="severity">
-                    <option selected="selected" value="LOW">LOW</option>
-                    <option value="MEDIUM">MEDIUM</option>
-                    <option value="HIGH">HIGH</option>
-                </select>
-            </td>-->
-         <!--   <div class="control-group">
-                <petclinic:selectField name="severity" label="severity" names="${severity}" size="5"/>
-            </div>-->
-            <petclinic:inputField label="severity" name="severity"/>
-            <petclinic:inputField label="cure" name="cure"/>
-            <petclinic:inputField label="pets" name="pets"/>
+            <petclinic:inputField label="Symptoms" name="symptoms" />
         </div>
+        <div class="form-group has-feedback">
+            <label for="severity">Severity </label>
+            <select name="Severity">
+                <option value="LOW" selected>LOW</option>
+                <option value="MEDIUM">MEDIUM</option>
+                <option value="HIGH">HIGH</option>
+            </select>
+        </div>
+
+        <div class="form-group has-feedback">
+            <petclinic:inputField label="Cure" name="cure" />
+        </div>
+        <div class="control-group">
+            <petclinic:selectField name="pets" label="Pet" names="${pets}" size="8" />
+        </div>
+
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-        <!--        <c:choose>
+                <c:choose>
                     <c:when test="${disease['new']}">
-                        <button class="btn btn-default" type="submit">Add disease</button>
+                        <button class="btn btn-default" type="submit">Save disease</button>
                     </c:when>
-                   <c:otherwise>
+                    <c:otherwise>
                         <button class="btn btn-default" type="submit">Update disease</button>
                     </c:otherwise>
                 </c:choose>
-            </div>-->
-                <input type="hidden" name="diseaseId" value="${disease.id}"/>
-                <button class="btn btn-default" type="submit">Save disease</button>
+              <!-- <input type="hidden" name="diseaseId" value="${disease.id}" />
+                <button class="btn btn-default" type="submit">Save disease</button>-->
             </div>
         </div>
     </form:form>
