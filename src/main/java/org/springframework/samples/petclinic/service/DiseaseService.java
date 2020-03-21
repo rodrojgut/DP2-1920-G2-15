@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Disease;
 import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repository.DiseaseRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.samples.petclinic.repository.PetRepository;
@@ -33,14 +32,14 @@ import org.springframework.samples.petclinic.repository.PetRepository;
 public class DiseaseService {
 
 	@Autowired
-	private DiseaseRepository DiseaseRepository;
+	private DiseaseRepository diseaseRepository;
 
 	@Autowired
 	private PetRepository petRepository;
 
 	@Transactional
 	public Iterable<Disease> findAll() {
-		return this.DiseaseRepository.findAll();
+		return this.diseaseRepository.findAll();
 	}
 
 	@Transactional(readOnly = true)
@@ -50,7 +49,7 @@ public class DiseaseService {
 
 	@Transactional
 	public Disease save(Disease d) {
-		Disease saved = this.DiseaseRepository.save(d);
+		Disease saved = this.diseaseRepository.save(d);
 		return saved;
 	}
 
@@ -60,13 +59,11 @@ public class DiseaseService {
 	 */
 
 	public Optional<Disease> findDiseaseById(int diseaseId) {
-	return this.DiseaseRepository.findById(diseaseId);
-	/*
-	 * @Transactional public void saveDisease(Disease disease) throws
-	 * DataAccessException {
-	 * 
-	 * diseas }
-	 */
+	return this.diseaseRepository.findById(diseaseId);
 
 }
+
+	public Disease findDiseaseId(int diseaseId) {
+	return this.diseaseRepository.findOnebyId(diseaseId);
+	}
 }

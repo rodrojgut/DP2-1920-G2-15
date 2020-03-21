@@ -4,6 +4,7 @@ package org.springframework.samples.petclinic.model;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class Disease extends BaseEntity {
     private String  cure;
 
     @NotNull
-    @OneToMany
+    @OneToMany(cascade = CascadeType.MERGE)
     @Column(name = "pets")
     private Collection<Pet>  pets;
 

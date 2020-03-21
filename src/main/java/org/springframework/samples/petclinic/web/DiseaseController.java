@@ -117,7 +117,7 @@ public class DiseaseController {
 	@GetMapping("/edit/{diseaseId}")
 	public ModelAndView showDisease(@PathVariable("diseaseId") int diseaseId) {
 		ModelAndView mav = new ModelAndView("diseases/diseaseDetails");
-		mav.addObject(this.DiseaseService.findDiseaseById(diseaseId));
+		mav.addObject(this.DiseaseService.findDiseaseId(diseaseId));
 		return mav;
 	}
 /*

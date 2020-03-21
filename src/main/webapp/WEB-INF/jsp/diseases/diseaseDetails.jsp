@@ -32,6 +32,13 @@
                 <c:out value="${disease.cure}" />
             </td>
         </tr>
+        
+         <tr>
+            <th>Pets</th>
+            <td>
+                <c:out value="${disease.pets}" />
+            </td>
+        </tr>
     </table>
     
 
