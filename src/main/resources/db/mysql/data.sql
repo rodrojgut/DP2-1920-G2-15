@@ -53,5 +53,5 @@ INSERT IGNORE INTO visits VALUES (3, 8, '2009-06-04', 'neutered');
 INSERT IGNORE INTO visits VALUES (4, 7, '2008-09-04', 'spayed');
 
 INSERT IGNORE INTO chips VALUES (1, '1', 'model1', true, 1);
-INSERT IGNORE INTO chips VALUES (2, '2', 'model2', true, 2);
-INSERT IGNORE INTO chips VALUES (3, '3', 'model3', false, 3);
+INSERT IGNORE INTO chips VALUES (2, '2', 'model2', true, 1);
+INSERT IGNORE INTO chips VALUES (3, '3', 'model3', false, 1);

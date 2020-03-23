@@ -86,6 +86,33 @@
                                 </spring:url>
                                 <a href="${fn:escapeXml(visitUrl)}">Add Visit</a>
                             </td>
+                            <c:if test="${pet.chip != null}">
+                            	<td>
+                                	<spring:url value="/owners/{ownerId}/pets/{petId}/chips/{chipId}" var="chipUrl">
+                                    	<spring:param name="ownerId" value="${owner.id}"/>
+                                    	<spring:param name="petId" value="${pet.id}"/>
+                                    	<spring:param name="chipId" value="${pet.chip.id}"/>
+                                	</spring:url>
+                                	<a href="${fn:escapeXml(chipUrl)}">Show chip</a>
+                                </td>
+                                <td>
+                                    <spring:url value="/owners/{ownerId}/pets/{petId}/chips/{chipId}/edit" var="updChipUrl">
+                                        <spring:param name="ownerId" value="${owner.id}"/>
+                                        <spring:param name="petId" value="${pet.id}"/>
+                                        <spring:param name="chipId" value="${pet.chip.id}"/>
+                                    </spring:url>
+                                    <a href="${fn:escapeXml(updChipUrl)}">Update Chip</a>
+                                </td>
+                            </c:if>
+                            <c:if test="${pet.chip == null}">
+                                <td>
+                                    <spring:url value="/owners/{ownerId}/pets/{petId}/chips/new" var="chipUrl">
+                                    <spring:param name="ownerId" value="${owner.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                    </spring:url>
+                                    <a href="${fn:escapeXml(chipUrl)}">Add Chip</a>
+                                </td>
+                            </c:if>
                         </tr>
                     </table>
                 </td>
