@@ -76,7 +76,7 @@ public class DiseaseController {
 	}
 
 	@PostMapping("/new")
-	public String newDisease(@Valid Disease disease, @RequestParam("petId") Integer PetId,  BindingResult result,ModelMap modelMap){
+	public String newDisease(@Valid Disease disease, @RequestParam("petId") Integer petId,  BindingResult result,ModelMap modelMap){
 		String view = "diseases/diseasesList";
 		
 		if(result.hasErrors()){

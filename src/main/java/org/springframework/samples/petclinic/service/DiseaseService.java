@@ -45,7 +45,7 @@ public Iterable<Disease> findAll() {
 	return this.diseaseRepository.findAll();
 }
 
-@Transactional(readOnly = true)	
+@Transactional
 public Collection<Pet> findPets() throws DataAccessException {
 	return this.petRepository.findAll();
 }	
@@ -56,11 +56,6 @@ public Disease save(Disease d) {
 	 return saved;
  }
 
-public Pet findOnePet(Pet pet) {
-	return this.petRepository.findOnePet(pet);
-	
-	
-}
 
 @Transactional
 public Disease findOnebyId(Integer id) {
