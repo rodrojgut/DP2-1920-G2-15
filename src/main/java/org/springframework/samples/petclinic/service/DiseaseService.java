@@ -18,6 +18,9 @@ package org.springframework.samples.petclinic.service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -53,11 +56,19 @@ public Disease save(Disease d) {
 	 return saved;
  }
 
-/*@Transactional
-public void saveDisease(Disease disease) throws DataAccessException {
+public Pet findOnePet(Pet pet) {
+	return this.petRepository.findOnePet(pet);
 	
-	diseas
-}	*/
+	
+}
+
+@Transactional
+public Disease findOnebyId(Integer id) {
+
+	return this.diseaseRepository.findOnebyId(id);
+}
+
+
 
 
 

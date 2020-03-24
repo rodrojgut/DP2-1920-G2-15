@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.web;
 import java.util.Collection;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Disease;
@@ -32,8 +33,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.samples.petclinic.service.PetService;
 
 /**
@@ -53,11 +53,11 @@ public class DiseaseController {
 	private PetService petService;
 
 	@GetMapping("/diseasesList")
-	public Iterable<Disease> findDiseases(final ModelMap modelMap) {
+	public String findDiseases(final ModelMap modelMap) {
 
 		Iterable<Disease> diseases = this.diseaseService.findAll();
 		modelMap.addAttribute("diseases", diseases);
-		return this.diseaseService.findAll();
+		return "diseases/diseasesList";
 	}
 
 	@ModelAttribute("pets")
@@ -65,14 +65,7 @@ public class DiseaseController {
 		return this.diseaseService.findPets();
 	}
 
-	/*@GetMapping(value = "/new")
-	public String NewDiseases(Map<String, Object> model) {
-		Disease disease = new Disease();
-		Collection<Pet> pets = diseaseService.findPets();
-		model.put("diseases", disease);
-		model.put("pets", pets);
-		return "diseases/createOrUpdateDiseaseForm";
-	}*/
+
 
 	@GetMapping("/new")
 	public String createDisease(final ModelMap modelMap) {
@@ -83,27 +76,22 @@ public class DiseaseController {
 	}
 
 	@PostMapping("/new")
-	public String newDisease(@Valid Disease disease, BindingResult result, ModelMap modelMap){
+	public String newDisease(@Valid Disease disease, @RequestParam("petId") Integer PetId,  BindingResult result,ModelMap modelMap){
 		String view = "diseases/diseasesList";
+		
 		if(result.hasErrors()){
 			modelMap.addAttribute("disease", disease);
 			return "diseases/createDisease";
 		}else{
-			Collection<Pet> pet = this.diseaseService.findPets();
-			this.petService.saveAllPets(pet);;
-			this.diseaseService.save(disease);
+	
 			
+			this.diseaseService.save(disease);
 			modelMap.addAttribute("message","Disease sucessfully saved" );
-			view = createDisease(modelMap);
+			
+			view = findDiseases(modelMap);
 		}
 		return view;
 	}
 
-	/*
-	@PostMapping("/enfermedades")
-	public Enfermedad crearAdministrador(@RequestBody Enfermedad enfermedad ) {
-		enfermedad = enfermedadService.save(enfermedad);
-		return enfermedad;
-	}
-*/
+
 }

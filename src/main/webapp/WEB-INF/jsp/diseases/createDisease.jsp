@@ -13,18 +13,17 @@
     <form:form modelAttribute="disease" class="form-horizontal" id="add-disease-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="symptoms" name="symptoms"/>
-                <!--<select name="severity">
-                    <option selected="selected" value="LOW">LOW</option>
-                    <option value="MEDIUM">MEDIUM</option>
-                    <option value="HIGH">HIGH</option>
-                </select>
-            </td>-->
-         <!--   <div class="control-group">
-                <petclinic:selectField name="severity" label="severity" names="${severity}" size="5"/>
-            </div>-->
             <petclinic:inputField label="severity" name="severity"/>
             <petclinic:inputField label="cure" name="cure"/>
-            <petclinic:inputField label="pets" name="pets"/>
+             
+            
+             <select name="petId">
+             	<c:forEach items="${pets }" var="petopt">    
+             		<option value="${petopt.id}" label="${petopt.name}">${petopt.name}</option>
+             	</c:forEach>
+             </select> 
+            
+         
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -41,5 +40,12 @@
                 <button class="btn btn-default" type="submit">Save disease</button>
             </div>
         </div>
+    
+    
+     
+     
     </form:form>
+
+
+ 
 </petclinic:layout>
