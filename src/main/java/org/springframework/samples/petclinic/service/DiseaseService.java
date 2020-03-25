@@ -58,6 +58,11 @@ public Disease save(Disease d) {
  }
 
 
+public void delete(Disease disease) {
+	this.DiseaseRepository.delete(disease);
+	
+}
+
 @Transactional
 public Disease findOnebyId(Integer id) {
 

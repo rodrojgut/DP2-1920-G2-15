@@ -16,8 +16,8 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Map;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +69,21 @@ public class DiseaseController {
 	public Collection<Pet> populatePet() {
 		return this.DiseaseService.findPets();
 	}
-
+	
+	@GetMapping("/delete/{diseaseId}")
+	public String deleteDisease(@PathVariable("diseaseId") int diseaseId, ModelMap modelMap) {
+		
+		Optional<Disease> disease = this.DiseaseService.findDiseaseById(diseaseId);
+		
+		if(disease.isPresent()) {
+			this.DiseaseService.delete(disease.get());
+			modelMap.addAttribute("message", "Disease successfully deleted");
+		}else {
+			modelMap.addAttribute("message", "Disease not found");
+		}
+		
+		return "redirect:/diseases/diseasesList";
+  }
 
 
 	@GetMapping("/new")

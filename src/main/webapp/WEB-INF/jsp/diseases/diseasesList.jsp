@@ -10,17 +10,31 @@
 
     <table id="diseasesTable" class="table table-striped">
         <thead>
-            <tr>
-                <th style="width: 150px;">Symptoms</th>
-                <th style="width: 200px;">Severity</th>
-                <th>Cure</th>
-                <th>Pets</th>
-                <th style="width: 100px;">ID</th>
-            </tr>
+
+        <tr>
+            <th style="width: 150px;">Symptoms</th>
+            <th style="width: 200px;">Severity</th>
+            <th>Cure</th>
+            <th>Pets</th>
+            <th>Actions</th>
+        </tr>
+
         </thead>
         <tbody>
             <c:forEach items="${diseases}" var="disease">
                 <tr>
+
+                <td>
+                    <c:out value="${disease.pets}"/>
+                </td>
+           		      <td>
+                    <spring:url value="/diseases/delete/{diseaseId}" var="diseaseUrl">
+                        <spring:param name="diseaseId" value="${disease.id}"/>
+                    </spring:url>
+                   		 <a href="${fn:escapeXml(diseaseUrl)}">Delete</a>
+                	</td>
+            </tr>
+        </c:forEach>
 
                     <td>
                         <c:out value="${disease.symptoms}" />
