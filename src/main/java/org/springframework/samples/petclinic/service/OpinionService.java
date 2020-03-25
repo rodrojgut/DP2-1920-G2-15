@@ -25,19 +25,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OpinionService {
 
-	@Autowired
+	
 	private SpringDataOpinionRepository	opinionRepo;
-
-	@Autowired
+	
 	private VetRepository				vetRepo;
 
-	@Autowired
 	private OwnerRepository				ownerRepo;
 
-	@Autowired
 	private UserRepository				userRepo;
 
-
+	@Autowired
 	public OpinionService(final SpringDataOpinionRepository repository, final VetRepository vetRepo, final OwnerRepository ownerRepo, final UserRepository userRepo) {
 		this.opinionRepo = repository;
 		this.vetRepo = vetRepo;
