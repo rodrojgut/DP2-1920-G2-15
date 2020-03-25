@@ -15,6 +15,9 @@ public interface DiseaseRepository extends CrudRepository<Disease, Integer> {
 
   @Override
   Collection<Disease> findAll() throws DataAccessException;
+  
+  @Query("select d from Disease d where d.id =?1")
+  Disease findOnebyId(int id);
 
   @Query("select d from Disease d where d.id =?1")
 	Disease findOnebyId(int id);

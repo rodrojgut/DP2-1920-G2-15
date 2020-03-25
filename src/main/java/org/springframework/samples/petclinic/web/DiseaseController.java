@@ -16,22 +16,26 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
-
+import java.util.Map;
+import java.util.Optional;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Disease;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.DiseaseService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.ModelAndView;
+import net.bytebuddy.asm.Advice.Return;
+import net.bytebuddy.asm.Advice.This;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.samples.petclinic.service.PetService;
@@ -47,7 +51,7 @@ import org.springframework.samples.petclinic.service.PetService;
 public class DiseaseController {
 
 	@Autowired
-	private DiseaseService diseaseService;
+	private DiseaseService DiseaseService;
 
 	@Autowired
 	private PetService petService;
@@ -55,14 +59,15 @@ public class DiseaseController {
 	@GetMapping("/diseasesList")
 	public String findDiseases(final ModelMap modelMap) {
 
-		Iterable<Disease> diseases = this.diseaseService.findAll();
+		Iterable<Disease> diseases = this.DiseaseService.findAll();
 		modelMap.addAttribute("diseases", diseases);
 		return "diseases/diseasesList";
+
 	}
 
 	@ModelAttribute("pets")
 	public Collection<Pet> populatePet() {
-		return this.diseaseService.findPets();
+		return this.DiseaseService.findPets();
 	}
 
 
@@ -83,9 +88,9 @@ public class DiseaseController {
 			modelMap.addAttribute("disease", disease);
 			return "diseases/createDisease";
 		}else{
-	
-			
-			this.diseaseService.save(disease);
+			Collection<Pet> pet = this.DiseaseService.findPets();
+			this.petService.saveAllPets(pet);
+			this.DiseaseService.save(disease);
 			modelMap.addAttribute("message","Disease sucessfully saved" );
 			
 			view = findDiseases(modelMap);
@@ -94,4 +99,11 @@ public class DiseaseController {
 	}
 
 
+
+	@GetMapping("/edit/{diseaseId}")
+	public ModelAndView showDisease(@PathVariable("diseaseId") int diseaseId) {
+		ModelAndView mav = new ModelAndView("diseases/diseaseDetails");
+		mav.addObject(this.DiseaseService.findDiseaseId(diseaseId));
+		return mav;
+	}
 }
