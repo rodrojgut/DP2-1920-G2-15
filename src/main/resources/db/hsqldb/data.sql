@@ -62,21 +62,10 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
-INSERT INTO diseases VALUES (1, 'malisimo de la muerte','LOW','compra paracetamol');
-INSERT INTO diseases VALUES (2, 'tengo el coronavirus','MEDIUM','la vas a espichar');
-INSERT INTO diseases VALUES (3, 'necrosis', 'MEDIUM','no tenemos na que hacer');
-INSERT INTO diseases VALUES (4, 'me duele el costao', 'MEDIUM','me han metío una patada en el lomo');
-INSERT INTO diseases VALUES (5, 'me picalculo', 'HIGH','y no sé qué hacer');
-INSERT INTO diseases VALUES (6, 'o te pego el corona', 'HIGH','humano... me puedes rascar?');
-INSERT INTO diseases VALUES (7, 'nunca incorona', 'HIGH','siempre corona');
-
-
-INSERT INTO diseases_pets VALUES (1,1);
-INSERT INTO diseases_pets VALUES (1,2);
-INSERT INTO diseases_pets VALUES (2,3);
-INSERT INTO diseases_pets VALUES (3,4);
-INSERT INTO diseases_pets VALUES (4,5);
-INSERT INTO diseases_pets VALUES (5,6);
-INSERT INTO diseases_pets VALUES (6,7);
-INSERT INTO diseases_pets VALUES (6,8);
-INSERT INTO diseases_pets VALUES (7,9);
+INSERT INTO diseases VALUES (1, 'malisimo de la muerte', 'LOW', 'compra paracetamol', 1);
+INSERT INTO diseases VALUES (2, 'tengo el hambre', 'MEDIUM', 'la vas a espichar', 2);
+INSERT INTO diseases VALUES (3, 'necrosis', 'MEDIUM', 'no tenemos na que hacer', 3);
+INSERT INTO diseases VALUES (4, 'me duele el costao', 'MEDIUM', 'me duele mucho', 4);
+INSERT INTO diseases VALUES (5, 'me pica la cabeza', 'HIGH', 'y no se que hacer', 5);
+INSERT INTO diseases VALUES (6, 'dame de comer', 'HIGH', 'humano... me puedes rascar?', 6);
+INSERT INTO diseases VALUES (7, 'como una bola me voy a poner', 'HIGH', 'de tanto comer', 7);

@@ -1,50 +1,40 @@
 
 package org.springframework.samples.petclinic.model;
 
-import java.util.Collection;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
 
 
 @Entity
 @Table(name = "Diseases")
 public class Disease extends BaseEntity {
+
 	
-    @NotBlank
+    @NotEmpty
     @Column(name = "symptoms")
 	private String  symptoms;
 
 	
-    @NotBlank
+    @NotEmpty
     @Pattern(regexp = "LOW|MEDIUM|HIGH")
     @Column(name = "severity")
     private String severity;
      	
-	@NotBlank
+    @NotEmpty
     @Column(name = "cure")
     private String  cure;
 
-    @NotNull
-    @OneToMany(cascade = CascadeType.MERGE)
-    @Column(name = "pets")
-    private Collection<Pet>  pets;
+    
+    @ManyToOne
+    private Pet pet;
 
 
-    public Integer getId() {
-        return id;
-    }
     public String getSymptoms() {
         return symptoms;
     }
@@ -69,12 +59,12 @@ public class Disease extends BaseEntity {
         this.cure = cure;
     }
 
-    public Collection<Pet> getPets() {
-        return pets;
+    public Pet getPet() {
+        return pet;
     }
 
-    public void setPets(Collection<Pet> pets) {
-        this.pets = pets;
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 
 	
