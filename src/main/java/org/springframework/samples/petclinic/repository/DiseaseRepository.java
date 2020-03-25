@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.petclinic.model.Disease;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -17,5 +18,15 @@ public interface DiseaseRepository extends CrudRepository<Disease, Integer> {
   
   @Query("select d from Disease d where d.id =?1")
   Disease findOnebyId(int id);
+
+  @Query("select d from Disease d where d.id =?1")
+	Disease findOnebyId(int id);
+
+ /*@Query("select d.pets from Disease d where d.id =?1")
+	Collection<Pet> findPetById(int id);
+*/
+
+
+
 
 }

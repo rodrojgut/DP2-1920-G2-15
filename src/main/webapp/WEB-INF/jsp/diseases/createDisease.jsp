@@ -12,7 +12,20 @@
     </h2>
     <form:form modelAttribute="disease" class="form-horizontal" id="add-disease-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Symptoms" name="symptoms" />
+
+            <petclinic:inputField label="symptoms" name="symptoms"/>
+            <petclinic:inputField label="severity" name="severity"/>
+            <petclinic:inputField label="cure" name="cure"/>
+             
+            
+             <select name="petId">
+             	<c:forEach items="${pets }" var="petopt">    
+             		<option value="${petopt.id}" label="${petopt.name}">${petopt.name}</option>
+             	</c:forEach>
+             </select> 
+            
+         
+
         </div>
         <div class="form-group has-feedback">
             <label for="severity">Severity </label>
@@ -44,5 +57,11 @@
                 <button class="btn btn-default" type="submit">Save disease</button>-->
             </div>
         </div>
+    
+    
+     
+     
     </form:form>
+
 </petclinic:layout>
+

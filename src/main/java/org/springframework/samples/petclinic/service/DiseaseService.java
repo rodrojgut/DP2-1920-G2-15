@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.Optional;
 
+
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Disease;
@@ -42,21 +44,26 @@ public class DiseaseService {
 		return this.diseaseRepository.findAll();
 	}
 
+
 	@Transactional(readOnly = true)
 	public Collection<Pet> findPets() throws DataAccessException {
 		return this.petRepository.findAll();
 	}
 
-	@Transactional
-	public Disease save(Disease d) {
-		Disease saved = this.diseaseRepository.save(d);
-		return saved;
-	}
 
-	/*
-	 * @Transactional(readOnly = true) public Disease findDiseaseById(int id) throws
-	 * DataAccessException { return diseaseRepository.findById(id); }
-	 */
+@Transactional
+public Disease save(Disease d) {		
+	Disease saved = this.diseaseRepository.save(d);
+	 return saved;
+ }
+
+
+@Transactional
+public Disease findOnebyId(Integer id) {
+
+	return this.diseaseRepository.findOnebyId(id);
+}
+
 
 	public Optional<Disease> findDiseaseById(int diseaseId) {
 	return this.diseaseRepository.findById(diseaseId);
