@@ -3,45 +3,52 @@ package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
-
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
+import org.apache.jasper.runtime.ExceptionUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
-import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.model.Visit;
-import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Disease;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-public class DiseaseServiceTests {
+public class DiseaseServiceTests{
 
 
+	public Validator createValidator() {
+		LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
+		localValidatorFactoryBean.afterPropertiesSet();
+		return localValidatorFactoryBean;
+	}
+	
 	@Autowired
 	protected DiseaseService diseaseService;
 
+	//FindbyId positive
 	@Test
 	void shouldFindDiseaseById() {
 		Disease disease = this.diseaseService.findDiseaseById(1);
 		assertThat(disease.getId()).isEqualTo(1);
 
+	}
+	//FindbyId negative
+	@ParameterizedTest
+	@ValueSource(ints = {-10,-40} )
+	void shouldFindDiseaseByIdNegative(int argument){
+		Assertions.assertThrows(NullPointerException.class,()->{this.diseaseService.findDiseaseById(argument).getClass();} );
 	}
 
 	@Test
@@ -51,11 +58,24 @@ public class DiseaseServiceTests {
 
 		Disease disease1 = EntityUtils.getById(diseases, Disease.class, 1);
 		assertThat(disease1.getCure()).isEqualTo("malisimo de la muerte");
-		Disease disease3 = EntityUtils.getById(diseases, Disease.class, 4);
-		assertThat(disease3.getSeverity()).isEqualTo("MEDIUM");
+		Disease disease4 = EntityUtils.getById(diseases, Disease.class, 4);
+		assertThat(disease4.getSeverity()).isEqualTo("MEDIUM");
 
 	}
+	
+	@Test
+	void shouldFindDiseaseNegativeAll() {
 
+		Collection<Disease> diseases = this.diseaseService.findAll();
+
+		Disease disease1 = EntityUtils.getById(diseases, Disease.class, 1);
+		Disease disease4 = EntityUtils.getById(diseases, Disease.class, 4);
+		diseases.add(disease1); diseases.add(disease4);
+		Assertions.assertThrows(NullPointerException.class,()->{this.diseaseService.findDiseaseById(15).getSeverity().isEmpty();});
+		
+
+	}
+	//Positive Insert
 	@Test
 	void shouldInsertDisease() {
 		Disease diseases = this.diseaseService.findDiseaseById(1);
@@ -76,22 +96,39 @@ public class DiseaseServiceTests {
 		diseases = this.diseaseService.findDiseaseById(1);
 		assertThat(diseases.getId().longValue()).isNotEqualTo(count + 1);
 	}
-
+	//Negative Insert
+	@Test
+	public void shouldInsertNegativeDisease(){
+		
+		Disease d = new Disease(); 
+		
+		d.setCure("Probando cura");
+		d.setSeverity("");
+		d.setSymptoms("malisimo");
+		String s = "LOW|MEDIUM|HIGH";
+		Validator validator = createValidator();
+		Set<ConstraintViolation<Disease>> constraintViolations =  validator.validate(d); 
+		assertThat(constraintViolations.size()).isEqualTo(1); 
+		ConstraintViolation<Disease> violation =   constraintViolations.iterator().next();
+		assertThat(violation.getPropertyPath().toString()).isEqualTo("severity"); 
+		assertThat(violation.getMessage()).isEqualTo("tiene que corresponder a la expresión regular "+"\""+s+"\""); 
+		
+	}
+	//Update positive
 	@Test
 	@Transactional
-	void shouldUpdateOwner() {
+	void shouldUpdateDisease() {
 		Disease disease = this.diseaseService.findDiseaseById(1);
 		String oldSymptoms = disease.getSymptoms();
 		String newSymptoms = oldSymptoms + "XXXXXXXX";
 
 		disease.setSymptoms(newSymptoms);
 		this.diseaseService.saveDisease(disease);
-		// retrieving new symptoms from database
 		disease = this.diseaseService.findDiseaseById(1);
 		assertThat(disease.getSymptoms()).isEqualTo(newSymptoms);
 		
 	}
-
+	//Delete positive
 	@Test
 	void shouldDeletetDisease() {
 		Collection<Disease> found1 = this.diseaseService.findAll();
@@ -100,9 +137,10 @@ public class DiseaseServiceTests {
 		this.diseaseService.delete(disease1);
 		Collection<Disease> found2 = this.diseaseService.findAll();
 		int count2 = found2.size();
-		assertTrue("Algo pasa...", count2 < count1);
+		assertTrue(count2<count1);
 
 
 	}
 
+	
 }

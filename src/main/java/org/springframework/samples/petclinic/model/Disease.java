@@ -20,7 +20,7 @@ public class Disease extends BaseEntity {
 	private String  symptoms;
 
 	
-    @NotEmpty
+   // @NotEmpty
     @Pattern(regexp = "LOW|MEDIUM|HIGH")
     @Column(name = "severity")
     private String severity;
