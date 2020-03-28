@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -43,33 +44,80 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-public class DiseaseServiceTests {             
-	
+public class DiseaseServiceTests {
+
 	private static final int TEST_DISEASE_ID_POSITIVE = 1;
 	private static final int TEST_DISEASE_ID_NEGATIVE = 1;
-    
+
 	@Autowired
 	protected DiseaseService diseaseService;
 
 	@Test
 	void shouldFindDiseaseById() {
-		Disease disease= this.diseaseService.findDiseaseById(TEST_DISEASE_ID_POSITIVE);
+		Disease disease = this.diseaseService.findDiseaseById(TEST_DISEASE_ID_POSITIVE);
 		assertThat(disease.getId()).isEqualTo(1);
 
 	}
-	
+
 	@Test
 	void shouldFindDiseaseAll() {
-		
+
 		Collection<Disease> diseases = this.diseaseService.findAll();
 
 		Disease disease1 = EntityUtils.getById(diseases, Disease.class, 1);
 		assertThat(disease1.getCure()).isEqualTo("malisimo de la muerte");
 		Disease disease3 = EntityUtils.getById(diseases, Disease.class, 4);
 		assertThat(disease3.getSeverity()).isEqualTo("MEDIUM");
+
+	}
+
+	@Test
+	void shouldInsertDisease() {
+		Disease diseases = this.diseaseService.findDiseaseById(1);
+		Collection<Disease> found = this.diseaseService.findAll();
+		int count = found.size();
+
+		final Disease disease = new Disease();
+		final Pet pet = new Pet();
+		pet.setId(1);
+		disease.setSeverity("LOW");
+		disease.setCure("cure");
+		disease.setSymptoms("esta mal");
+		disease.setPet(pet);
+
+		this.diseaseService.saveDisease(disease);
+		assertThat(disease.getId().longValue()).isNotEqualTo(0);
+
+		diseases = this.diseaseService.findDiseaseById(1);
+		assertThat(diseases.getId().longValue()).isNotEqualTo(count + 1);
+	}
+
+	@Test
+	@Transactional
+	void shouldUpdateOwner() {
+		Disease disease = this.diseaseService.findDiseaseById(1);
+		String oldSymptoms = disease.getSymptoms();
+		String newSymptoms = oldSymptoms + "XXXXXXXX";
+
+		disease.setSymptoms(newSymptoms);
+		this.diseaseService.saveDisease(disease);
+		// retrieving new symptoms from database
+		disease = this.diseaseService.findDiseaseById(1);
+		assertThat(disease.getSymptoms()).isEqualTo(newSymptoms);
 		
+	}
+
+	@Test
+	void shouldDeletetDisease() {
+		Collection<Disease> found1 = this.diseaseService.findAll();
+		int count1 = found1.size();
+		Disease disease1 = this.diseaseService.findDiseaseById(1);
+		this.diseaseService.delete(disease1);
+		Collection<Disease> found2 = this.diseaseService.findAll();
+		int count2 = found2.size();
+		assertTrue("Algo pasa...", count2 < count1);
+
 
 	}
 
