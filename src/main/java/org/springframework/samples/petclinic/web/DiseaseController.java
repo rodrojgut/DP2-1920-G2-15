@@ -74,7 +74,7 @@ public class DiseaseController {
 		}
 	}
 
-	/* Posible error aqui */
+	
 	@GetMapping(value = "/diseases/{diseaseId}/edit")
 	public String initUpdateForm(@PathVariable("diseaseId") final int diseaseId, final ModelMap model) {
 		final Disease disease = this.diseaseService.findDiseaseById(diseaseId);
@@ -100,7 +100,6 @@ public class DiseaseController {
 			return "redirect:/diseases/{diseaseId}";
 		}
 	}
-	/* ############################################ */
 
 	@GetMapping(value = "/diseases/delete/{diseaseId}")
 	public String deleteDisease(@PathVariable("diseaseId") int diseaseId, ModelMap modelMap) {

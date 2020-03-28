@@ -23,11 +23,11 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.service.DiseaseService;
 
 import org.springframework.samples.petclinic.service.PetService;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -81,27 +81,25 @@ public class DiseaseControllerTests {
 
 	}
 
-	/*
+	
 	@WithMockUser(value = "spring")
     @Test
 	void testInitCreationForm() throws Exception {
 		mockMvc.perform(get("/diseases/new/{petId}",TEST_PET_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("disease"))
-				.andExpect(view().name("diseases/createOrUpdateOwnerForm"));
-	}
-/*
-	@WithMockUser(value = "spring")
-        @Test
-	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/owners/new").param("firstName", "Joe").param("lastName", "Bloggs")
-							.with(csrf())
-							.param("address", "123 Caramel Street")
-							.param("city", "London")
-							.param("telephone", "01316761638"))
-				.andExpect(status().is3xxRedirection());
+				.andExpect(view().name("diseases/createOrUpdateDiseaseForm"));
 	}
 
 	@WithMockUser(value = "spring")
         @Test
+	void testProcessCreationFormSuccess() throws Exception {
+		mockMvc.perform(post("/diseases/new/{petId}",TEST_PET_ID).param("cure", "Lo estamos intentando").param("severity", "MEDIUM")
+							.with(csrf())
+							.param("symptoms", "Mareos, vomitos y diarrea..."))
+				.andExpect(status().is3xxRedirection());
+	}
+
+	/*@WithMockUser(value = "spring")
+    @Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		mockMvc.perform(post("/owners/new")
 							.with(csrf())
@@ -114,70 +112,38 @@ public class DiseaseControllerTests {
 				.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
 				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
 	}
+*/
 
-	@WithMockUser(value = "spring")
-        @Test
-	void testInitFindForm() throws Exception {
-		mockMvc.perform(get("/owners/find")).andExpect(status().isOk()).andExpect(model().attributeExists("owner"))
-				.andExpect(view().name("owners/findOwners"));
-	}
 
-	@WithMockUser(value = "spring")
-        @Test
-	void testProcessFindFormSuccess() throws Exception {
-		given(this.clinicService.findOwnerByLastName("")).willReturn(Lists.newArrayList(george, new Owner()));
-
-		mockMvc.perform(get("/owners")).andExpect(status().isOk()).andExpect(view().name("owners/ownersList"));
-	}
-
-	@WithMockUser(value = "spring")
-        @Test
-	void testProcessFindFormByLastName() throws Exception {
-		given(this.clinicService.findOwnerByLastName(george.getLastName())).willReturn(Lists.newArrayList(george));
-
-		mockMvc.perform(get("/owners").param("lastName", "Franklin")).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/" + TEST_OWNER_ID));
-	}
-
-        @WithMockUser(value = "spring")
+    @WithMockUser(value = "spring")
 	@Test
-	void testProcessFindFormNoOwnersFound() throws Exception {
-		mockMvc.perform(get("/owners").param("lastName", "Unknown Surname")).andExpect(status().isOk())
-				.andExpect(model().attributeHasFieldErrors("owner", "lastName"))
-				.andExpect(model().attributeHasFieldErrorCode("owner", "lastName", "notFound"))
-				.andExpect(view().name("owners/findOwners"));
+	void testInitUpdateDiseaseForm() throws Exception {
+		mockMvc.perform(get("/diseases/{diseaseId}/edit", TEST_DISEASE_ID)).andExpect(status().isOk())
+				.andExpect(model().attributeExists("disease"))
+				.andExpect(model().attribute("disease", hasProperty("cure", is("Hay que recetarle unas pastillas.."))))
+				.andExpect(model().attribute("disease", hasProperty("severity", is("LOW"))))
+				.andExpect(model().attribute("disease", hasProperty("symptoms", is("Se encuentra mareado y con diarrea"))))
+				.andExpect(model().attribute("disease", hasProperty("pet")))
+				.andExpect(view().name("diseases/createOrUpdateDiseaseForm"));
 	}
+        
+        
 
-        @WithMockUser(value = "spring")
+    @WithMockUser(value = "spring")
 	@Test
-	void testInitUpdateOwnerForm() throws Exception {
-		mockMvc.perform(get("/owners/{ownerId}/edit", TEST_OWNER_ID)).andExpect(status().isOk())
-				.andExpect(model().attributeExists("owner"))
-				.andExpect(model().attribute("owner", hasProperty("lastName", is("Franklin"))))
-				.andExpect(model().attribute("owner", hasProperty("firstName", is("George"))))
-				.andExpect(model().attribute("owner", hasProperty("address", is("110 W. Liberty St."))))
-				.andExpect(model().attribute("owner", hasProperty("city", is("Madison"))))
-				.andExpect(model().attribute("owner", hasProperty("telephone", is("6085551023"))))
-				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
-	}
-
-        @WithMockUser(value = "spring")
-	@Test
-	void testProcessUpdateOwnerFormSuccess() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/edit", TEST_OWNER_ID)
+	void testProcessUpdateDiseaseFormSuccess() throws Exception {
+		mockMvc.perform(post("/diseases/{diseaseId}/edit", TEST_DISEASE_ID)
 							.with(csrf())
-							.param("firstName", "Joe")
-							.param("lastName", "Bloggs")
-							.param("address", "123 Caramel Street")
-							.param("city", "London")
-							.param("telephone", "01616291589"))
+							.param("cure", "Hemos cambiado su cura...")
+							.param("severity", "HIGH")
+							.param("symptoms", "Se siente peor que antes.."))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/{ownerId}"));
+				.andExpect(view().name("redirect:/diseases/{diseaseId}"));
 	}
 
-        @WithMockUser(value = "spring")
+   /* @WithMockUser(value = "spring")
 	@Test
-	void testProcessUpdateOwnerFormHasErrors() throws Exception {
+	void testProcessUpdateDiseaseFormHasErrors() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/edit", TEST_OWNER_ID)
 							.with(csrf())
 							.param("firstName", "Joe")
@@ -192,7 +158,7 @@ public class DiseaseControllerTests {
 
     @WithMockUser(value = "spring")
 	@Test
-	void testShowOwner() throws Exception {
+	void testShowDisease() throws Exception {
 		mockMvc.perform(get("/diseases/{diseaseId}", TEST_DISEASE_ID)).andExpect(status().isOk())
 				.andExpect(model().attribute("disease", hasProperty("cure", is("Hay que recetarle unas pastillas.."))))
 				.andExpect(model().attribute("disease", hasProperty("severity", is("LOW"))))
