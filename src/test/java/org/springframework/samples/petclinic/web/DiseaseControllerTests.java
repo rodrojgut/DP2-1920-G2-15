@@ -13,6 +13,7 @@ import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.repository.DiseaseRepository;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.Matchers.is;
@@ -182,6 +183,16 @@ public class DiseaseControllerTests {
   	@Test
   	void testListDisease() throws Exception {
   		mockMvc.perform(get("/diseases/diseasesList")).andExpect(status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("diseases"));
-  	}
+	  }
+	  
+	@WithMockUser(value = "spring")
+	@Test
+	void testDelete() throws Exception{
+	  this.mockMvc.perform(MockMvcRequestBuilders
+	  .get("/diseases/delete/{diseaseId}", DiseaseControllerTests.TEST_DISEASE_ID).queryParam("id", "1"))
+	  .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+	  .andExpect(MockMvcResultMatchers.view().name("redirect:/diseases/diseasesList"));
+  
+	  }
 
 }
