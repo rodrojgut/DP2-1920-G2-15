@@ -13,11 +13,9 @@ public interface DiseaseRepository {
 	void save(Disease disease) throws DataAccessException;
 
 
-	  Collection<Disease> findAll() throws DataAccessException;
+	 Collection<Disease> findAll() throws DataAccessException;
 
 
 	void delete(Disease disease);
 
-
-	//Optional<Disease> findById(int diseaseId);
 }

@@ -26,12 +26,6 @@ public class DiseaseService {
     }
 	
 
-	
-    @Transactional
-	public Disease findAllDisease(int id) throws DataAccessException {
-		return diseaseRepository.findById(id);
-	}
-	
 	@Transactional
 	public void saveDisease(Disease disease) throws DataAccessException {
 		this.diseaseRepository.save(disease);

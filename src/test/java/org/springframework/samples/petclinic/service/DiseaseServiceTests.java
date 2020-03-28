@@ -1,18 +1,4 @@
-/*
- * Copyright 2002-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,15 +33,13 @@ import org.springframework.transaction.annotation.Transactional;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class DiseaseServiceTests {
 
-	private static final int TEST_DISEASE_ID_POSITIVE = 1;
-	private static final int TEST_DISEASE_ID_NEGATIVE = 1;
 
 	@Autowired
 	protected DiseaseService diseaseService;
 
 	@Test
 	void shouldFindDiseaseById() {
-		Disease disease = this.diseaseService.findDiseaseById(TEST_DISEASE_ID_POSITIVE);
+		Disease disease = this.diseaseService.findDiseaseById(1);
 		assertThat(disease.getId()).isEqualTo(1);
 
 	}
