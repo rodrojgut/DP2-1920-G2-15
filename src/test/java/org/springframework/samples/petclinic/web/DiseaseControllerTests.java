@@ -10,7 +10,11 @@ import org.springframework.samples.petclinic.configuration.SecurityConfiguration
 import org.springframework.samples.petclinic.model.Disease;
 
 import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.repository.DiseaseRepository;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 import static org.hamcrest.Matchers.is;
 
 import static org.mockito.BDDMockito.given;
@@ -29,6 +33,11 @@ import org.springframework.security.test.context.support.WithMockUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.catalina.LifecycleListener;
 
 
 
@@ -75,8 +84,10 @@ public class DiseaseControllerTests {
 		disease.setCure("Hay que recetarle unas pastillas..");
 		disease.setSeverity("LOW");
 		disease.setSymptoms("Se encuentra mareado y con diarrea");
-		
+		List<Disease> diseases = new ArrayList<>();
+		diseases.add(disease);
 		given(this.diseaseService.findDiseaseById(TEST_DISEASE_ID)).willReturn(disease);
+		given(this.diseaseService.findAll()).willReturn(diseases);
 		given(this.petService.findPetById(TEST_PET_ID)).willReturn(pet);
 
 	}
@@ -166,5 +177,11 @@ public class DiseaseControllerTests {
 				.andExpect(model().attribute("disease", hasProperty("pet")))
 				.andExpect(view().name("diseases/diseaseDetails"));
 	}
+    
+    @WithMockUser(value = "spring")
+  	@Test
+  	void testListDisease() throws Exception {
+  		mockMvc.perform(get("/diseases/diseasesList")).andExpect(status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("diseases"));
+  	}
 
 }
