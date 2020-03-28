@@ -1,39 +1,34 @@
 package org.springframework.samples.petclinic.web;
 
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import static org.hamcrest.Matchers.hasProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Disease;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.service.VetService;
-import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.hamcrest.Matchers.hasProperty;
+import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.is;
+
 import static org.mockito.BDDMockito.given;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.samples.petclinic.service.AuthoritiesService;
+
 import org.springframework.samples.petclinic.service.DiseaseService;
-import org.springframework.samples.petclinic.service.OwnerService;
+
 import org.springframework.samples.petclinic.service.PetService;
-import org.springframework.samples.petclinic.service.UserService;
+
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 
 
@@ -46,27 +41,34 @@ public class DiseaseControllerTests {
 	private static final int TEST_PET_ID = 1;
 	
 	@Autowired
-	private MockMvc mockMvc;
+	private DiseaseController diseaseController;
 	
 	@MockBean
-	private DiseaseService diseaseService;
+	private DiseaseService	diseaseService;
+
+	@MockBean
+	private PetService petService;
 /*
 	@Mock
 	private PetService petService;
-    
+    */
 	
-	@Mock  
+	@Mock 
+	private Pet pet;
+	
 	private Disease disease;
 	
-	private Pet pet;
-*/
+	@Autowired
+	private MockMvc mockMvc;
+	
+	
 
 	
-/*	@BeforeEach
-	
+	@BeforeEach	
 	void setup() {
 
 		disease = new Disease();
+		pet = new Pet();
 		disease.setId(TEST_DISEASE_ID);
 		disease.setPet(pet);
 		pet.setId(1);
@@ -74,11 +76,12 @@ public class DiseaseControllerTests {
 		disease.setSeverity("LOW");
 		disease.setSymptoms("Se encuentra mareado y con diarrea");
 		
-		given(this.diseaseService.findDiseaseById(TEST_DISEASE_ID));
+		given(this.diseaseService.findDiseaseById(TEST_DISEASE_ID)).willReturn(disease);
+		given(this.petService.findPetById(TEST_PET_ID)).willReturn(pet);
 
 	}
-*/
-	
+
+	/*
 	@WithMockUser(value = "spring")
     @Test
 	void testInitCreationForm() throws Exception {
@@ -185,18 +188,17 @@ public class DiseaseControllerTests {
 				.andExpect(model().attributeHasFieldErrors("owner", "address"))
 				.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
 				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
-	}
+	}*/
 
-        @WithMockUser(value = "spring")
+    @WithMockUser(value = "spring")
 	@Test
 	void testShowOwner() throws Exception {
-		mockMvc.perform(get("/owners/{ownerId}", TEST_OWNER_ID)).andExpect(status().isOk())
-				.andExpect(model().attribute("owner", hasProperty("lastName", is("Franklin"))))
-				.andExpect(model().attribute("owner", hasProperty("firstName", is("George"))))
-				.andExpect(model().attribute("owner", hasProperty("address", is("110 W. Liberty St."))))
-				.andExpect(model().attribute("owner", hasProperty("city", is("Madison"))))
-				.andExpect(model().attribute("owner", hasProperty("telephone", is("6085551023"))))
-				.andExpect(view().name("owners/ownerDetails"));
+		mockMvc.perform(get("/diseases/{diseaseId}", TEST_DISEASE_ID)).andExpect(status().isOk())
+				.andExpect(model().attribute("disease", hasProperty("cure", is("Hay que recetarle unas pastillas.."))))
+				.andExpect(model().attribute("disease", hasProperty("severity", is("LOW"))))
+				.andExpect(model().attribute("disease", hasProperty("symptoms", is("Se encuentra mareado y con diarrea"))))
+				.andExpect(model().attribute("disease", hasProperty("pet")))
+				.andExpect(view().name("diseases/diseaseDetails"));
 	}
-*/
+
 }

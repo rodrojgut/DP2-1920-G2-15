@@ -10,7 +10,6 @@ import javax.validation.constraints.Pattern;
 
 import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "Diseases")
 public class Disease extends BaseEntity {
