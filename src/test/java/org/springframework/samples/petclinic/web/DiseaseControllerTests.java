@@ -45,6 +45,7 @@ public class DiseaseControllerTests {
 
 	private static final int TEST_DISEASE_ID = 1;
 	private static final int TEST_DISEASE_ID_NEGATIVE = -100;
+	private static final int TEST_DISEASE_NEGATIVE_ID = -50;
 	private static final int TEST_PET_ID = 1;
 	
 	@Autowired
@@ -105,6 +106,20 @@ public class DiseaseControllerTests {
 	}
 
 
+	//Negative
+	@WithMockUser(value = "spring")
+    @Test
+	void testProcessCreationFormHasErrors() throws Exception {
+		mockMvc.perform(post("/diseases/new/{petId}",TEST_PET_ID)
+							.with(csrf())
+							.param("cure", "Lo estamos intentando")
+							.param("severity", "LOW"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeHasErrors("disease"))
+				.andExpect(model().attributeHasFieldErrors("disease", "symptoms"))
+				.andExpect(view().name("diseases/createOrUpdateDiseaseForm"));
+	}
+
 
 
     @WithMockUser(value = "spring")
@@ -133,7 +148,20 @@ public class DiseaseControllerTests {
 				.andExpect(view().name("redirect:/diseases/{diseaseId}"));
 	}
 
-   
+	//Negative
+    @WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdateDiseaseFormHasErrors() throws Exception {
+		mockMvc.perform(post("/diseases/{diseaseId}/edit", TEST_DISEASE_ID)
+							.with(csrf())
+							.param("cure", "No comida basura")
+							.param("severity", "BAJO")
+							.param("symptoms", "Se siente peor que antes.."))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeHasErrors("disease"))
+				.andExpect(model().attributeHasFieldErrors("disease", "severity"))
+				.andExpect(view().name("diseases/createOrUpdateDiseaseForm"));
+	}
 
     @WithMockUser(value = "spring")
 	@Test
@@ -145,7 +173,6 @@ public class DiseaseControllerTests {
 				.andExpect(model().attribute("disease", hasProperty("pet")))
 				.andExpect(view().name("diseases/diseaseDetails"));
 	}
-    
     @WithMockUser(value = "spring")
    	@Test
    	void testShowDiseaseError() throws Exception {
@@ -167,6 +194,13 @@ public class DiseaseControllerTests {
 	  }
     
 	  
+
+	/*@WithMockUser(value = "spring")
+  	@Test
+  	void testListDiseaseError() throws Exception {
+		mockMvc.perform(get("/diseases/diseasesList").with(csrf())).andExpect(status().is4xxClientError());
+	  }*/
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testDelete() throws Exception{
