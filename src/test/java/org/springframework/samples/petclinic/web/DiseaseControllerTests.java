@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.web;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import static org.hamcrest.Matchers.hasProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,6 @@ public class DiseaseControllerTests {
 
 	private static final int TEST_DISEASE_ID = 1;
 	private static final int TEST_DISEASE_ID_NEGATIVE = -100;
-	private static final int TEST_DISEASE_NEGATIVE_ID = -50;
 	private static final int TEST_PET_ID = 1;
 	
 	@Autowired
@@ -193,13 +191,7 @@ public class DiseaseControllerTests {
   		mockMvc.perform(get("/diseases/diseasesList")).andExpect(status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("diseases"));
 	  }
     
-	  
 
-	/*@WithMockUser(value = "spring")
-  	@Test
-  	void testListDiseaseError() throws Exception {
-		mockMvc.perform(get("/diseases/diseasesList").with(csrf())).andExpect(status().is4xxClientError());
-	  }*/
 
 	@WithMockUser(value = "spring")
 	@Test

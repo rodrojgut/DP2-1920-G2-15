@@ -8,8 +8,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "Diseases")
 public class Disease extends BaseEntity {
@@ -20,7 +18,6 @@ public class Disease extends BaseEntity {
 	private String  symptoms;
 
 	
-   // @NotEmpty
     @Pattern(regexp = "LOW|MEDIUM|HIGH")
     @Column(name = "severity")
     private String severity;
