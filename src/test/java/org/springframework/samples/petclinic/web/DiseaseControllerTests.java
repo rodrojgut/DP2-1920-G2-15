@@ -2,7 +2,7 @@ package org.springframework.samples.petclinic.web;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import static org.hamcrest.Matchers.hasProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,7 @@ import org.springframework.samples.petclinic.configuration.SecurityConfiguration
 import org.springframework.samples.petclinic.model.Disease;
 
 import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.repository.DiseaseRepository;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -38,8 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.LifecycleListener;
-
 
 
 
@@ -48,6 +44,7 @@ excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classe
 public class DiseaseControllerTests {
 
 	private static final int TEST_DISEASE_ID = 1;
+	private static final int TEST_DISEASE_ID_NEGATIVE = -100;
 	private static final int TEST_PET_ID = 1;
 	
 	@Autowired
@@ -58,10 +55,7 @@ public class DiseaseControllerTests {
 
 	@MockBean
 	private PetService petService;
-/*
-	@Mock
-	private PetService petService;
-    */
+
 	
 	@Mock 
 	private Pet pet;
@@ -88,7 +82,7 @@ public class DiseaseControllerTests {
 		List<Disease> diseases = new ArrayList<>();
 		diseases.add(disease);
 		given(this.diseaseService.findDiseaseById(TEST_DISEASE_ID)).willReturn(disease);
-		given(this.diseaseService.findAll()).willReturn(diseases);
+		given(this.diseaseService.findDiseaseById(TEST_DISEASE_ID_NEGATIVE)).willReturn(null);
 		given(this.petService.findPetById(TEST_PET_ID)).willReturn(pet);
 
 	}
@@ -110,21 +104,7 @@ public class DiseaseControllerTests {
 				.andExpect(status().is3xxRedirection());
 	}
 
-	/*@WithMockUser(value = "spring")
-    @Test
-	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/owners/new")
-							.with(csrf())
-							.param("firstName", "Joe")
-							.param("lastName", "Bloggs")
-							.param("city", "London"))
-				.andExpect(status().isOk())
-				.andExpect(model().attributeHasErrors("owner"))
-				.andExpect(model().attributeHasFieldErrors("owner", "address"))
-				.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
-				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
-	}
-*/
+
 
 
     @WithMockUser(value = "spring")
@@ -153,20 +133,7 @@ public class DiseaseControllerTests {
 				.andExpect(view().name("redirect:/diseases/{diseaseId}"));
 	}
 
-   /* @WithMockUser(value = "spring")
-	@Test
-	void testProcessUpdateDiseaseFormHasErrors() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/edit", TEST_OWNER_ID)
-							.with(csrf())
-							.param("firstName", "Joe")
-							.param("lastName", "Bloggs")
-							.param("city", "London"))
-				.andExpect(status().isOk())
-				.andExpect(model().attributeHasErrors("owner"))
-				.andExpect(model().attributeHasFieldErrors("owner", "address"))
-				.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
-				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
-	}*/
+   
 
     @WithMockUser(value = "spring")
 	@Test
@@ -180,10 +147,25 @@ public class DiseaseControllerTests {
 	}
     
     @WithMockUser(value = "spring")
+   	@Test
+   	void testShowDiseaseError() throws Exception {
+   		mockMvc.perform(get("/diseases/{diseaseId}",TEST_DISEASE_ID_NEGATIVE)).
+   		andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("exception"));
+   	}
+    
+    @Test
+	void testNotShowDisease() throws Exception {
+	mockMvc.perform(get("/diseases/{diseaseId}", TEST_DISEASE_ID_NEGATIVE)).
+	andExpect(status().is(401));
+	}
+    
+    @WithMockUser(value = "spring")
   	@Test
   	void testListDisease() throws Exception {
   		mockMvc.perform(get("/diseases/diseasesList")).andExpect(status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("diseases"));
 	  }
+    
 	  
 	@WithMockUser(value = "spring")
 	@Test
@@ -194,5 +176,13 @@ public class DiseaseControllerTests {
 	  .andExpect(MockMvcResultMatchers.view().name("redirect:/diseases/diseasesList"));
   
 	  }
+	//DELETE NEGATIVE
+	@WithMockUser(username = "spring", authorities = {"veterinarian"})
+	@Test
+	void testDeleteIncorrectId() throws Exception {
+		mockMvc.perform(get("/diseases/delete/{diseaseId}",TEST_DISEASE_ID_NEGATIVE))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/diseases/diseasesList"));
+	}
 
 }

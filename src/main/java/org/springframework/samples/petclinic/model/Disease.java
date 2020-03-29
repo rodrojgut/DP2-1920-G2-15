@@ -68,4 +68,6 @@ public class Disease extends BaseEntity {
 
 	
 
+	
+
 }
