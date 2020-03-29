@@ -62,3 +62,10 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
+INSERT INTO diseases VALUES (1, 'malisimo de la muerte', 'LOW', 'compra paracetamol', 1);
+INSERT INTO diseases VALUES (2, 'tengo el hambre', 'MEDIUM', 'la vas a espichar', 2);
+INSERT INTO diseases VALUES (3, 'necrosis', 'MEDIUM', 'no tenemos na que hacer', 3);
+INSERT INTO diseases VALUES (4, 'me duele el costao', 'MEDIUM', 'me duele mucho', 4);
+INSERT INTO diseases VALUES (5, 'me pica la cabeza', 'HIGH', 'y no se que hacer', 5);
+INSERT INTO diseases VALUES (6, 'dame de comer', 'HIGH', 'humano... me puedes rascar?', 6);
+INSERT INTO diseases VALUES (7, 'como una bola me voy a poner', 'HIGH', 'de tanto comer', 7);
