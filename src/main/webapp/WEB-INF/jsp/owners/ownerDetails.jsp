@@ -63,6 +63,7 @@
                         <tr>
                             <th>Visit Date</th>
                             <th>Description</th>
+                             <th>Disease</th>
                         </tr>
                         </thead>
                         <c:forEach var="visit" items="${pet.visits}">
@@ -86,6 +87,15 @@
                                 </spring:url>
                                 <a href="${fn:escapeXml(visitUrl)}">Add Visit</a>
                             </td>
+                            
+                             <td>
+                                <spring:url value="/diseases/new/{petId}" var="diseaseUrl">
+                                    <spring:param name="diseaseId" value="${disease.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(diseaseUrl)}">Add Disease</a>
+                            </td>
+                            
                         </tr>
                     </table>
                 </td>
