@@ -1,13 +1,11 @@
+
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDateTime;
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import static org.mockito.BDDMockito.given;
+import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,45 +15,80 @@ import org.springframework.samples.petclinic.configuration.SecurityConfiguration
 import org.springframework.samples.petclinic.model.Opinion;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vet;
+import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.OpinionService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
-
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 /**
  * OpinionControllerTests
  */
-@ExtendWith(MockitoExtension.class)
-@WebMvcTest(controllers=OpinionController.class,
-		excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
-		excludeAutoConfiguration= SecurityConfiguration.class)
-public class OpinionControllerTests {
+@WebMvcTest(controllers = OpinionController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+class OpinionControllerTests {
 
-    private static final int TEST_OPINION_ID = 1;
+	private static final int	TEST_OPINION_ID	= 1;
 
-    @Autowired
-    private OpinionController opinionController;
+	private static final int	TEST_VET_ID		= 1;
 
-    @MockBean
-    private OpinionService opinionService;
+	@Autowired
+	private OpinionController	opinionController;
 
-    @Mock
-	private User userTest;
+	@MockBean
+	private OpinionService		opinionService;
 
-	@Mock 
-	private Vet vetTest;
+	@MockBean
+	private UserService			userService;
 
-    private Opinion opinion;
+	@MockBean
+	private AuthoritiesService	authoritiesService;
 
-    @BeforeEach
-    void setup(){
-        opinion = new Opinion();
-        opinion.setId(1);
-        opinion.setComentary("Comentario de prueba");
-        opinion.setPuntuation(5);
-        opinion.setUser(userTest);
-        opinion.setVet(vetTest);
-        opinion.setDate(LocalDateTime.of(2020, 1, 6, 10, 55, 14));
-        given(this.opinionService.findOpinionById(TEST_OPINION_ID).get()).willReturn(opinion);
-        
-    }
+	@Autowired
+	private MockMvc				mockMvc;
+
+	private Opinion				opinion;
+
+
+	@BeforeEach
+	void setup() {
+		User userTest = new User();
+		Vet vetTest = new Vet();
+		userTest.setUsername("owner1");
+		vetTest.setId(OpinionControllerTests.TEST_VET_ID);
+		this.opinion = new Opinion();
+		this.opinion.setId(OpinionControllerTests.TEST_OPINION_ID);
+		this.opinion.setComentary("Muy buen servicio");
+		this.opinion.setPuntuation(5);
+		this.opinion.setUser(userTest);
+		this.opinion.setVet(vetTest);
+		this.opinion.setDate(LocalDateTime.of(2020, 01, 04, 00, 00, 00));
+		BDDMockito.given(this.opinionService.findOpinionById(OpinionControllerTests.TEST_OPINION_ID).get()).willReturn(this.opinion);
+
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testInitCreationForm() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/new/{vetId}", OpinionControllerTests.TEST_VET_ID)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("opinion"))
+			.andExpect(MockMvcResultMatchers.view().name("opinions/createOrUpdateOwnerForm"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationFormSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/opinions/new/{vetId}", OpinionControllerTests.TEST_VET_ID).param("puntuation", "4").param("comentary", "Successful test").param("date", "2020/04/23 17:50").param("user", "userTest"))
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationFormHasErrors() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/opinions/new/{vetId}", OpinionControllerTests.TEST_VET_ID).param("date", "2020/04/23 17:50")				// Tanto date como user se asignan en el controller por lo que no se pueden asignar incorrectamente en el formulario.
+			.param("user", "userTest")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("opinion")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("opinion", "puntuation"))
+			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("opinion", "comentary")).andExpect(MockMvcResultMatchers.view().name("opinions/createOrUpdateOwnerForm"));
+	}
+
 }
