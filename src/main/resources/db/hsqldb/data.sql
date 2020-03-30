@@ -4,6 +4,8 @@ INSERT INTO authorities VALUES ('admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
 INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
 INSERT INTO authorities VALUES ('owner1','owner');
+INSERT INTO users(username,password,enabled) VALUES ('owner2','0wn3r',TRUE);
+INSERT INTO authorities VALUES ('owner2','owner');
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities VALUES ('vet1','veterinarian');
@@ -41,7 +43,7 @@ INSERT INTO owners VALUES (6, 'Jean', 'Coleman', '105 N. Lake St.', 'Monona', '6
 INSERT INTO owners VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085555387', 'owner1');
 INSERT INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683', 'owner1');
 INSERT INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435', 'owner1');
-INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
+INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner2');
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
@@ -69,3 +71,12 @@ INSERT INTO diseases VALUES (4, 'me duele el costao', 'MEDIUM', 'me duele mucho'
 INSERT INTO diseases VALUES (5, 'me pica la cabeza', 'HIGH', 'y no se que hacer', 5);
 INSERT INTO diseases VALUES (6, 'dame de comer', 'HIGH', 'humano... me puedes rascar?', 6);
 INSERT INTO diseases VALUES (7, 'como una bola me voy a poner', 'HIGH', 'de tanto comer', 7);
+
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (1, 'Muy buen servicio', '2020-01-04 00:00:00',5,'owner1',1);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (2, 'Me parece un borde', '2020-02-14 00:00:00',2,'owner1',2);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (3, 'Servicio decente', '2020-02-29 00:00:00',4,'owner2',3);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (4, 'Mi perrito ha curado rapido, MUCHAS GRACIAAS', '2020-03-10 00:00:00',5,'owner1',4);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (5, 'Pipo era un buen perro', '2018-06-10 00:00:00',5,'admin1',5);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (6, 'GUAU GUAU GUAAU', '2019-06-10 00:00:00',3,'owner1',6);
+
+
