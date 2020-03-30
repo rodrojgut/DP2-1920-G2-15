@@ -17,7 +17,7 @@ class ChipServiceTests {
     @Autowired
     protected ChipService chipService;
 
-
+    //Positive
     @Test
 	void shouldDeleteChip() {
         final Chip chip2 = this.chipService.findChipById(2);
@@ -25,5 +25,18 @@ class ChipServiceTests {
         final Chip deleted = this.chipService.findChipById(2);
 		assertThat(deleted).isEqualTo(null);
 
-	}
+    }
+    
+    //Negative
+    @Test
+	void shouldNotDeleteChip() {
+        boolean pasa = false;
+        final Chip chip2 = new Chip();
+        try{
+            this.chipService.deleteChip(chip2);
+        }catch(Exception e){
+            pasa = true;
+        }
+        assertThat(pasa).isTrue();
+    }
 }
