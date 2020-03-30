@@ -26,6 +26,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import java.time.LocalDate;
@@ -63,6 +64,9 @@ public class Pet extends NamedEntity {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Visit> visits;
+	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
+	private Chip		chip;
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
@@ -113,12 +117,20 @@ public class Pet extends NamedEntity {
 		visit.setPet(this);
 	}
 
+	public Chip getChip() {
+		return chip;
+	}
+
+	public void setChip(Chip chip) {
+		this.chip = chip;
+		chip.setPet(this);
+  }
+  
 	public Collection<Disease> getDisease() {
 		return disease;
 	}
 
 	public void setDisease(Collection<Disease> disease) {
 		this.disease = disease;
-
 	}
 }

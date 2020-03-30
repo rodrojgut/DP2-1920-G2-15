@@ -70,7 +70,7 @@ public class PetService {
 
 	@Transactional(readOnly = true)
 	public Pet findPetById(int id) throws DataAccessException {
-		return petRepository.findById(id);
+		return this.petRepository.findById(id);
 	}
 
 	@Transactional(rollbackFor = DuplicatedPetNameException.class)
@@ -79,7 +79,7 @@ public class PetService {
             if (StringUtils.hasLength(pet.getName()) &&  (otherPet!= null && otherPet.getId()!=pet.getId())) {            	
             	throw new DuplicatedPetNameException();
             }else
-                petRepository.save(pet);                
+                this.petRepository.save(pet);                
 	}
 
 
