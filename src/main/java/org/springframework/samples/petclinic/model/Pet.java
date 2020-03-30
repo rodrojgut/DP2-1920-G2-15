@@ -31,6 +31,7 @@ import javax.persistence.Table;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -71,6 +72,9 @@ public class Pet extends NamedEntity {
 		this.birthDate = birthDate;
 	}
 
+	@OneToMany(cascade = CascadeType.ALL)
+	private Collection<Disease>		disease;
+	
 	public LocalDate getBirthDate() {
 		return this.birthDate;
 	}
@@ -120,5 +124,13 @@ public class Pet extends NamedEntity {
 	public void setChip(Chip chip) {
 		this.chip = chip;
 		chip.setPet(this);
+  }
+  
+	public Collection<Disease> getDisease() {
+		return disease;
+	}
+
+	public void setDisease(Collection<Disease> disease) {
+		this.disease = disease;
 	}
 }
