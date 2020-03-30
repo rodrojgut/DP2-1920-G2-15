@@ -30,7 +30,7 @@ public class ChipService {
 		return chipRepository.findById(id);
 	}
 	
-	@Transactional(readOnly = true)
+	@Transactional
 	public void saveChip(Chip chip) throws DataAccessException {
 		this.chipRepository.save(chip);
 	}

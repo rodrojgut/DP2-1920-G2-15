@@ -64,9 +64,9 @@ public class ChipController {
 	}
 
 	@GetMapping(value = "/chips/{chipId}/edit")
-	public String initUpdateForm(@PathVariable("chipId") final int chipId, final ModelMap model) {
-		final Chip chip = this.chipService.findChipById(chipId);
-		model.put("chip", chip);
+	public String initUpdateForm(@PathVariable("chipId") int chipId, ModelMap model) {
+		Chip chip = chipService.findChipById(chipId);
+		model.addAttribute(chip);
 		return VIEWS_CHIPS_CREATE_OR_UPDATE_FORM;
 	}
 
