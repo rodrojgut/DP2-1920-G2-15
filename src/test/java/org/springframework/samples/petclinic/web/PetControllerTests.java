@@ -61,11 +61,10 @@ class PetControllerTests {
 	@Autowired
 	private PetController petController;
 
-
 	@MockBean
 	private PetService petService;
         
-        @MockBean
+    @MockBean
 	private OwnerService ownerService;
 
 	@Autowired

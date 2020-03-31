@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,11 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.model;
 
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
-import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,6 +33,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
+import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,25 +57,25 @@ import javax.persistence.TemporalType;
 @Table(name = "pets")
 public class Pet extends NamedEntity {
 
-	@Column(name = "birth_date")        
+	@Column(name = "birth_date")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate birthDate;
+	private LocalDate	birthDate;
 
 	@ManyToOne
 	@JoinColumn(name = "type_id")
-	private PetType type;
+	private PetType		type;
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
-	private Owner owner;
+	private Owner		owner;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
-	private Set<Visit> visits;
-	
+	private Set<Visit>	visits;
+
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Chip		chip;
 
-	public void setBirthDate(LocalDate birthDate) {
+	public void setBirthDate(final LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -83,7 +90,7 @@ public class Pet extends NamedEntity {
 		return this.type;
 	}
 
-	public void setType(PetType type) {
+	public void setType(final PetType type) {
 		this.type = type;
 	}
 
@@ -91,7 +98,7 @@ public class Pet extends NamedEntity {
 		return this.owner;
 	}
 
-	protected void setOwner(Owner owner) {
+	protected void setOwner(final Owner owner) {
 		this.owner = owner;
 	}
 
@@ -102,30 +109,35 @@ public class Pet extends NamedEntity {
 		return this.visits;
 	}
 
-	protected void setVisitsInternal(Set<Visit> visits) {
+	protected void setVisitsInternal(final Set<Visit> visits) {
 		this.visits = visits;
 	}
 
 	public List<Visit> getVisits() {
-		List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
+		List<Visit> sortedVisits = new ArrayList<>(this.getVisitsInternal());
 		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
 		return Collections.unmodifiableList(sortedVisits);
 	}
 
-	public void addVisit(Visit visit) {
-		getVisitsInternal().add(visit);
+	public void addVisit(final Visit visit) {
+		this.getVisitsInternal().add(visit);
 		visit.setPet(this);
 	}
 
 	public Chip getChip() {
-		return chip;
+		return this.chip;
 	}
 
-	public void setChip(Chip chip) {
+  public void setChip(Chip chip) {
 		this.chip = chip;
 		chip.setPet(this);
   }
   
+	public void removeChip() {
+		this.chip = null;
+		return chip;
+	}
+
 	public Collection<Disease> getDisease() {
 		return disease;
 	}

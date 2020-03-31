@@ -98,5 +98,13 @@ public class ChipController {
 
         	return "redirect:/owners/{ownerId}";
 		}
+    
+    @GetMapping(value = "/chips/{chipId}/delete")
+	  public String removeChip(@PathVariable("chipId") int chipId, ModelMap model) {
+		Chip chip = chipService.findChipById(chipId);
+		chipService.deleteChip(chip);
+		model.addAttribute("message", "Chip succefully deleted!");
+		return "redirect:/owners/{ownerId}";
+	}
 	}
 }

@@ -22,5 +22,15 @@
             <th>Geolocatable</th>
             <td><c:out value="${chip.geolocatable}"/></td>
         </tr>
+        <tr>
+        	<td>
+        		<spring:url value="/owners/{ownerId}/pets/{petId}/chips/{chipId}/delete" var="deleteUrl">
+                	<spring:param name="ownerId" value="${chip.pet.owner.id}"/>
+                	<spring:param name="petId" value="${chip.pet.id}"/>
+                	<spring:param name="chipId" value="${chip.id}"/>
+                </spring:url>
+                <a href="${fn:escapeXml(deleteUrl)}">Delete chip</a>
+            </td>
+        </tr>
     </table>
 </petclinic:layout>
