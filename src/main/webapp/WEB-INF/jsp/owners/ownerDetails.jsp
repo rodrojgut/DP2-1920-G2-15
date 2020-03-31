@@ -63,6 +63,7 @@
                         <tr>
                             <th>Visit Date</th>
                             <th>Description</th>
+                             <th>Disease</th>
                         </tr>
                         </thead>
                         <c:forEach var="visit" items="${pet.visits}">
@@ -94,8 +95,32 @@
                                     	<spring:param name="chipId" value="${pet.chip.id}"/>
                                 	</spring:url>
                                 	<a href="${fn:escapeXml(chipUrl)}">Show chip</a>
-                            	</td>
+                                </td>
+                                <td>
+                                    <spring:url value="/owners/{ownerId}/pets/{petId}/chips/{chipId}/edit" var="updChipUrl">
+                                        <spring:param name="ownerId" value="${owner.id}"/>
+                                        <spring:param name="petId" value="${pet.id}"/>
+                                        <spring:param name="chipId" value="${pet.chip.id}"/>
+                                    </spring:url>
+                                    <a href="${fn:escapeXml(updChipUrl)}">Update Chip</a>
+                                </td>
                             </c:if>
+                            <c:if test="${pet.chip == null}">
+                                <td>
+                                    <spring:url value="/owners/{ownerId}/pets/{petId}/chips/new" var="chipUrl">
+                                    <spring:param name="ownerId" value="${owner.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                    </spring:url>
+                                    <a href="${fn:escapeXml(chipUrl)}">Add Chip</a>
+                                </td>
+                            </c:if>
+                            <td>
+                                <spring:url value="/diseases/new/{petId}" var="diseaseUrl">
+                                    <spring:param name="diseaseId" value="${disease.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(diseaseUrl)}">Add Disease</a>
+                          </td>
                         </tr>
                     </table>
                 </td>

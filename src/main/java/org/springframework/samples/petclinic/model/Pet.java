@@ -36,6 +36,15 @@ import javax.persistence.Table;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Simple business object representing a pet.
@@ -66,11 +75,13 @@ public class Pet extends NamedEntity {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Chip		chip;
 
-
 	public void setBirthDate(final LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
+	@OneToMany(cascade = CascadeType.ALL)
+	private Collection<Disease>		disease;
+	
 	public LocalDate getBirthDate() {
 		return this.birthDate;
 	}
@@ -117,11 +128,21 @@ public class Pet extends NamedEntity {
 		return this.chip;
 	}
 
-	public void setChip(final Chip chip) {
+  public void setChip(Chip chip) {
 		this.chip = chip;
-	}
-
+		chip.setPet(this);
+  }
+  
 	public void removeChip() {
 		this.chip = null;
+		return chip;
+	}
+
+	public Collection<Disease> getDisease() {
+		return disease;
+	}
+
+	public void setDisease(Collection<Disease> disease) {
+		this.disease = disease;
 	}
 }
