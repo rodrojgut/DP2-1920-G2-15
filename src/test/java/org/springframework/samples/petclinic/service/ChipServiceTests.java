@@ -2,7 +2,9 @@ package org.springframework.samples.petclinic.service;
 
 import javax.transaction.Transactional;
 
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -31,8 +33,8 @@ class ChipServiceTests {
 		chip.setGeolocatable(false);
 		pet.setChip(chip);
 		this.chipService.saveChip(chip);
-		Assertions.assertThat(chip.getId()).isNotNull();
-		Assertions.assertThat(pet.getChip()).isNotNull();
+		assertThat(chip.getId()).isNotNull();
+		assertThat(pet.getChip()).isNotNull();
 	}
   
   @Test
@@ -57,7 +59,7 @@ class ChipServiceTests {
 		chip.setModel(newModel);
 		this.chipService.saveChip(chip);
 		chip = this.chipService.findChipById(1);
-		Assertions.assertThat(chip.getModel()).isEqualTo(newModel);
+		assertThat(chip.getModel()).isEqualTo(newModel);
 	}
   
   @Test

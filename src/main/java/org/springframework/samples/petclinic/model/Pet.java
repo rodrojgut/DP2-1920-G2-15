@@ -135,7 +135,6 @@ public class Pet extends NamedEntity {
   
 	public void removeChip() {
 		this.chip = null;
-		return chip;
 	}
 
 	public Collection<Disease> getDisease() {

@@ -1,8 +1,8 @@
+
 package org.springframework.samples.petclinic.web;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Chip;
 import org.springframework.samples.petclinic.model.Pet;
@@ -21,10 +21,11 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/owners/{ownerId}/pets/{petId}")
 public class ChipController {
 
-	private final ChipService chipService;
-	private final PetService petService;
+	private final ChipService	chipService;
+	private final PetService	petService;
 
-	private static final String VIEWS_CHIPS_CREATE_OR_UPDATE_FORM = "chips/createOrUpdateChipForm";
+	private static final String	VIEWS_CHIPS_CREATE_OR_UPDATE_FORM	= "chips/createOrUpdateChipForm";
+
 
 	@Autowired
 	public ChipController(final ChipService chipService, final PetService petService) {
@@ -44,17 +45,15 @@ public class ChipController {
 		final Chip chip = new Chip();
 		model.put("chip", chip);
 		model.put("petId", petId);
-		return VIEWS_CHIPS_CREATE_OR_UPDATE_FORM;
+		return ChipController.VIEWS_CHIPS_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/chips/new")
-	public String processCreationForm(@PathVariable("ownerId") final int ownerId,
-			@PathVariable("petId") final int petId, @Valid final Chip chip, final BindingResult result,
-			final ModelMap model) {
+	public String processCreationForm(@PathVariable("ownerId") final int ownerId, @PathVariable("petId") final int petId, @Valid final Chip chip, final BindingResult result, final ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("chip", chip);
 			model.put("petId", petId);
-			return VIEWS_CHIPS_CREATE_OR_UPDATE_FORM;
+			return ChipController.VIEWS_CHIPS_CREATE_OR_UPDATE_FORM;
 		} else {
 			final Pet pet = this.petService.findPetById(petId);
 			pet.setChip(chip);
@@ -64,20 +63,18 @@ public class ChipController {
 	}
 
 	@GetMapping(value = "/chips/{chipId}/edit")
-	public String initUpdateForm(@PathVariable("chipId") int chipId, ModelMap model) {
-		Chip chip = chipService.findChipById(chipId);
+	public String initUpdateForm(@PathVariable("chipId") final int chipId, final ModelMap model) {
+		Chip chip = this.chipService.findChipById(chipId);
 		model.addAttribute(chip);
-		return VIEWS_CHIPS_CREATE_OR_UPDATE_FORM;
+		return ChipController.VIEWS_CHIPS_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/chips/{chipId}/edit")
-	public String processUpdateForm(@PathVariable("ownerId") final int ownerId, @PathVariable("petId") final int petId,
-			@PathVariable("chipId") final int chipId, @Valid final Chip chip, final BindingResult result,
-			final ModelMap model) {
+	public String processUpdateForm(@PathVariable("ownerId") final int ownerId, @PathVariable("petId") final int petId, @PathVariable("chipId") final int chipId, @Valid final Chip chip, final BindingResult result, final ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("chip", chip);
 			model.put("petId", petId);
-			return VIEWS_CHIPS_CREATE_OR_UPDATE_FORM;
+			return ChipController.VIEWS_CHIPS_CREATE_OR_UPDATE_FORM;
 		} else {
 
 			final Chip chipToUpdate = this.chipService.findChipById(chipId);
@@ -96,15 +93,16 @@ public class ChipController {
 			final Chip actualizado = this.chipService.findChipById(chipToUpdate.getId());
 			System.out.println(actualizado.getModel());
 
-        	return "redirect:/owners/{ownerId}";
 		}
-    
-    @GetMapping(value = "/chips/{chipId}/delete")
-	  public String removeChip(@PathVariable("chipId") int chipId, ModelMap model) {
-		Chip chip = chipService.findChipById(chipId);
-		chipService.deleteChip(chip);
+		return "redirect:/owners/{ownerId}";
+
+	}
+
+	@GetMapping(value = "/chips/{chipId}/delete")
+	public String removeChip(@PathVariable("chipId") final int chipId, final ModelMap model) {
+		Chip chip = this.chipService.findChipById(chipId);
+		this.chipService.deleteChip(chip);
 		model.addAttribute("message", "Chip succefully deleted!");
 		return "redirect:/owners/{ownerId}";
-	}
 	}
 }
