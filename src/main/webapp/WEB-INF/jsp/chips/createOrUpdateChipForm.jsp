@@ -16,9 +16,12 @@
                 
                 <petclinic:inputField label="Serial Number" name="serialNumber"/>
                 <petclinic:inputField label="Model" name="model"/>
+                <petclinic:inputField label="Geolocatable" name="geolocatable"/>
 
+				<%-- 
                 <label class="col-sm-2 control-label">Geolocatable</label>
                 <input type="checkbox" name="geolocatable" path="geolocatable"/>
+                --%>
                 
             </div>
             <div class="form-group">
