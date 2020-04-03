@@ -23,15 +23,15 @@ public class ChipService {
 	@Transactional(readOnly = true)
 	public Chip findChipById(int id) throws DataAccessException {
 		return chipRepository.findById(id);
-    }
+  }
     
-    @Transactional(readOnly = true)
-	public Chip findAllChip(int id) throws DataAccessException {
-		return chipRepository.findById(id);
-	}
-	
 	@Transactional
 	public void saveChip(Chip chip) throws DataAccessException {
 		this.chipRepository.save(chip);
+	}
+  
+  @Transactional(readOnly = true)
+	public Chip findChipById(int id) throws DataAccessException {
+		return chipRepository.findById(id);
 	}
 }

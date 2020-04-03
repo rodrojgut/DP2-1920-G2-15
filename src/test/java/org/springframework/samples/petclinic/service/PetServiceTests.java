@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Chip;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -76,6 +77,9 @@ class PetServiceTests {
         
         @Autowired
 	protected OwnerService ownerService;	
+        
+        @Autowired
+    	protected ChipService chipService;	
 
 	@Test
 	void shouldFindPetWithCorrectId() {
@@ -222,6 +226,12 @@ class PetServiceTests {
 		assertThat(visitArr[0].getPet()).isNotNull();
 		assertThat(visitArr[0].getDate()).isNotNull();
 		assertThat(visitArr[0].getPet().getId()).isEqualTo(7);
+	}
+	
+	@Test
+	void chipPresent() throws Exception {
+		Pet pet = this.petService.findPetById(1);
+		assertThat(pet.getChip()).isNotNull();
 	}
 
 }

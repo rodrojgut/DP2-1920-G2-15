@@ -1,10 +1,8 @@
-
 package org.springframework.samples.petclinic.service;
 
 import javax.transaction.Transactional;
-import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -33,11 +31,11 @@ class ChipServiceTests {
 		chip.setGeolocatable(false);
 		pet.setChip(chip);
 		this.chipService.saveChip(chip);
-		assertThat(chip.getId()).isNotNull();
-		assertThat(pet.getChip()).isNotNull();	
+		Assertions.assertThat(chip.getId()).isNotNull();
+		Assertions.assertThat(pet.getChip()).isNotNull();
 	}
-	
-	@Test
+  
+  @Test
 	@Transactional
 	public void shouldThrowExceptionInsertingChipWhitoutModel() {
 		Pet pet = this.petService.findPetById(4);
@@ -57,13 +55,12 @@ class ChipServiceTests {
 		Chip chip = this.chipService.findChipById(1);
 		String newModel = "newModel";
 		chip.setModel(newModel);
-		chip.getPet().setChip(chip);
 		this.chipService.saveChip(chip);
 		chip = this.chipService.findChipById(1);
-		assertThat(chip.getModel()).isEqualTo(newModel);
+		Assertions.assertThat(chip.getModel()).isEqualTo(newModel);
 	}
-	
-	@Test
+  
+  @Test
 	@Transactional
 	public void shouldThrowExceptionUpdatingChipWhitoutModel() {
 		Chip chip = this.chipService.findChipById(1);
@@ -73,4 +70,34 @@ class ChipServiceTests {
 			this.chipService.saveChip(chip);
 		});
 	}
+  
+  //Positive
+    @Test
+	void shouldDeleteChip() {
+        final Chip chip2 = this.chipService.findChipById(2);
+        this.chipService.deleteChip(chip2);
+        final Chip deleted = this.chipService.findChipById(2);
+		assertThat(deleted).isEqualTo(null);
+
+    }
+    
+    //Negative
+    @Test
+	void shouldNotDeleteChip() {
+        boolean pasa = false;
+        final Chip chip2 = new Chip();
+        try{
+            this.chipService.deleteChip(chip2);
+        }catch(Exception e){
+            pasa = true;
+        }
+        assertThat(pasa).isTrue();
+  }
+    @Test
+	void shouldFindChipWithCorrectId() {
+		final Chip chip2 = this.chipService.findChipById(2);
+		assertThat(chip2.getSerialNumber()).isEqualTo("2");
+		assertThat(chip2.getModel()).isEqualTo("model2");
+
+    }
 }
