@@ -34,6 +34,20 @@ class ChipServiceTests {
 		Assertions.assertThat(chip.getId()).isNotNull();
 		Assertions.assertThat(pet.getChip()).isNotNull();
 	}
+  
+  @Test
+	@Transactional
+	public void shouldThrowExceptionInsertingChipWhitoutModel() {
+		Pet pet = this.petService.findPetById(4);
+		Chip chip = new Chip();
+		chip.setSerialNumber("4");
+		chip.setModel("");
+		chip.setGeolocatable(false);
+		Assertions.assertThrows(Exception.class, () ->{
+			pet.setChip(chip);
+			this.chipService.saveChip(chip);
+		});
+	}
 
 	@Test
 	@Transactional
@@ -44,6 +58,17 @@ class ChipServiceTests {
 		this.chipService.saveChip(chip);
 		chip = this.chipService.findChipById(1);
 		Assertions.assertThat(chip.getModel()).isEqualTo(newModel);
+	}
+  
+  @Test
+	@Transactional
+	public void shouldThrowExceptionUpdatingChipWhitoutModel() {
+		Chip chip = this.chipService.findChipById(1);
+		chip.setPet(null);
+		Assertions.assertThrows(Exception.class, () ->{
+			chip.getPet().setChip(chip);
+			this.chipService.saveChip(chip);
+		});
 	}
   
   //Positive

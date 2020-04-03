@@ -35,9 +35,6 @@ public class ChipControllerTests {
 	private static final int TEST_PET_ID = 1;
 	private static final int TEST_CHIP_ID = 1;
 	
-	@Autowired
-	private ChipController chipController;
-
 	@MockBean
 	private PetService petService;
         
@@ -76,30 +73,53 @@ public class ChipControllerTests {
 				.param("serialNumber", "123")
 				.param("model", "model123")
 				.param("geolocatable", "true"))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/owners/{ownerId}"));
+		.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationFormHasErrors() throws Exception {
+		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/chips/new", 3, 4)
+				.with(csrf())
+				.param("serialNumber", "123")
+				.param("geolocatable", "true"))
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(model().attributeHasErrors("chip"))
+		.andExpect(model().attributeHasFieldErrors("chip", "model"))
+		.andExpect(view().name("chips/createOrUpdateChipForm"));
 	}
 	
 	@WithMockUser(value = "spring")
     @Test
     void testInitUpdateForm() throws Exception {
-		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/chips/edit", TEST_OWNER_ID, TEST_PET_ID, TEST_CHIP_ID))
+		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/chips/{chipId}/edit", TEST_OWNER_ID, TEST_PET_ID, TEST_CHIP_ID))
 				.andExpect(status().isOk())
-				.andExpect(model().attribute("chip", hasProperty("serialNumber", is("1"))))
-				.andExpect(model().attribute("chip", hasProperty("model", is("model1"))))
-				.andExpect(model().attribute("chip", hasProperty("geolocatable", is("true"))))
+				.andExpect(model().attributeExists("chip"))
 				.andExpect(view().name("chips/createOrUpdateChipForm"));
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessupdateFormSuccess() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/chips/edit", TEST_OWNER_ID, TEST_PET_ID, TEST_CHIP_ID)
+	void testProcessUpdateFormSuccess() throws Exception {
+		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/chips/{chipId}/edit", TEST_OWNER_ID, TEST_PET_ID, TEST_CHIP_ID)
 				.with(csrf())
 				.param("serialNumber", "123")
 				.param("model", "model123")
 				.param("geolocatable", "true"))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/owners/{ownerId}"));
+		.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdateHasErrors() throws Exception {
+		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/chips/{chipId}/edit", TEST_OWNER_ID, TEST_PET_ID, TEST_CHIP_ID)
+				.with(csrf())
+				.param("serialNumber", "123")
+				.param("model", "")
+				.param("geolocatable", "true"))
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(model().attributeHasErrors("chip"))
+		.andExpect(model().attributeHasFieldErrors("chip", "model"))
+		.andExpect(view().name("chips/createOrUpdateChipForm"));
 	}
 }
