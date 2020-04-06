@@ -55,7 +55,9 @@ public class ChipController {
 			model.put("petId", petId);
 			return ChipController.VIEWS_CHIPS_CREATE_OR_UPDATE_FORM;
 		} else {
-			final Pet pet = this.petService.findPetById(petId);
+			System.out.println(petId);
+			Pet pet = this.petService.findPetById(petId);
+			System.out.println(this.petService.findPetById(petId));
 			pet.setChip(chip);
 			this.chipService.saveChip(chip);
 			return "redirect:/owners/{ownerId}";
