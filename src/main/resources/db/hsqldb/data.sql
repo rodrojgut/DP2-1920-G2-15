@@ -82,3 +82,6 @@ INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (3
 INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (4, 'Mi perrito ha curado rapido, MUCHAS GRACIAAS', '2020-03-10 00:00:00',5,'owner1',4);
 INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (5, 'Pipo era un buen perro', '2018-06-10 00:00:00',5,'admin1',5);
 INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (6, 'GUAU GUAU GUAAU', '2019-06-10 00:00:00',3,'owner1',6);
+
+INSERT INTO rooms VALUES (1,1);
+INSERT INTO room_medical_team VALUES (1,'algoooo');
