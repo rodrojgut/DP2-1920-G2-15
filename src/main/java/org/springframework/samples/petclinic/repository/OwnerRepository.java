@@ -18,8 +18,11 @@ package org.springframework.samples.petclinic.repository;
 import java.util.Collection;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.User;
 
 /**
  * Repository class for <code>Owner</code> domain objects All method names are compliant
@@ -50,6 +53,9 @@ public interface OwnerRepository {
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */
 	Owner findById(int id) throws DataAccessException;
+	
+	//@Query("select owner from Owner owner where owner.usermane = :name")
+	Owner findByUser( User nameUser) throws DataAccessException;
 
 	/**
 	 * Save an <code>Owner</code> to the data store, either inserting or updating it.

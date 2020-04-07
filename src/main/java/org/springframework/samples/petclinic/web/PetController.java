@@ -51,12 +51,12 @@ public class PetController {
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
 	private final PetService petService;
-        private final OwnerService ownerService;
+    private final OwnerService ownerService;
 
 	@Autowired
 	public PetController(PetService petService, OwnerService ownerService) {
 		this.petService = petService;
-                this.ownerService = ownerService;
+        this.ownerService = ownerService;
 	}
 
 	@ModelAttribute("types")
@@ -132,15 +132,15 @@ public class PetController {
      * @param model
      * @return
      */
-        @PostMapping(value = "/pets/{petId}/edit")
+    @PostMapping(value = "/pets/{petId}/edit")
 	public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner,@PathVariable("petId") int petId, ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("pet", pet);
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-                        Pet petToUpdate=this.petService.findPetById(petId);
-			BeanUtils.copyProperties(pet, petToUpdate, "id","owner","visits");                                                                                  
+            Pet petToUpdate=this.petService.findPetById(petId);
+			BeanUtils.copyProperties(pet, petToUpdate, "id","owner","visits", "chip");
                     try {                    
                         this.petService.savePet(petToUpdate);                    
                     } catch (DuplicatedPetNameException ex) {
