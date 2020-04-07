@@ -25,14 +25,7 @@
         </tr>
         
     </table>
-     
-     
-            <div class="col-sm-offset-2 col-sm-10">
-     
-             <a class="btn btn-default" href='<spring:url value="/rooms/roomsList" htmlEscape="true"/>'>Back</a>
-     
-            </div>
-        
+    <a class="btn btn-default" href='<spring:url value="/rooms/roomsList" htmlEscape="true"/>'>Back</a>        
 </petclinic:layout>
 
 
