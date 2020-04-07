@@ -21,7 +21,7 @@
                     <c:when test="${room['new']}">
                         <button class="btn btn-default" type="submit">Add Room</button>
                     </c:when>
-                    <c:otherwise>
+                    <c:otherwise> 
                         <button class="btn btn-default" type="submit">Update Room</button>
                     </c:otherwise>
                 </c:choose>

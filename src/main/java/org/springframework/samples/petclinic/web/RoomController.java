@@ -74,6 +74,32 @@ public class RoomController {
 
 			return "redirect:/rooms/" + room.getId();
 		}
+    }
+    
+    @GetMapping(value = "/rooms/{roomId}/edit")
+	public String initUpdateForm(@PathVariable("roomId") final int roomId, final ModelMap model) {
+		final Room room = this.roomService.findRoomById(roomId);
+		model.put("room", room);
+		return VIEWS_ROOMS_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping(value = "/rooms/{roomId}/edit")
+	public String processUpdateForm(@Valid Room room, BindingResult result,
+			@PathVariable("roomId") final int roomId, final ModelMap model) {
+		if (result.hasErrors()) {
+			model.put("room", room);
+			return VIEWS_ROOMS_CREATE_OR_UPDATE_FORM;
+		} else {
+			Room roomToUpdate = this.roomService.findRoomById(roomId);
+			BeanUtils.copyProperties(room, roomToUpdate, "id", "floor");
+			try {
+				this.roomService.saveRoom(roomToUpdate);
+			} catch (DuplicateFormatFlagsException ex) {
+				result.rejectValue("name", "duplicate", "already exist");
+				return VIEWS_ROOMS_CREATE_OR_UPDATE_FORM;
+			}
+			return "redirect:/rooms/{roomId}";
+		}
 	}
 
 }

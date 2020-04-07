@@ -37,6 +37,11 @@
                         </spring:url>
                         <a href="${fn:escapeXml(roomUrl)}">Show</a>
 
+                        <spring:url value="/rooms/{roomId}/edit" var="roomUrl">
+                            <spring:param name="roomId" value="${room.id}" />
+                        </spring:url>
+                        <a href="${fn:escapeXml(roomUrl)}">Update</a>
+
                         <spring:url value="/rooms/delete/{roomId}" var="roomUrl">
                             <spring:param name="roomId" value="${room.id}" />
                         </spring:url>
@@ -46,6 +51,6 @@
         </tbody>
     </table>
     <sec:authorize access="hasAuthority('admin')">
-            <a class="btn btn-default" href='<spring:url value="/rooms/new" htmlEscape="true"/>'>Add Room</a>
-        </sec:authorize>
+        <a class="btn btn-default" href='<spring:url value="/rooms/new" htmlEscape="true"/>'>Add Room</a>
+    </sec:authorize>
 </petclinic:layout>
