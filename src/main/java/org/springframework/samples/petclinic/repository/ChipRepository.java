@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.repository;
 
 import org.springframework.dao.DataAccessException;
@@ -11,4 +12,3 @@ public interface ChipRepository {
 	
 	void delete(Chip chip) throws DataAccessException;
 }
-

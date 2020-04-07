@@ -94,10 +94,8 @@ public class ChipController {
 
 			final Chip actualizado = this.chipService.findChipById(chipToUpdate.getId());
 			System.out.println(actualizado.getModel());
-
+			return "redirect:/owners/{ownerId}";
 		}
-		return "redirect:/owners/{ownerId}";
-
 	}
 
 	@GetMapping(value = "/chips/{chipId}/delete")

@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.service;
 
 import javax.transaction.Transactional;
@@ -72,34 +73,34 @@ class ChipServiceTests {
 			this.chipService.saveChip(chip);
 		});
 	}
-  
-  //Positive
-    @Test
-	void shouldDeleteChip() {
-        final Chip chip2 = this.chipService.findChipById(2);
-        this.chipService.deleteChip(chip2);
-        final Chip deleted = this.chipService.findChipById(2);
-		assertThat(deleted).isEqualTo(null);
 
-    }
-    
-    //Negative
-    @Test
+	//Positive
+	@Test
+	void shouldDeleteChip() {
+		final Chip chip2 = this.chipService.findChipById(2);
+		this.chipService.deleteChip(chip2);
+		final Chip deleted = this.chipService.findChipById(2);
+		Assertions.assertThat(deleted).isEqualTo(null);
+
+	}
+
+	//Negative
+	@Test
 	void shouldNotDeleteChip() {
-        boolean pasa = false;
-        final Chip chip2 = new Chip();
-        try{
-            this.chipService.deleteChip(chip2);
-        }catch(Exception e){
-            pasa = true;
-        }
-        assertThat(pasa).isTrue();
-  }
-    @Test
+		boolean pasa = false;
+		final Chip chip2 = new Chip();
+		try {
+			this.chipService.deleteChip(chip2);
+		} catch (Exception e) {
+			pasa = true;
+		}
+		Assertions.assertThat(pasa).isTrue();
+	}
+	@Test
 	void shouldFindChipWithCorrectId() {
 		final Chip chip2 = this.chipService.findChipById(2);
-		assertThat(chip2.getSerialNumber()).isEqualTo("2");
-		assertThat(chip2.getModel()).isEqualTo("model2");
+		Assertions.assertThat(chip2.getSerialNumber()).isEqualTo("2");
+		Assertions.assertThat(chip2.getModel()).isEqualTo("model2");
 
-    }
+	}
 }
