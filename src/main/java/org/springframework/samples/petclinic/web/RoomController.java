@@ -40,6 +40,14 @@ public class RoomController {
 		final ModelAndView mav = new ModelAndView("rooms/roomDetails");
 		mav.addObject(this.roomService.findRoomById(roomId));
 		return mav;
+    }
+    
+    @GetMapping(value = "/rooms/delete/{roomId}")
+	public String deleteDisease(@PathVariable("roomId") int roomId, ModelMap modelMap) {
+		Room room = roomService.findRoomById(roomId);
+		this.roomService.delete(room);
+		modelMap.addAttribute("message", "Disease succefully deleted!");
+		return "redirect:/rooms/roomsList";
 	}
 
 }

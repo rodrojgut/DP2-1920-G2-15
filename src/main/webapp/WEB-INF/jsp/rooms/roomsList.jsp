@@ -10,34 +10,39 @@
 
     <table id="roomsTable" class="table table-striped">
         <thead>
-        <tr>
-            <th style="width: 150px;">Room</th>
-            <th style="width: 150px;">Floor</th>
-            <th style="width: 200px;">Medical Team</th>
-            <th>Actions</th>
-        </tr>
+            <tr>
+                <th style="width: 150px;">Room</th>
+                <th style="width: 150px;">Floor</th>
+                <th style="width: 200px;">Medical Team</th>
+                <th>Actions</th>
+            </tr>
         </thead>
         <tbody>
-        <c:forEach items="${rooms}" var="room">
-            <tr>
-               
-                <td>
-                    <c:out value="${room.id}"/>
+            <c:forEach items="${rooms}" var="room">
+                <tr>
+
+                    <td>
+                        <c:out value="${room.id}" />
                     </td>
-                <td>
-                <c:out value="${room.floor}"/>
-                </td>
-                <td>
-                    <c:out value="${room.medicalTeam}"/>
-                </td>
-                
-                  <td>
-                    <spring:url value="/rooms/{roomId}" var="roomUrl">
-                        <spring:param name="roomId" value="${room.id}"/>
-                    </spring:url>
-                   		 <a href="${fn:escapeXml(roomUrl)}">Show</a>
-            </tr>
-        </c:forEach>
+                    <td>
+                        <c:out value="${room.floor}" />
+                    </td>
+                    <td>
+                        <c:out value="${room.medicalTeam}" />
+                    </td>
+
+                    <td>
+                        <spring:url value="/rooms/{roomId}" var="roomUrl">
+                            <spring:param name="roomId" value="${room.id}" />
+                        </spring:url>
+                        <a href="${fn:escapeXml(roomUrl)}">Show</a>
+
+                        <spring:url value="/rooms/delete/{roomId}" var="roomUrl">
+                            <spring:param name="roomId" value="${room.id}" />
+                        </spring:url>
+                        <a href="${fn:escapeXml(roomUrl)}">Delete</a>
+                </tr>
+            </c:forEach>
         </tbody>
     </table>
 </petclinic:layout>

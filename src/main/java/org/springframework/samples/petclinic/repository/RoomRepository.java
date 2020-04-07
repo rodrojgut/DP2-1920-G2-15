@@ -11,5 +11,6 @@ public interface RoomRepository {
 
 	Collection<Room> findAll() throws DataAccessException;
 
+    void delete(Room room);
 
 }

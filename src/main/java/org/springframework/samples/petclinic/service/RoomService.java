@@ -27,6 +27,12 @@ public class RoomService {
 	@Transactional
 	public Collection<Room> findAll() {
 		return this.roomRepository.findAll();
+    }
+    
+    public void delete(Room room) {
+		
+	this.roomRepository.delete(room);
+		
 	}
 	
 }
