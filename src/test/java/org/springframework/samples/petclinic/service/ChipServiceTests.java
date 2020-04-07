@@ -80,7 +80,7 @@ class ChipServiceTests {
 		final Chip chip2 = this.chipService.findChipById(2);
 		this.chipService.deleteChip(chip2);
 		final Chip deleted = this.chipService.findChipById(2);
-		Assertions.assertThat(deleted).isEqualTo(null);
+		assertThat(deleted).isEqualTo(null);
 
 	}
 
@@ -94,13 +94,13 @@ class ChipServiceTests {
 		} catch (Exception e) {
 			pasa = true;
 		}
-		Assertions.assertThat(pasa).isTrue();
+		assertThat(pasa).isTrue();
 	}
 	@Test
 	void shouldFindChipWithCorrectId() {
 		final Chip chip2 = this.chipService.findChipById(2);
-		Assertions.assertThat(chip2.getSerialNumber()).isEqualTo("2");
-		Assertions.assertThat(chip2.getModel()).isEqualTo("model2");
+		assertThat(chip2.getSerialNumber()).isEqualTo("2");
+		assertThat(chip2.getModel()).isEqualTo("model2");
 
 	}
 }
