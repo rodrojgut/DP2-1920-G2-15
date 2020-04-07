@@ -73,6 +73,6 @@ class OpinionServiceTest {
     @Test
     void deleteTest(){
         this.opinionService.deleteOpinion(this.opinionTest);
-        assert(!this.opinionService.findById(1).isPresent());
+        assert(!this.opinionService.findOpinionById(1).isPresent());
     }
 }
