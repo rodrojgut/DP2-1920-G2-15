@@ -57,7 +57,7 @@ public class ChipController {
 		} else {
 			System.out.println(petId);
 			Pet pet = this.petService.findPetById(petId);
-			System.out.println(this.petService.findPetById(petId));
+			System.out.println();
 			pet.setChip(chip);
 			this.chipService.saveChip(chip);
 			return "redirect:/owners/{ownerId}";

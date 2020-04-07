@@ -61,6 +61,7 @@ public class ChipControllerTests {
 		testChip.setGeolocatable(true);
 		given(this.chipService.findChipById(TEST_CHIP_ID)).willReturn(testChip);
 		testPet = new Pet();
+		testPet.setName("Jorge");
 		given(this.petService.findPetById(TEST_PET_ID)).willReturn(testPet);
 	}
 	
@@ -81,7 +82,7 @@ public class ChipControllerTests {
 				.param("serialNumber", "123")
 				.param("model", "model123")
 				.param("geolocatable", "true"))
-		.andExpect(status().is2xxSuccessful())
+		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/owners/{ownerId}"));
 	}
 	
@@ -118,7 +119,7 @@ public class ChipControllerTests {
 				.param("serialNumber", "123")
 				.param("model", "model123")
 				.param("geolocatable", "true"))
-		.andExpect(status().is2xxSuccessful())
+		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/owners/{ownerId}"));
 	}
 	
