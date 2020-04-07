@@ -46,7 +46,7 @@ public class RoomController {
 	public String deleteDisease(@PathVariable("roomId") int roomId, ModelMap modelMap) {
 		Room room = roomService.findRoomById(roomId);
 		this.roomService.delete(room);
-		modelMap.addAttribute("message", "Disease succefully deleted!");
+		modelMap.addAttribute("message", "Room succefully deleted!");
 		return "redirect:/rooms/roomsList";
 	}
 
