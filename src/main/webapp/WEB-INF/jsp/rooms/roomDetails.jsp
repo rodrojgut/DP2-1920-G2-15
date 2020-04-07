@@ -10,9 +10,10 @@
 
 
     <table class="table table-striped">
-        <tr>
-            <th>Room</th>
-            <td><c:out value="${room.id}"/></td>
+      
+         <tr>
+            <th>Name</th>
+            <td><c:out value="${room.name}"/></td>
         </tr>
         <tr>
             <th>Floor</th>
@@ -22,7 +23,16 @@
             <th>Medical Team</th>
             <td><c:out value="${room.medicalTeam}"/></td>
         </tr>
+        
     </table>
+     
+     
+            <div class="col-sm-offset-2 col-sm-10">
+     
+             
+     
+            </div>
+        
 </petclinic:layout>
 
 

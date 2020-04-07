@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Rooms")
-public class Room extends BaseEntity {
+public class Room extends NamedEntity {
 
     @NotNull
     @Column(name = "floor")

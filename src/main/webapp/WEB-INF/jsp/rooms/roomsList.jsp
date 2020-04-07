@@ -22,7 +22,7 @@
                 <tr>
 
                     <td>
-                        <c:out value="${room.id}" />
+                        <c:out value="${room.name}" />
                     </td>
                     <td>
                         <c:out value="${room.floor}" />
