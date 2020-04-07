@@ -13,4 +13,6 @@ public interface RoomRepository {
 
     void delete(Room room);
 
+    void save(Room room) throws DataAccessException;
+
 }

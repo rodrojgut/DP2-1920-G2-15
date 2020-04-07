@@ -34,5 +34,9 @@ public class RoomService {
 	this.roomRepository.delete(room);
 		
 	}
-	
+    
+    @Transactional
+	public void saveRoom(Room room) throws DataAccessException {
+		this.roomRepository.save(room);
+	}
 }

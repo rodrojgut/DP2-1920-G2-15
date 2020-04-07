@@ -19,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RoomController {
 
-	private final RoomService roomService;
+    private final RoomService roomService;
+    
+    private static final String VIEWS_ROOMS_CREATE_OR_UPDATE_FORM = "rooms/createOrUpdateRoomForm";
 
 	@Autowired
 	public RoomController(RoomService roomService/* , final BookingService bookingService */) {
@@ -48,6 +50,30 @@ public class RoomController {
 		this.roomService.delete(room);
 		modelMap.addAttribute("message", "Room succefully deleted!");
 		return "redirect:/rooms/roomsList";
+    }
+    
+    @GetMapping("/rooms/new")
+	public String initCreationForm(final ModelMap model) {
+		final Room room = new Room();
+		model.put("room", room);
+		return VIEWS_ROOMS_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping(value = "/rooms/new")
+	public String processCreationForm(@Valid Room room,
+			BindingResult result, final ModelMap model) {
+
+		if (result.hasErrors()) {
+			model.put("room", room);
+			return VIEWS_ROOMS_CREATE_OR_UPDATE_FORM;
+		} else {
+			room.setFloor(room.getFloor());
+			room.setMedicalTeam(room.getMedicalTeam());
+			room.setId(room.getId());
+			this.roomService.saveRoom(room);
+
+			return "redirect:/rooms/" + room.getId();
+		}
 	}
 
 }

@@ -45,4 +45,7 @@
             </c:forEach>
         </tbody>
     </table>
+    <sec:authorize access="hasAuthority('admin')">
+            <a class="btn btn-default" href='<spring:url value="/rooms/new" htmlEscape="true"/>'>Add Room</a>
+        </sec:authorize>
 </petclinic:layout>
