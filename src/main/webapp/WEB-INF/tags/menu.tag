@@ -47,12 +47,13 @@
 						<span>Diseases</span>
 					</petclinic:menuItem>
 				</sec:authorize>
-
-				<petclinic:menuItem active="${name eq 'room'}" url="/rooms/roomsList"
-					title="rooms">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span>Rooms</span>
-				</petclinic:menuItem>
+				<sec:authorize access= "hasAuthority('admin')">
+					<petclinic:menuItem active="${name eq 'room'}" url="/rooms/roomsList"
+						title="rooms">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+						<span>Rooms</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 				
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
