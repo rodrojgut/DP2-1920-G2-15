@@ -11,11 +11,15 @@
 
     <table class="table table-striped">
         <tr>
+            <th>Room</th>
+            <td><c:out value="${room.id}"/></td>
+        </tr>
+        <tr>
             <th>Floor</th>
             <td><c:out value="${room.floor}"/></td>
         </tr>
         <tr>
-            <th>Team</th>
+            <th>Medical Team</th>
             <td><c:out value="${room.medicalTeam}"/></td>
         </tr>
     </table>

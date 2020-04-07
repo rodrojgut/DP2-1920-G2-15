@@ -11,6 +11,7 @@
     <table id="roomsTable" class="table table-striped">
         <thead>
         <tr>
+            <th style="width: 150px;">Room</th>
             <th style="width: 150px;">Floor</th>
             <th style="width: 200px;">Medical Team</th>
             <th>Actions</th>
@@ -20,9 +21,10 @@
         <c:forEach items="${rooms}" var="room">
             <tr>
                
-               
                 <td>
-                   
+                    <c:out value="${room.id}"/>
+                    </td>
+                <td>
                 <c:out value="${room.floor}"/>
                 </td>
                 <td>

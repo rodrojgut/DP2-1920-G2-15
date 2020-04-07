@@ -83,5 +83,33 @@ INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (4
 INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (5, 'Pipo era un buen perro', '2018-06-10 00:00:00',5,'admin1',5);
 INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (6, 'GUAU GUAU GUAAU', '2019-06-10 00:00:00',3,'owner1',6);
 
-INSERT INTO rooms VALUES (1,1);
-INSERT INTO room_medical_team VALUES (1,'algoooo');
+INSERT INTO rooms(id, floor) VALUES (1,1);
+INSERT INTO rooms(id, floor) VALUES (2,1);
+INSERT INTO rooms(id, floor) VALUES (3,2);
+INSERT INTO rooms(id, floor) VALUES (4,2);
+
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (1,'Tijeras');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (1,'Pinzas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (1,'Bandejas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (1,'Bisturi');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (1,'Mascarillas');
+
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (2,'Tijeras');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (2,'Pinzas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (2,'Bandejas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (2,'Bisturi');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (2,'Mascarillas');
+
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (3,'Tijeras');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (3,'Pinzas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (3,'Bandejas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (3,'Bisturi');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (3,'Mascarillas');
+
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Tijeras');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Pinzas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Bandejas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Bisturi');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Mascarillas');
+
+
