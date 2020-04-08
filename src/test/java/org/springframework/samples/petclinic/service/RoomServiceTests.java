@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -45,9 +47,7 @@ public class RoomServiceTests {
     @ParameterizedTest
     @ValueSource(ints = { -10, -40 })
     void shouldFindRoomByIdNegative(int argument) {
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            this.roomService.findRoomById(argument).getClass();
-        });
+        Assertions.assertThrows(NullPointerException.class, () -> {this.roomService.findRoomById(argument).getClass();});
     }
 
     @Test
@@ -70,9 +70,7 @@ public class RoomServiceTests {
         Room room2 = EntityUtils.getById(rooms, Room.class, 2);
         rooms.add(room1);
         rooms.add(room2);
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            this.roomService.findRoomById(9).getName().isEmpty();
-        });
+        Assertions.assertThrows(NullPointerException.class, () -> {this.roomService.findRoomById(9).getName().isEmpty();});
 
     }
 
@@ -105,21 +103,11 @@ public class RoomServiceTests {
         Room room = new Room();
         Collection<String> medicalTeam = new ArrayList<>();
         medicalTeam.add("bisturi");
-
         room.setName("aaaaaa");
         room.setFloor(1);
         room.setMedicalTeam(medicalTeam);
-        Assertions.assertThrows(Exception.class, () ->{room.setName("");
-            this.roomService.saveRoom(room);});
+        Assertions.assertThrows(ConstraintViolationException.class, () ->{room.setName("");this.roomService.saveRoom(room);});
 
-        // Validator validator = createValidator();
-
-        
-       /*  Set<ConstraintViolation<Room>> constraintViolations = validator.validate(room);
-        assertThat(constraintViolations.size()).isEqualTo(0);
-        ConstraintViolation<Room> violation = constraintViolations.iterator().next();
-        assertThat(violation.getPropertyPath().toString()).isEqualTo("floor");
-        //assertThat(violation.getMessage()).isEqualTo("must match "); */
 
     }
 
@@ -145,9 +133,7 @@ public class RoomServiceTests {
         String newName = null;
         room.setName(newName);
         this.roomService.saveRoom(room);
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            this.roomService.findRoomById(id).getName().isEmpty();
-        });
+        Assertions.assertThrows(NullPointerException.class, () -> {this.roomService.findRoomById(id).getName().isEmpty();});
 
     }
 
@@ -167,8 +153,6 @@ public class RoomServiceTests {
     @ValueSource(ints = { -16, -30 })
     void shouldThrowExceptionDeleteRoom(int id) {
         Room room1 = this.roomService.findRoomById(id);
-        Assertions.assertThrows(InvalidDataAccessApiUsageException.class, () -> {
-            this.roomService.delete(room1);
-        });
+        Assertions.assertThrows(InvalidDataAccessApiUsageException.class, () -> {this.roomService.delete(room1);});
     }
 }
