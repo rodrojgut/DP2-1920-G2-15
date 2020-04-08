@@ -109,7 +109,7 @@ public class DiseaseServiceTests{
 		assertThat(constraintViolations.size()).isEqualTo(1); 
 		ConstraintViolation<Disease> violation =   constraintViolations.iterator().next();
 		assertThat(violation.getPropertyPath().toString()).isEqualTo("severity"); 
-		assertThat(violation.getMessage()).isEqualTo("tiene que corresponder a la expresión regular "+"\""+s+"\""); 
+		assertThat(violation.getMessage()).isEqualTo("must match "+"\""+s+"\""); 
 		
 	}
 	//Update positive
