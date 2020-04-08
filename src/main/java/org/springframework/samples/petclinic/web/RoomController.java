@@ -24,9 +24,9 @@ public class RoomController {
     private static final String VIEWS_ROOMS_CREATE_OR_UPDATE_FORM = "rooms/createOrUpdateRoomForm";
 
 	@Autowired
-	public RoomController(RoomService roomService/* , final BookingService bookingService */) {
+	public RoomController(RoomService roomService) {
 		this.roomService = roomService;
-		// this.bookingService = bookingService;
+		
 	}
 
 	@GetMapping("/rooms/roomsList")
