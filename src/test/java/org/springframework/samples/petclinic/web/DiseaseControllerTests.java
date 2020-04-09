@@ -46,8 +46,7 @@ public class DiseaseControllerTests {
 	private static final int TEST_DISEASE_ID_NEGATIVE = -100;
 	private static final int TEST_PET_ID = 1;
 	
-	@Autowired
-	private DiseaseController diseaseController;
+	
 	
 	@MockBean
 	private DiseaseService	diseaseService;
@@ -179,11 +178,7 @@ public class DiseaseControllerTests {
 		.andExpect(view().name("exception"));
    	}
     
-    @Test
-	void testNotShowDisease() throws Exception {
-	mockMvc.perform(get("/diseases/{diseaseId}", TEST_DISEASE_ID_NEGATIVE)).
-	andExpect(status().is(401));
-	}
+   
     
     @WithMockUser(value = "spring")
   	@Test
@@ -197,7 +192,7 @@ public class DiseaseControllerTests {
 	@Test
 	void testDelete() throws Exception{
 	  this.mockMvc.perform(MockMvcRequestBuilders
-	  .get("/diseases/delete/{diseaseId}", DiseaseControllerTests.TEST_DISEASE_ID).queryParam("id", "1"))
+	  .get("/diseases/delete/{diseaseId}",TEST_DISEASE_ID).queryParam("id", "1"))
 	  .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 	  .andExpect(MockMvcResultMatchers.view().name("redirect:/diseases/diseasesList"));
   
