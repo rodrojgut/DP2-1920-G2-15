@@ -21,9 +21,8 @@ public class Chip extends BaseEntity {
 	@Column(name = "model")
 	private String	model;
 
-	@NotEmpty
 	@Column(name = "geolocatable")
-	private Boolean	geolocatable;
+	private boolean	geolocatable;
 
 	@OneToOne
 	@JoinColumn(name = "pet_id", referencedColumnName = "id")
@@ -50,7 +49,7 @@ public class Chip extends BaseEntity {
 		return this.geolocatable;
 	}
 
-	public void setGeolocatable(final Boolean geolocatable) {
+	public void setGeolocatable(final boolean geolocatable) {
 		this.geolocatable = geolocatable;
 	}
 

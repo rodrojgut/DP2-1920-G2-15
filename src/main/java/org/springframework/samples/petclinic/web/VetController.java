@@ -35,6 +35,8 @@ public class VetController {
 
 	private final VetService vetService;
 
+	
+
 	@Autowired
 	public VetController(VetService clinicService) {
 		this.vetService = clinicService;
@@ -48,6 +50,9 @@ public class VetController {
 		Vets vets = new Vets();
 		vets.getVetList().addAll(this.vetService.findVets());
 		model.put("vets", vets);
+
+	
+		
 		return "vets/vetList";
 	}
 
@@ -60,5 +65,5 @@ public class VetController {
 		vets.getVetList().addAll(this.vetService.findVets());
 		return vets;
 	}
-
+	
 }
