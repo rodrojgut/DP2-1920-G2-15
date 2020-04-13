@@ -16,23 +16,23 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/owners/{ownerId}/pets/{petId}")
 public class ChipController {
 
-	private ChipService	chipService;
+	private final ChipService	chipService;
 	
 	@Autowired
-	public ChipController(ChipService chipService) {
+	public ChipController(final ChipService chipService) {
 		this.chipService = chipService;
 	}
 	
 	@GetMapping("/chips/{chipId}")
-	public ModelAndView showChip(@PathVariable("chipId") int chipId) {
-		ModelAndView mav = new ModelAndView("chips/chipDetails");
+	public ModelAndView showChip(@PathVariable("chipId") final int chipId) {
+		final ModelAndView mav = new ModelAndView("chips/chipDetails");
 		mav.addObject(chipService.findChipById(chipId));
 		return mav;
 	}
 	
 	@GetMapping(value = "/chips/{chipId}/delete")
-	public String removeChip(@PathVariable("chipId") int chipId, ModelMap model) {
-		Chip chip = chipService.findChipById(chipId);
+	public String removeChip(@PathVariable("chipId") final int chipId, final ModelMap model) {
+		final Chip chip = chipService.findChipById(chipId);
 		chipService.deleteChip(chip);
 		model.addAttribute("message", "Chip succefully deleted!");
 		return "redirect:/owners/{ownerId}";
