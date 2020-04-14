@@ -18,7 +18,7 @@ public class Disease extends BaseEntity {
 	private String  symptoms;
 
 	
-    @Pattern(regexp = "LOW|MEDIUM|HIGH")
+    @Pattern(regexp = "LOW|MEDIUM|HIGH",message="must match LOW|MEDIUM|HIGH")
     @Column(name = "severity")
     private String severity;
      	
