@@ -187,13 +187,13 @@ class OpinionControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessDeleteOpinionSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/{opinionId}/delete", OpinionControllerTests.TEST_OPINION_ID)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("/opinions/listMine"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/{opinionId}/delete", OpinionControllerTests.TEST_OPINION_ID)).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+			.andExpect(MockMvcResultMatchers.view().name("redirect:/opinions/listMine"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessDeleteOpinionFail() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/{opinionId}/delete", 2)).andExpect(MockMvcResultMatchers.model().attribute("message", "Opinion not found.")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("/opinions/listMine"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/{opinionId}/delete", 2)).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/opinions/listMine"));
 	}
 }

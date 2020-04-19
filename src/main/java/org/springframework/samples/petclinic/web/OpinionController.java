@@ -127,8 +127,7 @@ public class OpinionController {
 		} else {
 			modelMap.addAttribute("message", "Opinion not found.");
 		}
-		System.out.println(modelMap.getAttribute("message"));
-		return "/opinions/listMine";
+		return "redirect:/opinions/listMine";
 	}
 
 }
