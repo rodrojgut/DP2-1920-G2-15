@@ -29,6 +29,10 @@ public class Booking extends BaseEntity {
     @ManyToOne
     private Vet vet;
 
+    @NotNull
+    @ManyToOne
+    private Room room;
+
     public LocalDateTime getDate() {
         return date;
     }
