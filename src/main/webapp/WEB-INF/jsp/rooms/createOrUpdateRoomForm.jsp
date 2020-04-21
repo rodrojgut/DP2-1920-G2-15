@@ -14,7 +14,7 @@
         <div class="form-group has-feedback">
         
         	<petclinic:inputField label="Name" name="name"/>
-			<form:hidden path="floor"/>
+		<petclinic:inputField label="Floor" name="floor"/>
             <petclinic:inputField label="Medical Team" name="medicalTeam"/>
         </div>
         <div class="form-group">
