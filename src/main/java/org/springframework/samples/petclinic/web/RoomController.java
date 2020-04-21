@@ -91,7 +91,7 @@ public class RoomController {
 			return VIEWS_ROOMS_CREATE_OR_UPDATE_FORM;
 		} else {
 			Room roomToUpdate = this.roomService.findRoomById(roomId);
-			BeanUtils.copyProperties(room, roomToUpdate, "id", "floor");
+			BeanUtils.copyProperties(room, roomToUpdate, "id");
 			try {
 				this.roomService.saveRoom(roomToUpdate);
 			} catch (DuplicateFormatFlagsException ex) {
