@@ -1,5 +1,5 @@
-package org.springframework.samples.petclinic.model;
 
+package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDateTime;
 
@@ -10,60 +10,68 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="bookings")
+@Table(name = "bookings")
 public class Booking extends BaseEntity {
 
-    @Column(name = "date")
-    @NotNull
-    private LocalDateTime date;
+	@Column(name = "date")
+	@NotNull
+	private LocalDateTime	date;
 
-    @NotNull
-    @ManyToOne
-    private Pet pet;
-    
-    @NotNull
-    @ManyToOne 
-    private Owner owner;
+	@NotNull
+	@ManyToOne
+	private Pet				pet;
 
-    @NotNull
-    @ManyToOne
-    private Vet vet;
+	@NotNull
+	@ManyToOne
+	private Owner			owner;
 
-    @NotNull
-    @ManyToOne
-    private Room room;
+	@NotNull
+	@ManyToOne
+	private Vet				vet;
 
-    public LocalDateTime getDate() {
-        return date;
-    }
+	@NotNull
+	@ManyToOne
+	private Room			room;
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
 
-    public Pet getPet() {
-        return pet;
-    }
+	public LocalDateTime getDate() {
+		return this.date;
+	}
 
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
+	public void setDate(final LocalDateTime date) {
+		this.date = date;
+	}
 
-    public Owner getOwner() {
-        return owner;
-    }
+	public Pet getPet() {
+		return this.pet;
+	}
 
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
+	public void setPet(final Pet pet) {
+		this.pet = pet;
+	}
 
-    public Vet getVet() {
-        return vet;
-    }
+	public Owner getOwner() {
+		return this.owner;
+	}
 
-    public void setVet(Vet vet) {
-        this.vet = vet;
-    }
+	public void setOwner(final Owner owner) {
+		this.owner = owner;
+	}
 
-    
+	public Vet getVet() {
+		return this.vet;
+	}
+
+	public void setVet(final Vet vet) {
+		this.vet = vet;
+	}
+
+	public Room getRoom() {
+		return this.room;
+	}
+
+	public void setRoom(final Room room) {
+		this.room = room;
+	}
+
 }

@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +9,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookingService {
 
-    private BookingRepository bookingRepository;
+	private BookingRepository bookingRepository;
 
-    @Autowired
-    public BookingService(BookingRepository bookingRepository){
-        this.bookingRepository = bookingRepository;
-    }
 
-    public void saveBooking(Booking booking){
-        this.bookingRepository.save(booking);
-    }
+	@Autowired
+	public BookingService(final BookingRepository bookingRepository) {
+		this.bookingRepository = bookingRepository;
+	}
+
+	public void saveBooking(final Booking booking) {
+		this.bookingRepository.save(booking);
+	}
+
+	public Iterable<Booking> findAll() {
+		return this.bookingRepository.findAll();
+	}
+
 }
