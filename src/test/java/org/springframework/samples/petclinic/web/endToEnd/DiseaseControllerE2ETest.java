@@ -81,11 +81,11 @@ public class DiseaseControllerE2ETest {
 	@Test
 	void testShowDisease() throws Exception {
 
-		mockMvc.perform(get("/diseases/{diseaseId}", TEST_DISEASE_ID).requestAttr("diseaseId", 1))
+		mockMvc.perform(get("/diseases/{diseaseId}", 2).requestAttr("diseaseId", 2))
 				.andExpect(status().isOk())
-				.andExpect(model().attribute("disease", hasProperty("cure", is("malisimo de la muerte"))))
-				.andExpect(model().attribute("disease", hasProperty("severity", is("LOW"))))
-				.andExpect(model().attribute("disease", hasProperty("symptoms", is("compra paracetamol"))))
+				.andExpect(model().attribute("disease", hasProperty("cure", is("tengo el hambre"))))
+				.andExpect(model().attribute("disease", hasProperty("severity", is("MEDIUM"))))
+				.andExpect(model().attribute("disease", hasProperty("symptoms", is("la vas a espichar"))))
 				.andExpect(model().attribute("disease", hasProperty("pet")))
 				.andExpect(model().attributeExists("disease")).andExpect(view().name("diseases/diseaseDetails"));
 
@@ -101,7 +101,7 @@ public class DiseaseControllerE2ETest {
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
 	void testInitUpdateDiseaseForm() throws Exception {
-		mockMvc.perform(get("/diseases/{diseaseId}/edit", TEST_DISEASE_ID).requestAttr("diseaseId", -1)).andExpect(status().isOk())
+		mockMvc.perform(get("/diseases/{diseaseId}/edit", TEST_DISEASE_ID).requestAttr("diseaseId", 1)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("disease"))
 				.andExpect(model().attribute("disease", hasProperty("cure", is("malisimo de la muerte"))))
 				.andExpect(model().attribute("disease", hasProperty("severity", is("LOW"))))
@@ -132,7 +132,7 @@ public class DiseaseControllerE2ETest {
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
 	void testDelete() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/diseases/delete/{diseaseId}", TEST_DISEASE_ID).queryParam("id","1"))
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/diseases/delete/{diseaseId}", 3).requestAttr("id","3"))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.view().name("redirect:/diseases/diseasesList"));
 
