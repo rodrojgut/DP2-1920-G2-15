@@ -26,6 +26,7 @@ public class DiseaseControllerE2ETest {
 
 	private static final int TEST_PET_ID = 1;
 	private static final int TEST_DISEASE_ID = 1;
+	private static final int TEST_DISEASE_ID2 = 2;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -101,6 +102,7 @@ public class DiseaseControllerE2ETest {
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
 	void testInitUpdateDiseaseForm() throws Exception {
+
 		mockMvc.perform(get("/diseases/{diseaseId}/edit", TEST_DISEASE_ID).requestAttr("diseaseId", 1)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("disease"))
 				.andExpect(model().attribute("disease", hasProperty("cure", is("malisimo de la muerte"))))
