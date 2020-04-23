@@ -26,6 +26,7 @@ public class DiseaseControllerE2ETest {
 
 	private static final int TEST_PET_ID = 1;
 	private static final int TEST_DISEASE_ID = 1;
+	private static final int TEST_DISEASE_ID2 = 2;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -101,7 +102,7 @@ public class DiseaseControllerE2ETest {
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
 	void testInitUpdateDiseaseForm() throws Exception {
-		mockMvc.perform(get("/diseases/{diseaseId}/edit", TEST_DISEASE_ID).requestAttr("diseaseId", -1)).andExpect(status().isOk())
+		mockMvc.perform(get("/diseases/{diseaseId}/edit", TEST_DISEASE_ID)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("disease"))
 				.andExpect(model().attribute("disease", hasProperty("cure", is("malisimo de la muerte"))))
 				.andExpect(model().attribute("disease", hasProperty("severity", is("LOW"))))
@@ -132,7 +133,7 @@ public class DiseaseControllerE2ETest {
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
 	void testDelete() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/diseases/delete/{diseaseId}", TEST_DISEASE_ID).queryParam("id","1"))
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/diseases/delete/{diseaseId}", TEST_DISEASE_ID2).requestAttr("diseaseId", 2))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.view().name("redirect:/diseases/diseasesList"));
 
