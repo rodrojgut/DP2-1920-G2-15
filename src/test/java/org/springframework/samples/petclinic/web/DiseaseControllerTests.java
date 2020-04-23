@@ -205,7 +205,7 @@ public class DiseaseControllerTests {
 	void testDeleteIncorrectId() throws Exception {
 		mockMvc.perform(get("/diseases/delete/{diseaseId}",TEST_DISEASE_ID_NEGATIVE))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/diseases/diseasesList"));
+				.andExpect(view().name("redirect:/oups"));
 	}
 
 }

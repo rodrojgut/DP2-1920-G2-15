@@ -41,6 +41,10 @@ public class DiseaseController {
 
 	@GetMapping("/diseases/{diseaseId}")
 	public ModelAndView showDisease(@PathVariable("diseaseId") final int diseaseId) {
+		
+		if(diseaseId<=0) {
+			return new ModelAndView("exception");
+		}
 		final ModelAndView mav = new ModelAndView("diseases/diseaseDetails");
 		mav.addObject(this.diseaseService.findDiseaseById(diseaseId));
 		return mav;
@@ -103,6 +107,10 @@ public class DiseaseController {
 
 	@GetMapping(value = "/diseases/delete/{diseaseId}")
 	public String deleteDisease(@PathVariable("diseaseId") int diseaseId, ModelMap modelMap) {
+
+		if(diseaseId<=0) {
+			return "redirect:/oups";
+		}
 		Disease disease = diseaseService.findDiseaseById(diseaseId);
 		this.diseaseService.delete(disease);
 		modelMap.addAttribute("message", "Disease succefully deleted!");

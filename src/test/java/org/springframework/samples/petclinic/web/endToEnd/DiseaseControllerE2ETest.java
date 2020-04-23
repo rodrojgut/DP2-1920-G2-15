@@ -26,7 +26,7 @@ public class DiseaseControllerE2ETest {
 
 	private static final int TEST_PET_ID = 1;
 	private static final int TEST_DISEASE_ID = 1;
-	private static final int TEST_DISEASE_ID2 = 2;
+	private static final int TEST_DISEASE_ID_NEGATIVE = -1;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -92,11 +92,12 @@ public class DiseaseControllerE2ETest {
 
 	}
 
-	@WithMockUser(username = "admin1", authorities = { "admin" })
+	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
 	void testShowDiseaseError() throws Exception {
-		mockMvc.perform(get("/diseases/{diseaseId}", TEST_DISEASE_ID)).andExpect(status().is4xxClientError())
-				.andExpect(status().reason("Forbidden"));
+		mockMvc.perform(get("/diseases/{diseaseId}", TEST_DISEASE_ID_NEGATIVE).requestAttr("diseaseId", TEST_DISEASE_ID_NEGATIVE)).
+		andExpect(status().is2xxSuccessful())
+				.andExpect(view().name("exception"));
 	}
 
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
@@ -144,7 +145,7 @@ public class DiseaseControllerE2ETest {
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
 	void testDeleteIncorrectId() throws Exception {
-		mockMvc.perform(get("/diseases/delete/{diseaseId}", TEST_DISEASE_ID).requestAttr("diseaseId", -1))
-				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/diseases/diseasesList"));
+		mockMvc.perform(get("/diseases/delete/{diseaseId}", TEST_DISEASE_ID_NEGATIVE).requestAttr("diseaseId", TEST_DISEASE_ID_NEGATIVE))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/oups"));
 	}
 }
