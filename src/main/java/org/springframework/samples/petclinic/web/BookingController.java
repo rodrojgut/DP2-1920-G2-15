@@ -32,35 +32,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class BookingController {
 
-	private final BookingService bookingService;
-	
-	private final VetService vetService;
-	
-	private final OwnerService ownerService;
+	private final BookingService	bookingService;
 
-	private final PetService petService;
+	private final VetService		vetService;
 
-	private final RoomService roomService;
-	
-	private static final String	VIEWS_BOOKING_CREATE_OR_UPDATE_FORM	= "bookings/createOrUpdateBookingForm";
+	private final OwnerService		ownerService;
+
+	private final PetService		petService;
+
+	private final RoomService		roomService;
+
+	private static final String		VIEWS_BOOKING_CREATE_OR_UPDATE_FORM	= "bookings/createOrUpdateBookingForm";
 
 
 	@Autowired
-	public BookingController( BookingService bookingService,VetService vetService,
-			 OwnerService ownerService, PetService petService, RoomService roomService ) {
+	public BookingController(final BookingService bookingService, final VetService vetService, final OwnerService ownerService, final PetService petService, final RoomService roomService) {
 		this.bookingService = bookingService;
 		this.vetService = vetService;
 		this.ownerService = ownerService;
 		this.petService = petService;
 		this.roomService = roomService;
 
-	
 	}
 
-
-	private void init(ModelMap model){
+	private void init(final ModelMap model) {
 		Collection<Vet> vets = this.vetService.findVets();
-		model.put("vets",vets);
+		model.put("vets", vets);
 
 		Collection<Pet> pets = this.petService.findAllPets();
 		model.put("pets", pets);
@@ -70,28 +67,24 @@ public class BookingController {
 	}
 
 	@GetMapping(value = "/new")
-	public String createInitForm(ModelMap model){
-		 Booking booking = new Booking();
-		 model.put("booking", booking);
-		 init(model); 
+	public String createInitForm(final ModelMap model) {
+		Booking booking = new Booking();
+		model.put("booking", booking);
+		this.init(model);
 
-		 return VIEWS_BOOKING_CREATE_OR_UPDATE_FORM;
+		return BookingController.VIEWS_BOOKING_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/new")
-	public String proccessCreationForm(@Valid Booking booking, final BindingResult result, final ModelMap model,
-	HttpServletRequest request, 
-	@RequestParam(value = "roomId") Integer roomId,
-	@RequestParam(value = "petId") Integer petId,
-	@RequestParam(value = "vetId") Integer vetId,
-	@RequestParam(value = "fecha") String date){
-	
+	public String proccessCreationForm(@Valid final Booking booking, final BindingResult result, final ModelMap model, final HttpServletRequest request, @RequestParam(value = "roomId") final Integer roomId,
+		@RequestParam(value = "petId") final Integer petId, @RequestParam(value = "vetId") final Integer vetId, @RequestParam(value = "fecha") final String date) {
+
 		if (result.hasErrors()) {
 			model.put("booking", booking);
-			init(model);
-			return VIEWS_BOOKING_CREATE_OR_UPDATE_FORM;
-		} else {	
-			
+			this.init(model);
+			return BookingController.VIEWS_BOOKING_CREATE_OR_UPDATE_FORM;
+		} else {
+
 			Pet pet = this.petService.findPetById(petId);
 			Owner owner = pet.getOwner();
 			Room room = this.roomService.findRoomById(roomId);
@@ -100,14 +93,15 @@ public class BookingController {
 			booking.setPet(pet);
 			booking.setVet(vet);
 			booking.setOwner(owner);
-			booking.setRoom(room);;
+			booking.setRoom(room);
+			;
 
 			this.bookingService.save(booking);
 			return "redirect:/bookings/list";
-		
+
 		}
 	}
-	
+
 	@GetMapping(value = "/list")
 	public String listOpinion(final ModelMap modelMap) {
 		Iterable<Booking> bookings = this.bookingService.findAll();
@@ -116,10 +110,10 @@ public class BookingController {
 	}
 
 	@GetMapping(value = "/edit/{idBooking}")
-	public String initUpdateForm(@PathVariable("idBooking") Integer idBooking, ModelMap model){
+	public String initUpdateForm(@PathVariable("idBooking") final Integer idBooking, final ModelMap model) {
 		Optional<Booking> b = this.bookingService.findById(idBooking);
-		
-		if(b.isPresent()){
+
+		if (b.isPresent()) {
 			Booking booking = b.get();
 			Integer petId = booking.getPet().getId();
 			Integer vetId = booking.getVet().getId();
@@ -130,28 +124,24 @@ public class BookingController {
 			model.put("oldRoomId", roomId);
 			model.put("oldVetId", vetId);
 			model.put("fecha", date);
-			init(model);
-			return VIEWS_BOOKING_CREATE_OR_UPDATE_FORM;
-		}else{
-		return "redirect:/bookings/list";
+			this.init(model);
+			return BookingController.VIEWS_BOOKING_CREATE_OR_UPDATE_FORM;
+		} else {
+			return "redirect:/bookings/list";
 		}
 
 	}
 
 	@PostMapping(value = "/edit/{idBooking}")
-	public String proccessUpdateForm(@Valid Booking booking,@PathVariable("idBooking") Integer idBooking ,final BindingResult result, final ModelMap model,
-	HttpServletRequest request, 
-	@RequestParam(value = "roomId") String roomId,
-	@RequestParam(value = "petId") Integer petId,
-	@RequestParam(value = "vetId") Integer vetId,
-	@RequestParam(value = "fecha") String date){
-	
+	public String proccessUpdateForm(@Valid final Booking booking, @PathVariable("idBooking") final Integer idBooking, final BindingResult result, final ModelMap model, final HttpServletRequest request, @RequestParam(value = "roomId") final String roomId,
+		@RequestParam(value = "petId") final Integer petId, @RequestParam(value = "vetId") final Integer vetId, @RequestParam(value = "fecha") final String date) {
+
 		if (result.hasErrors()) {
 			model.put("booking", booking);
-			init(model);
-			return VIEWS_BOOKING_CREATE_OR_UPDATE_FORM;
-		} else {	
-			
+			this.init(model);
+			return BookingController.VIEWS_BOOKING_CREATE_OR_UPDATE_FORM;
+		} else {
+
 			Pet pet = this.petService.findPetById(petId);
 			Owner owner = pet.getOwner();
 			Room room = this.roomService.findRoomById(new Integer(roomId));
@@ -161,12 +151,24 @@ public class BookingController {
 			booking.setPet(pet);
 			booking.setVet(vet);
 			booking.setOwner(owner);
-			booking.setRoom(room);;
+			booking.setRoom(room);
 
 			this.bookingService.save(booking);
 			return "redirect:/bookings/list";
-		
+
 		}
 	}
-}
 
+	@GetMapping(value = "/{bookingId}/delete")
+	public String deleteBooking(@PathVariable("bookingId") final Integer bookingId, final ModelMap modelMap) {
+		Optional<Booking> op = this.bookingService.findById(bookingId);
+		String ret = "/exception";
+		if (op.isPresent()) {
+			this.bookingService.deleteBooking(op.get());
+			ret = "redirect:/bookings/list";
+		} else {
+			modelMap.addAttribute("message", "Opinion not found.");
+		}
+		return ret;
+	}
+}

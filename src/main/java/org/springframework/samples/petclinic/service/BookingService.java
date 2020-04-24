@@ -29,14 +29,18 @@ public class BookingService {
 		return this.bookingRepository.findAll();
 	}
 
-
-    @Transactional
-    public void save(Booking booking){
+	@Transactional
+	public void save(final Booking booking) {
 		this.bookingRepository.save(booking);
 	}
-	
+
 	@Transactional
-	public Optional<Booking> findById(Integer id){
+	public Optional<Booking> findById(final Integer id) {
 		return this.bookingRepository.findById(id);
+	}
+
+	@Transactional
+	public void deleteBooking(final Booking book) {
+		this.bookingRepository.delete(book);
 	}
 }
