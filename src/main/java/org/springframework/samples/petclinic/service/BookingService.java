@@ -1,6 +1,8 @@
 
 package org.springframework.samples.petclinic.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Booking;
 import org.springframework.samples.petclinic.repository.BookingRepository;
@@ -25,4 +27,9 @@ public class BookingService {
 		return this.bookingRepository.findAll();
 	}
 
+
+    @Transactional
+    public void save(Booking booking){
+        this.bookingRepository.save(booking);
+    }
 }
