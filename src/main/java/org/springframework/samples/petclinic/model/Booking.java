@@ -1,43 +1,44 @@
 package org.springframework.samples.petclinic.model;
 
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+
 
 @Entity
 @Table(name="bookings")
 public class Booking extends BaseEntity {
 
     @Column(name = "date")
-    @NotNull
-    private LocalDateTime date;
+    private LocalDate date;
 
-    @NotNull
+    
     @ManyToOne
     private Pet pet;
     
-    @NotNull
+   
     @ManyToOne 
     private Owner owner;
 
-    @NotNull
+    
     @ManyToOne
     private Vet vet;
 
-    @NotNull
+    
     @ManyToOne
     private Room room;
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -63,6 +64,14 @@ public class Booking extends BaseEntity {
 
     public void setVet(Vet vet) {
         this.vet = vet;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     

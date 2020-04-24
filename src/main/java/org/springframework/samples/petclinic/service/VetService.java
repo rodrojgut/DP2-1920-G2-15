@@ -55,4 +55,10 @@ public class VetService {
 	public Collection<Vet> findVets() throws DataAccessException {
 		return vetRepository.findAll();
 	}	
+
+	@Transactional
+	public Vet findById(Integer id){
+		return vetRepository.findById(id);
+	}
+
 }

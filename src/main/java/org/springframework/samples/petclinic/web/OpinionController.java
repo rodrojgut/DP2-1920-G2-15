@@ -9,14 +9,24 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.HttpJspPage;
 import javax.validation.Valid;
+import javax.xml.ws.spi.http.HttpHandler;
 
+import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.springframework.samples.petclinic.model.Opinion;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.OpinionService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.access.intercept.RequestKey;
+import org.springframework.security.web.authentication.preauth.RequestAttributeAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestVariablesExtractor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -25,6 +35,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 /**
  * OpinionController
@@ -52,6 +63,7 @@ public class OpinionController {
 		model.put("opinion", opinion);
 		model.put("vetId", vetId);
 		return OpinionController.VIEWS_OPINION_CREATE_OR_UPDATE_FORM;
+		
 	}
 
 	@PostMapping(value = "/opinions/new/{vetId}")
