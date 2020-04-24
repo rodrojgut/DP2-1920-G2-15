@@ -13,7 +13,7 @@
 	</c:if>
 	
 
-    <spring:url value="/bookings/create" var="createUrl">
+    <spring:url value="/bookings/new" var="createUrl">
   	</spring:url>
     <a href="${fn:escapeXml(createUrl)}" class="btn btn-default">Book a room</a>
 	<br></br>
