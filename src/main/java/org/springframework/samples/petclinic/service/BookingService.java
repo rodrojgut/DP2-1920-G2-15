@@ -1,6 +1,8 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,11 @@ public class BookingService {
 
     @Transactional
     public void save(Booking booking){
-        this.bookingRepository.save(booking);
-    }
+		this.bookingRepository.save(booking);
+	}
+	
+	@Transactional
+	public Optional<Booking> findById(Integer id){
+		return this.bookingRepository.findById(id);
+	}
 }
