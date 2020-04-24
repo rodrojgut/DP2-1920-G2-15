@@ -3,12 +3,9 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Optional;
 
-
 import javax.validation.Valid;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.samples.petclinic.model.Opinion;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vet;
@@ -27,14 +24,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OpinionService {
 
-	
 	private SpringDataOpinionRepository	opinionRepo;
-	
+
 	private VetRepository				vetRepo;
 
 	private OwnerRepository				ownerRepo;
 
 	private UserRepository				userRepo;
+
 
 	@Autowired
 	public OpinionService(final SpringDataOpinionRepository repository, final VetRepository vetRepo, final OwnerRepository ownerRepo, final UserRepository userRepo) {
@@ -77,7 +74,6 @@ public class OpinionService {
 	@Transactional
 	public void deleteOpinion(final Opinion opinion) {
 		opinion.getVet().removeOpinion(opinion);
-		//opinion.getUser().removeOpinion(opinion);
 		this.opinionRepo.delete(opinion);
 	}
 }

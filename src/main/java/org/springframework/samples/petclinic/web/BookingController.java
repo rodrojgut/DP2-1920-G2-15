@@ -162,7 +162,7 @@ public class BookingController {
 	@GetMapping(value = "/{bookingId}/delete")
 	public String deleteBooking(@PathVariable("bookingId") final Integer bookingId, final ModelMap modelMap) {
 		Optional<Booking> op = this.bookingService.findById(bookingId);
-		String ret = "/error";
+		String ret = "/exception";
 		if (op.isPresent()) {
 			this.bookingService.deleteBooking(op.get());
 			ret = "redirect:/bookings/list";
