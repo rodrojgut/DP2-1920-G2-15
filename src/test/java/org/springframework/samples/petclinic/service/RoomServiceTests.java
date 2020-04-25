@@ -41,8 +41,8 @@ public class RoomServiceTests {
     // FindbyId positive
     @Test
     void shouldFindRoomById() {
-        Room room = this.roomService.findRoomById(1);
-        assertThat(room.getId()).isEqualTo(1);
+        Room room = this.roomService.findRoomById(4);
+        assertThat(room.getId()).isEqualTo(4);
 
     }
 
