@@ -4,10 +4,8 @@ jdk: oraclejdk8
 services:
   - mysql
 before_install:
-<<<<<<< HEAD
-- chmod +x mvnw
-on:
-    branch: master
+  - mysql -e 'CREATE DATABASE petclinic;'
+script: mvn test -Dspring.profiles.active=mysql-travis
 
 addons:
     sonarcloud:
@@ -17,7 +15,3 @@ addons:
 script:
         # other script steps might be done before running the actual analysis
         - sonar-scanner
-=======
-  - mysql -e 'CREATE DATABASE petclinic;'
-script: mvn test -Dspring.profiles.active=mysql-travis
->>>>>>> 51b2f983fd4b50807fedbefc8329e755b187c910
