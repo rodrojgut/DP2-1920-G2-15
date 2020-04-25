@@ -3,7 +3,7 @@ language: java
 jdk: oraclejdk8
 services:
   - mysql
-  addons:
+addons:
   sonarcloud:
     organization: "org.springframework.samples:spring-petclinic"
     token:
