@@ -13,11 +13,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.samples.petclinic.model.Room;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -33,11 +38,11 @@ public class RoomControllerE2ETest {
 
 	@WithMockUser(username = "admin1", authorities = { "admin" })
 	@Test
-  	void testListRoom() throws Exception {
-  		mockMvc.perform(get("/rooms/roomsList")).andExpect(status().isOk()).
-  		andExpect(MockMvcResultMatchers.model().attributeExists("rooms"))
-  		.andExpect(view().name("rooms/roomsList"));
-	  }
+	void testListRoom() throws Exception {
+		mockMvc.perform(get("/rooms/roomsList")).andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attributeExists("rooms"))
+				.andExpect(view().name("rooms/roomsList"));
+	}
 
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
@@ -45,75 +50,110 @@ public class RoomControllerE2ETest {
 		mockMvc.perform(get("/rooms/roomsList")).andExpect(status().is4xxClientError())
 				.andExpect(status().reason("Forbidden"));
 	}
+
 	@WithMockUser(username = "admin1", authorities = { "admin" })
 	@Test
 	void testShowRoom() throws Exception {
 
 		mockMvc.perform(get("/rooms/{roomId}", TEST_ROOM_ID_POSITIVE))
-		.andExpect(model().attribute("room", hasProperty("floor", is(1))))
-		.andExpect(model().attribute("room", hasProperty("name", is("Quirofano1"))))			
-		.andExpect(view().name("rooms/roomDetails"));
+				.andExpect(model().attribute("room", hasProperty("floor", is(1))))
+				.andExpect(model().attribute("room", hasProperty("name", is("Quirofano1"))))
+				.andExpect(view().name("rooms/roomDetails"));
 
-		}
-	    
+	}
+
 	@WithMockUser(username = "admin1", authorities = { "admin" })
 	@Test
 	void testShowRoomNegative() throws Exception {
-			mockMvc.perform(get("/rooms/{roomId}",  TEST_ROOM_ID_NEGATIVE))
-			.andExpect(status().is2xxSuccessful())
-			.andExpect(view().name("exception"));
-		}
-	
-	    
+		mockMvc.perform(get("/rooms/{roomId}", TEST_ROOM_ID_NEGATIVE)).andExpect(status().is2xxSuccessful())
+				.andExpect(view().name("exception"));
+	}
+
 	@WithMockUser(username = "admin1", authorities = { "admin" })
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/rooms/new")).andExpect(status().isOk())
-				.andExpect(model().attributeExists("room"))
+		mockMvc.perform(get("/rooms/new")).andExpect(status().isOk()).andExpect(model().attributeExists("room"))
 				.andExpect(view().name("rooms/createOrUpdateRoomForm"));
 	}
-
 
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
 	void testInitCreationFormFail() throws Exception {
-		mockMvc.perform(get("/rooms/new")).andExpect(status().is(403))
-				.andExpect(status().reason("Forbidden"));
+		mockMvc.perform(get("/rooms/new")).andExpect(status().is(403)).andExpect(status().reason("Forbidden"));
 	}
-
 
 	@WithMockUser(username = "admin1", authorities = { "admin" })
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/rooms/new")
-				.with(csrf())
-				.param("floor", "10")
-				.param("medicalTeam", "Tijeras")
-				.param("name", "Quirofano 5"))
-				.andExpect(status().is3xxRedirection())
+		mockMvc.perform(post("/rooms/new").with(csrf()).param("floor", "10").param("medicalTeam", "Tijeras")
+				.param("name", "Quirofano 5")).andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/rooms/5"));
 	}
 
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
 	void testProcessCreationFormRolError() throws Exception {
-		mockMvc.perform(post("/rooms/new"))
-				.andExpect(status().is(403))
-				.andExpect(status().reason("Forbidden"));
+		mockMvc.perform(post("/rooms/new")).andExpect(status().is(403)).andExpect(status().reason("Forbidden"));
 	}
 
-	
 	@WithMockUser(username = "admin1", authorities = { "admin" })
 	@Test
 	void testProcessCreationFormIdError() throws Exception {
-		mockMvc.perform(post("/rooms/new")
-		.with(csrf())
-		.param("floor", "pero si esto es un integer"))
-		.andExpect(model().attributeHasErrors("room"))
-		.andExpect(model().attributeHasFieldErrors("room", "floor"))
-		.andExpect(view().name("rooms/createOrUpdateRoomForm"));
-}
-	
+		mockMvc.perform(post("/rooms/new").with(csrf()).param("floor", "pero si esto es un integer"))
+				.andExpect(model().attributeHasErrors("room"))
+				.andExpect(model().attributeHasFieldErrors("room", "floor"))
+				.andExpect(view().name("rooms/createOrUpdateRoomForm"));
+	}
 
+	@WithMockUser(username = "admin1", authorities = { "admin" })
+	@Test
+	void testInitUpdateForm() throws Exception {
+		Room room = new Room();
+		Collection<String> medicalTeam = new ArrayList<>();
+		medicalTeam.add("Tijeras, Pinzas, Bandejas, Bisturi, Mascarillas");
+		room.setMedicalTeam(medicalTeam);
+		mockMvc.perform(get("/rooms/{roomId}/edit", 3)).andExpect(status().isOk())
+				.andExpect(model().attributeExists("room"))
+				.andExpect(model().attribute("room", hasProperty("medicalTeam", is(room.getMedicalTeam()))))
+				.andExpect(model().attribute("room", hasProperty("name", is("Quirofano"))))
+				.andExpect(view().name("rooms/createOrUpdateRoomForm"));
+	}
+
+	@WithMockUser(username = "admin1", authorities = { "admin" })
+	@Test
+	void testProcessUpdateRoomFormSuccess() throws Exception {
+		mockMvc.perform(post("/rooms/{roomId}/edit", TEST_ROOM_ID_POSITIVE).with(csrf()).param("floor", "2")
+				.param("medicalTeam", "bisturi").param("name", "Quirofano")).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/rooms/{roomId}"));
+	}
+
+	// Update negative
+	@WithMockUser(username = "admin1", authorities = { "admin" })
+	@Test
+	void testProcessUpdateRoomFormHasErrors() throws Exception {
+		mockMvc.perform(post("/rooms/{roomId}/edit", TEST_ROOM_ID_POSITIVE).with(csrf()).param("medicalTeam", "bisturi")
+				.param("name", "Quirofano")).andExpect(status().isOk()).andExpect(model().attributeHasErrors("room"))
+				.andExpect(model().attributeHasFieldErrors("room", "floor"))
+				.andExpect(view().name("rooms/createOrUpdateRoomForm"));
+	}
+
+	@WithMockUser(username = "admin1", authorities = { "admin" })
+	@Test
+	void testDelete() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/rooms/delete/{roomId}", 3).requestAttr("id", "3"))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/rooms/roomsList"));
+
+	}
+
+	// Delete negative
+	@WithMockUser(username = "admin1", authorities = { "admin" })
+	@Test
+	void testDeleteIncorrectId() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/rooms/delete/{roomId}", TEST_ROOM_ID_NEGATIVE)
+				.requestAttr("roomId", TEST_ROOM_ID_NEGATIVE))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/oups"));
+	}
 
 }
