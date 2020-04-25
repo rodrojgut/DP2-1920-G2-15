@@ -96,9 +96,12 @@ public class DiseaseControllerTests {
 	@WithMockUser(value = "spring")
         @Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/diseases/new/{petId}",TEST_PET_ID).param("cure", "Lo estamos intentando").param("severity", "MEDIUM")
-							.with(csrf())
-							.param("symptoms", "Mareos, vomitos y diarrea..."))
+		mockMvc.perform(post("/diseases/new/{petId}",TEST_PET_ID)
+					.requestAttr("pet", 1)
+					.with(csrf())
+							.param("symptoms", "Se encuentra mareado y con taquicardias")
+							.param("cure", "Hay que recetarle unas pastillas nuevas para el corazÃ³n..")
+							.param("severity", "MEDIUM"))
 				.andExpect(status().is3xxRedirection());
 	}
 
@@ -116,7 +119,6 @@ public class DiseaseControllerTests {
 				.andExpect(model().attributeHasFieldErrors("disease", "symptoms"))
 				.andExpect(view().name("diseases/createOrUpdateDiseaseForm"));
 	}
-
 
 
     @WithMockUser(value = "spring")
@@ -203,7 +205,7 @@ public class DiseaseControllerTests {
 	void testDeleteIncorrectId() throws Exception {
 		mockMvc.perform(get("/diseases/delete/{diseaseId}",TEST_DISEASE_ID_NEGATIVE))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/diseases/diseasesList"));
+				.andExpect(view().name("redirect:/oups"));
 	}
 
 }
