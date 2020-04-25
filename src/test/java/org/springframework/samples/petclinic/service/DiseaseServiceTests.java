@@ -64,18 +64,7 @@ public class DiseaseServiceTests{
 
 	}
 	
-	@Test
-	void shouldFindDiseaseNegativeAll() {
-
-		Collection<Disease> diseases = this.diseaseService.findAll();
-
-		Disease disease1 = EntityUtils.getById(diseases, Disease.class, 1);
-		Disease disease4 = EntityUtils.getById(diseases, Disease.class, 4);
-		diseases.add(disease1); diseases.add(disease4);
-		Assertions.assertThrows(NullPointerException.class,()->{this.diseaseService.findDiseaseById(15).getSeverity().isEmpty();});
-		
-
-	}
+	
 	//Positive Insert
 	@Test
 	void shouldInsertDisease() {
