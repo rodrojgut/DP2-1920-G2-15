@@ -65,9 +65,6 @@ public class PetService {
 		visitRepository.save(visit);
 	}
 
-	
-
-
 	@Transactional(readOnly = true)
 	public Pet findPetById(int id) throws DataAccessException {
 		return this.petRepository.findById(id);

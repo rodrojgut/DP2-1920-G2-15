@@ -3,9 +3,13 @@ package org.springframework.samples.petclinic.service;
 
 import javax.transaction.Transactional;
 
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Chip;
@@ -13,6 +17,7 @@ import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 class ChipServiceTests {
 
 	@Autowired
@@ -32,8 +37,22 @@ class ChipServiceTests {
 		chip.setGeolocatable(false);
 		pet.setChip(chip);
 		this.chipService.saveChip(chip);
-		Assertions.assertThat(chip.getId()).isNotNull();
-		Assertions.assertThat(pet.getChip()).isNotNull();
+		assertThat(chip.getId()).isNotNull();
+		assertThat(pet.getChip()).isNotNull();
+	}
+  
+  @Test
+	@Transactional
+	public void shouldThrowExceptionInsertingChipWhitoutModel() {
+		Pet pet = this.petService.findPetById(4);
+		Chip chip = new Chip();
+		chip.setSerialNumber("4");
+		chip.setModel("");
+		chip.setGeolocatable(false);
+		Assertions.assertThrows(Exception.class, () ->{
+			pet.setChip(chip);
+			this.chipService.saveChip(chip);
+		});
 	}
 
 	@Test
@@ -44,7 +63,18 @@ class ChipServiceTests {
 		chip.setModel(newModel);
 		this.chipService.saveChip(chip);
 		chip = this.chipService.findChipById(1);
-		Assertions.assertThat(chip.getModel()).isEqualTo(newModel);
+		assertThat(chip.getModel()).isEqualTo(newModel);
+	}
+  
+  @Test
+	@Transactional
+	public void shouldThrowExceptionUpdatingChipWhitoutModel() {
+		Chip chip = this.chipService.findChipById(1);
+		chip.setPet(null);
+		Assertions.assertThrows(Exception.class, () ->{
+			chip.getPet().setChip(chip);
+			this.chipService.saveChip(chip);
+		});
 	}
 
 	//Positive
@@ -53,7 +83,7 @@ class ChipServiceTests {
 		final Chip chip2 = this.chipService.findChipById(2);
 		this.chipService.deleteChip(chip2);
 		final Chip deleted = this.chipService.findChipById(2);
-		Assertions.assertThat(deleted).isEqualTo(null);
+		assertThat(deleted).isEqualTo(null);
 
 	}
 
@@ -67,13 +97,13 @@ class ChipServiceTests {
 		} catch (Exception e) {
 			pasa = true;
 		}
-		Assertions.assertThat(pasa).isTrue();
+		assertThat(pasa).isTrue();
 	}
 	@Test
 	void shouldFindChipWithCorrectId() {
 		final Chip chip2 = this.chipService.findChipById(2);
-		Assertions.assertThat(chip2.getSerialNumber()).isEqualTo("2");
-		Assertions.assertThat(chip2.getModel()).isEqualTo("model2");
+		assertThat(chip2.getSerialNumber()).isEqualTo("2");
+		assertThat(chip2.getModel()).isEqualTo("model2");
 
 	}
 }

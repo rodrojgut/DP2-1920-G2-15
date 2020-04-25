@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Opinion;
-import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
@@ -25,19 +24,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OpinionService {
 
-	@Autowired
+	
 	private SpringDataOpinionRepository	opinionRepo;
-
-	@Autowired
+	
 	private VetRepository				vetRepo;
 
-	@Autowired
 	private OwnerRepository				ownerRepo;
 
-	@Autowired
 	private UserRepository				userRepo;
 
-
+	@Autowired
 	public OpinionService(final SpringDataOpinionRepository repository, final VetRepository vetRepo, final OwnerRepository ownerRepo, final UserRepository userRepo) {
 		this.opinionRepo = repository;
 		this.vetRepo = vetRepo;
@@ -45,24 +41,17 @@ public class OpinionService {
 		this.userRepo = userRepo;
 	}
 
+	public Optional<Opinion> findOpinionById(final Integer id) {
+		return this.opinionRepo.findById(id);
+	}
 
-    public Optional<Opinion> findOpinionById(Integer id){
-        return this.opinionRepo.findById(id);
-    }
-
-	public void saveOpinion(@Valid Opinion opinion) {
-        this.opinionRepo.save(opinion);
-
-
+	public void saveOpinion(@Valid final Opinion opinion) {
+		this.opinionRepo.save(opinion);
 
 	}
 
 	public Vet getVetById(final Integer vetId) {
 		return this.vetRepo.findById(vetId);
-	}
-
-	public Owner getOwnerById(final Integer ownerId) {
-		return this.ownerRepo.findById(ownerId);
 	}
 
 	public User getCurrentUser() {
@@ -80,10 +69,6 @@ public class OpinionService {
 	@Transactional
 	public Iterable<Opinion> findAllMine(final String username) {
 		return this.opinionRepo.findAllMine(username);
-	}
-
-	public Optional<Opinion> findById(final Integer opinionId) {
-		return this.opinionRepo.findById(opinionId);
 	}
 
 	@Transactional

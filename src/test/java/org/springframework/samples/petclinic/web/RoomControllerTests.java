@@ -197,7 +197,7 @@ public class RoomControllerTests {
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/rooms/delete/{roomId}", TEST_ROOM_ID_NEGATIVE))
 		.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-		.andExpect(MockMvcResultMatchers.view().name("redirect:/rooms/roomsList"));
+		.andExpect(MockMvcResultMatchers.view().name("redirect:/oups"));
 }
 	}
 

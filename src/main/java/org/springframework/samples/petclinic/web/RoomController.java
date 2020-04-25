@@ -39,6 +39,9 @@ public class RoomController {
 
 	@GetMapping("/rooms/{roomId}")
 	public ModelAndView showRoom(@PathVariable("roomId") final int roomId) {
+		if(roomId<=0) {
+			return new ModelAndView("exception");
+		}
 		final ModelAndView mav = new ModelAndView("rooms/roomDetails");
 		mav.addObject(this.roomService.findRoomById(roomId));
 		return mav;
@@ -46,7 +49,12 @@ public class RoomController {
     
     @GetMapping(value = "/rooms/delete/{roomId}")
 	public String deleteDisease(@PathVariable("roomId") int roomId, ModelMap modelMap) {
-		Room room = roomService.findRoomById(roomId);
+    	
+    	if(roomId<=0) {
+			return "redirect:/oups";
+		}
+    	
+    	Room room = roomService.findRoomById(roomId);
 		this.roomService.delete(room);
 		modelMap.addAttribute("message", "Room succefully deleted!");
 		return "redirect:/rooms/roomsList";
@@ -91,7 +99,7 @@ public class RoomController {
 			return VIEWS_ROOMS_CREATE_OR_UPDATE_FORM;
 		} else {
 			Room roomToUpdate = this.roomService.findRoomById(roomId);
-			BeanUtils.copyProperties(room, roomToUpdate, "id", "floor");
+			BeanUtils.copyProperties(room, roomToUpdate, "id");
 			try {
 				this.roomService.saveRoom(roomToUpdate);
 			} catch (DuplicateFormatFlagsException ex) {
