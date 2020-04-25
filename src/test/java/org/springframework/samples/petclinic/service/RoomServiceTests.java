@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class RoomServiceTests {
 
     public Validator createValidator() {
@@ -38,8 +41,8 @@ public class RoomServiceTests {
     // FindbyId positive
     @Test
     void shouldFindRoomById() {
-        Room room = this.roomService.findRoomById(1);
-        assertThat(room.getId()).isEqualTo(1);
+        Room room = this.roomService.findRoomById(4);
+        assertThat(room.getId()).isEqualTo(4);
 
     }
 
@@ -62,22 +65,11 @@ public class RoomServiceTests {
 
     }
 
-    @Test
-    void shouldFindRoomNegativeAll() {
-
-        Collection<Room> rooms = this.roomService.findAll();
-        Room room1 = EntityUtils.getById(rooms, Room.class, 1);
-        Room room2 = EntityUtils.getById(rooms, Room.class, 2);
-        rooms.add(room1);
-        rooms.add(room2);
-        Assertions.assertThrows(NullPointerException.class, () -> {this.roomService.findRoomById(9).getName().isEmpty();});
-
-    }
 
     // Positive Insert
     @Test
     void shouldInsertRoom() {
-        Room rooms = this.roomService.findRoomById(1);
+        Room rooms = this.roomService.findRoomById(4);
         Collection<Room> found = this.roomService.findAll();
         int count = found.size();
 
@@ -92,8 +84,8 @@ public class RoomServiceTests {
         this.roomService.saveRoom(room);
         assertThat(room.getId().longValue()).isNotEqualTo(0);
 
-        rooms = this.roomService.findRoomById(1);
-        assertThat(rooms.getId().longValue()).isNotEqualTo(count + 1);
+        rooms = this.roomService.findRoomById(4);
+        assertThat(rooms.getId().longValue()).isNotEqualTo(count + 2);
     }
 
     // Negative Insert

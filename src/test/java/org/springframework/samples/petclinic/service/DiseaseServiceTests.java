@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class DiseaseServiceTests{
 
 
@@ -61,18 +64,7 @@ public class DiseaseServiceTests{
 
 	}
 	
-	@Test
-	void shouldFindDiseaseNegativeAll() {
-
-		Collection<Disease> diseases = this.diseaseService.findAll();
-
-		Disease disease1 = EntityUtils.getById(diseases, Disease.class, 1);
-		Disease disease4 = EntityUtils.getById(diseases, Disease.class, 4);
-		diseases.add(disease1); diseases.add(disease4);
-		Assertions.assertThrows(NullPointerException.class,()->{this.diseaseService.findDiseaseById(15).getSeverity().isEmpty();});
-		
-
-	}
+	
 	//Positive Insert
 	@Test
 	void shouldInsertDisease() {
