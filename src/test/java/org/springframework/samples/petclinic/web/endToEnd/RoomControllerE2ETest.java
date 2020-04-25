@@ -13,16 +13,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.samples.petclinic.model.Room;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -108,14 +104,11 @@ public class RoomControllerE2ETest {
 	@WithMockUser(username = "admin1", authorities = { "admin" })
 	@Test
 	void testInitUpdateForm() throws Exception {
-		Room room = new Room();
-		Collection<String> medicalTeam = new ArrayList<>();
-		medicalTeam.add("Tijeras, Pinzas, Bandejas, Bisturi, Mascarillas");
-		room.setMedicalTeam(medicalTeam);
+
 		mockMvc.perform(get("/rooms/{roomId}/edit", 3)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("room"))
-				.andExpect(model().attribute("room", hasProperty("medicalTeam", is(room.getMedicalTeam()))))
-				.andExpect(model().attribute("room", hasProperty("name", is("Quirofano"))))
+				.andExpect(model().attribute("room", hasProperty("floor", is(2))))
+				.andExpect(model().attribute("room", hasProperty("name", is("Quirofano3"))))
 				.andExpect(view().name("rooms/createOrUpdateRoomForm"));
 	}
 
