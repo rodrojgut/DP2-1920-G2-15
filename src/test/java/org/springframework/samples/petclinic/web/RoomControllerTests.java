@@ -85,7 +85,7 @@ public class RoomControllerTests {
 	@WithMockUser(value = "spring")
     @Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/rooms/new",TEST_ROOM_ID_POSITIVE).param("id","300")
+		mockMvc.perform(post("/rooms/new").param("id","300")
 							.with(csrf())
 							.param("floor", "4")
 							.param("medicalTeam", "gasas")

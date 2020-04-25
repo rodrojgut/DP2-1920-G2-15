@@ -65,17 +65,6 @@ public class RoomServiceTests {
 
     }
 
-    @Test
-    void shouldFindRoomNegativeAll() {
-
-        Collection<Room> rooms = this.roomService.findAll();
-        Room room1 = EntityUtils.getById(rooms, Room.class, 1);
-        Room room2 = EntityUtils.getById(rooms, Room.class, 2);
-        rooms.add(room1);
-        rooms.add(room2);
-        Assertions.assertThrows(NullPointerException.class, () -> {this.roomService.findRoomById(9).getName().isEmpty();});
-
-    }
 
     // Positive Insert
     @Test
