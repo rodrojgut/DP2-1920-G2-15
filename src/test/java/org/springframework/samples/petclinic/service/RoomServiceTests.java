@@ -80,7 +80,7 @@ public class RoomServiceTests {
     // Positive Insert
     @Test
     void shouldInsertRoom() {
-        Room rooms = this.roomService.findRoomById(1);
+        Room rooms = this.roomService.findRoomById(4);
         Collection<Room> found = this.roomService.findAll();
         int count = found.size();
 
@@ -95,8 +95,8 @@ public class RoomServiceTests {
         this.roomService.saveRoom(room);
         assertThat(room.getId().longValue()).isNotEqualTo(0);
 
-        rooms = this.roomService.findRoomById(1);
-        assertThat(rooms.getId().longValue()).isNotEqualTo(count + 1);
+        rooms = this.roomService.findRoomById(4);
+        assertThat(rooms.getId().longValue()).isNotEqualTo(count + 2);
     }
 
     // Negative Insert
