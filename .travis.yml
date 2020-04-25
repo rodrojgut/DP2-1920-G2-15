@@ -8,10 +8,11 @@ before_install:
 script: mvn test -Dspring.profiles.active=mysql-travis
 
 addons:
-    sonarcloud:
-        organization: gii-is-psg2
-        token:
-            secure: rp0YmoiFl1Nrx9e/UhdZFKr8b/EaKQNCICBB810rMD8BFi3h6/xYf+qNwIr0Yd+5clsLpl8simLXDGU3OnZtaGSgCC81wiTkCEsOc3uD961qdz+PGHcbAoQxDO2xdbxZ2jRlFNbTT+M3+toOFiDE6eiJtr/7LbPgled7ccHUtTPd5mPNaUqx9Ok6wEdYbQjs8S8pAX/UHKwr5CTFfdIoYim4ver3M+kstdRPg30//k1aVbJHjua/51aeqJG1j2IY4GzNV/4jXU8fbnkj5f4zYZdXBOiiLSaUoJzxPL5gFgr/NcklLsJFUeKBCvxJmDP5E6cmb2yUTsQGln3vfXYcLypXNBcbmhDUXh4P5eLh3wj3rxTQS/EXzpf0zwLSgHtNmWBr4Ene2MOSF60pxuSNOWGKGPkmUqlnBPo02IpMGVbdH3w8/zrZBLintHayV04f6tTR7is+Zlqj6ZTN031QiQXXdejlVexlOUl3ZQAQI2C+4Y8YcqcDstT4CBuIP36T8BTorIwC1hd+yQN7N6AjRJF/mTErAeoxMELQl+hMEaa99k76JpQQECwApBWysAFwMjEzYJqmUR+Kx4sdjtHTUAHolx/b4XF2LUc1l6msYy2HsXDOiSORafuniCKyf9yFc3xXMc00Vgm40GGyVIGVvNfCg18fy5u9jQ19X0wbTUk=
+  sonarcloud:
+    organization: "antromcac"
+    token:
+      secure: "lNK8rwzaT1LD/Jmwz152vYUrnJBxSIGALPeivsm87Z6CPQ5F4+Su91I1EOhM2MKjvDntHB/LU9vLlgHSPEa6k8pUtJoxC2fNGdU7J/nl8FOxXtuOGjKAGumNeM4RSrF/a9yR4Nk1HKdZBfcb1Ssxtfj+4XGODhIhLoPehzSBzhs+wHfXSE944kKOcV1RSTtJvcQNmsgrl87k7b9TR7ow8SELx03PcMz3t/AtaqfDUMIW06uptrPx2yfiQSQpbh3WUFAwUKBEiTp/+7mpJmndlY0NInD5p1NhBaGj5wAEEP7IviargprkHm8IkY38AHFmhQa9OUM44lNQb57r+4T0hqjYkRW7t7cttwThzoIeO/oFMrYbgNC6WDFvCTblkkz5YLAAxeZWklHvJZB+LPspCjl5Qpjh2SPHxRD/11Fmie2X09c0kTpQ6zxNyxQglaVfWCkIoEdBToJEOsL+JM2KqUbxM3JuVmFoBRMU8Fh1i2/W2BLSibQ6ihzRalY4P1tK/45XX8HChko89qlfIjLh/u8gszWMLA7SiXFyRwt0zeDrGgkR9kTqgxt/2rvl767T9XyAnXdX9YF/1YMY99ALWiyHZs5bbNCvYs29bt0QQn5GRBUEtURARVYcEbIe+KqsTxIKheYckakvZnWtj3AXhStnvV5pmGwoSIjja/5fc3Y="
+
 script:
-        # other script steps might be done before running the actual analysis
-        - sonar-scanner
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
