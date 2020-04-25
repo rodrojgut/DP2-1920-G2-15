@@ -19,3 +19,7 @@ script:
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
   - mvn clean verify sonar:sonar -Dsonar.projectKey=antromcac_DP2-1920-G2-15
+  cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
