@@ -19,4 +19,3 @@ before_install:
 - chmod +x mvnw
 - mysql -e 'CREATE DATABASE petclinic;'
 - sudo apt-get update
-script: mvn test -Dspring.profiles.active=mysql-travis
