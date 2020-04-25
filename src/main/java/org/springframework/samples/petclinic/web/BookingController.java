@@ -15,7 +15,6 @@ import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Room;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.service.BookingService;
-import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RoomService;
 import org.springframework.samples.petclinic.service.VetService;
@@ -36,8 +35,6 @@ public class BookingController {
 
 	private final VetService		vetService;
 
-	private final OwnerService		ownerService;
-
 	private final PetService		petService;
 
 	private final RoomService		roomService;
@@ -46,10 +43,9 @@ public class BookingController {
 
 
 	@Autowired
-	public BookingController(final BookingService bookingService, final VetService vetService, final OwnerService ownerService, final PetService petService, final RoomService roomService) {
+	public BookingController(final BookingService bookingService, final VetService vetService, final PetService petService, final RoomService roomService) {
 		this.bookingService = bookingService;
 		this.vetService = vetService;
-		this.ownerService = ownerService;
 		this.petService = petService;
 		this.roomService = roomService;
 
@@ -167,7 +163,7 @@ public class BookingController {
 			this.bookingService.deleteBooking(op.get());
 			ret = "redirect:/bookings/list";
 		} else {
-			modelMap.addAttribute("message", "Opinion not found.");
+			modelMap.addAttribute("message", "Booking not found.");
 		}
 		return ret;
 	}

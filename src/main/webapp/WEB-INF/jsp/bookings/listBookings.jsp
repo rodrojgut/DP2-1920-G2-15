@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="bookings">
     <h2>Bookings</h2>
@@ -25,8 +26,10 @@
             <th style="width: 100px;">Owner</th>
             <th style="width: 100px">Pet</th>
             <th style="width: 50px">Room</th>
+            <sec:authorize access= "hasAuthority('veterinarian')">
             <th style="width: 100px">Delete</th>
             <th style="width: 100px">Edit</th>
+            </sec:authorize>
 
         </tr>
         </thead>
@@ -48,19 +51,22 @@
                 <td>
                     <c:out value="${booking.room.id}"/>
                 </td>
+                <sec:authorize access= "hasAuthority('veterinarian')">
                 <td>
                		<spring:url value="/bookings/{bookingId}/delete" var="deleteUrl">
         				<spring:param name="bookingId" value="${booking.id}"/>
     				</spring:url>
     				<a href="${fn:escapeXml(deleteUrl)}">Delete</a>
                 </td>
-                
+                </sec:authorize>
+                <sec:authorize access= "hasAuthority('veterinarian')">
                 <td>
                		<spring:url value="/bookings/edit/{bookingId}" var="editUrl">
         				<spring:param name="bookingId" value="${booking.id}"/>
     				</spring:url>
     				<a href="${fn:escapeXml(editUrl)}">Edit</a>
                 </td>
+                </sec:authorize>
             </tr>
         </c:forEach>
         </tbody>
