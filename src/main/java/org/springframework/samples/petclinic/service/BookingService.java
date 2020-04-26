@@ -21,10 +21,6 @@ public class BookingService {
 		this.bookingRepository = bookingRepository;
 	}
 
-	public void saveBooking(final Booking booking) {
-		this.bookingRepository.save(booking);
-	}
-
 	public Iterable<Booking> findAll() {
 		return this.bookingRepository.findAll();
 	}

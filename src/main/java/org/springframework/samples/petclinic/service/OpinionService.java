@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Opinion;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.repository.UserRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
 import org.springframework.samples.petclinic.repository.springdatajpa.SpringDataOpinionRepository;
@@ -28,16 +27,13 @@ public class OpinionService {
 
 	private VetRepository				vetRepo;
 
-	private OwnerRepository				ownerRepo;
-
 	private UserRepository				userRepo;
 
 
 	@Autowired
-	public OpinionService(final SpringDataOpinionRepository repository, final VetRepository vetRepo, final OwnerRepository ownerRepo, final UserRepository userRepo) {
+	public OpinionService(final SpringDataOpinionRepository repository, final VetRepository vetRepo, final UserRepository userRepo) {
 		this.opinionRepo = repository;
 		this.vetRepo = vetRepo;
-		this.ownerRepo = ownerRepo;
 		this.userRepo = userRepo;
 	}
 
