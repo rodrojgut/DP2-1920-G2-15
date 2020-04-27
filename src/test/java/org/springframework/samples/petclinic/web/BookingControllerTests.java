@@ -87,8 +87,15 @@ class BookingControllerTests {
 
 	@BeforeEach
 	void setup() {
+		petTest = new Pet();
+		petTest.setId(TEST_PET_ID);
+		this.owner = new Owner();
 		this.owner.setId(1);
 		this.owner.addPet(this.petTest);
+		vetTest = new Vet();
+		vetTest.setId(TEST_VET_ID);
+		roomTest = new Room();
+		roomTest.setId(TEST_ROOM_ID);
 		Booking book = new Booking();
 		book.setId(BookingControllerTests.TEST_BOOKING_ID);
 		book.setVet(this.vetTest);
@@ -116,110 +123,82 @@ class BookingControllerTests {
 	@WithMockUser(value = "spring", authorities = "veterinarian")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/bookings/new").param("date", "2020-01-04").param("pet", "1").param("vet", "1").param("room", "1").with(SecurityMockMvcRequestPostProcessors.csrf()))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/bookings/new").param("fecha", "2020-01-04").param("petId", "1").param("vetId", "1").param("roomId", "1").with(SecurityMockMvcRequestPostProcessors.csrf()))
 			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/bookings/list"));
-	}
-
-	@WithMockUser(value = "spring")
-	@Test
-	void testProcessCreationFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/opinions/new/{vetId}", BookingControllerTests.TEST_VET_ID).param("date", "2020/04/23 17:50")				// Tanto date como user se asignan en el controller por lo que no se pueden asignar incorrectamente en el formulario.
-			.param("user", "userTest").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("opinion"))	// Comentary es un atributo que puede ir vacío.
-			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("opinion", "puntuation")).andExpect(MockMvcResultMatchers.view().name("opinions/createOrUpdateOpinions"));
 	}
 
 	//	Test del List
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities = "veterinarian")
 	@Test
 	void testInitListForm() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/list")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("opinions"))
-			.andExpect(MockMvcResultMatchers.view().name("/opinions/listOpinions"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/bookings/list")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("bookings"))
+			.andExpect(MockMvcResultMatchers.view().name("bookings/listBookings"));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities = "veterinarian")
 	@Test
 	void testProcessListFormSuccess() throws Exception {
-		List<Opinion> itList = new ArrayList<>();
-		itList.add(this.opinion.get());
-		Iterable<Opinion> it = itList;
-		BDDMockito.given(this.opinionService.findAll()).willReturn(it);
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/list")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("/opinions/listOpinions"));
+		List<Booking> itList = new ArrayList<>();
+		itList.add(this.booking.get());
+		Iterable<Booking> it = itList;
+		BDDMockito.given(this.bookingService.findAll()).willReturn(it);
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/bookings/list")).andExpect(MockMvcResultMatchers.status().isOk())
+		.andExpect(MockMvcResultMatchers.view().name("bookings/listBookings"));
 	}
 
-	@WithMockUser(value = "spring")
-	@Test
-	void testProcessListFormMine() throws Exception {
-		List<Opinion> itList = new ArrayList<>();
-		itList.add(this.opinion.get());
-		Iterable<Opinion> it = itList;
-		BDDMockito.given(this.opinionService.findAllMine(BookingControllerTests.TEST_USER_ID)).willReturn(it);
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/listMine")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("/opinions/listOpinions"));
-	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring" , authorities = "veterinarian")
 	@Test
 	void testProcessListFormNoFound() throws Exception {
-		List<Opinion> itList = new ArrayList<>();
-		Iterable<Opinion> it = itList;
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/list")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attribute("opinions", it))
-			.andExpect(MockMvcResultMatchers.view().name("/opinions/listOpinions"));
-	}
-
-	@WithMockUser(value = "spring")
-	@Test
-	void testProcessListMineFormNoFound() throws Exception {
-		List<Opinion> itList = new ArrayList<>();
-		Iterable<Opinion> it = itList;
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/listMine")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attribute("opinions", it))
-			.andExpect(MockMvcResultMatchers.view().name("/opinions/listOpinions"));
+		List<Booking> itList = new ArrayList<>();
+		Iterable<Booking> it = itList;
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/bookings/list")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attribute("bookings", it))
+			.andExpect(MockMvcResultMatchers.view().name("bookings/listBookings"));
 	}
 
 	//  Test del Update
 
-	@WithMockUser(value = "owner1")
+	@WithMockUser(value = "spring", authorities = "veterinarian")
 	@Test
-	void testInitEditOpinionForm() throws Exception {
-		User userMock = new User();
-		userMock.setUsername(BookingControllerTests.TEST_USER_ID);
-		userMock.setEnabled(false);
-		userMock.setPassword(null);
-		this.vetMock.setId(BookingControllerTests.TEST_VET_ID);
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/edit/{opinionId}", BookingControllerTests.TEST_OPINION_ID)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("opinion"))
-			.andExpect(MockMvcResultMatchers.model().attribute("opinion", Matchers.hasProperty("user", Matchers.is(userMock)))).andExpect(MockMvcResultMatchers.model().attribute("opinion", Matchers.hasProperty("puntuation", Matchers.is(5))))
-			.andExpect(MockMvcResultMatchers.model().attribute("opinion", Matchers.hasProperty("comentary", Matchers.is("Muy buen servicio"))))
-			.andExpect(MockMvcResultMatchers.model().attribute("opinion", Matchers.hasProperty("date", Matchers.is(LocalDateTime.of(2020, 01, 04, 00, 00, 00)))))
-			.andExpect(MockMvcResultMatchers.model().attribute("opinion", Matchers.hasProperty("vet", Matchers.is(this.vetMock)))).andExpect(MockMvcResultMatchers.view().name("opinions/createOrUpdateOpinions"));
+	void testInitEditBookingForm() throws Exception {
+		
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/bookings/edit/{idBooking}", BookingControllerTests.TEST_BOOKING_ID)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("booking"))
+			.andExpect(MockMvcResultMatchers.model().attribute("booking", Matchers.hasProperty("vet", Matchers.is(vetTest))))
+			.andExpect(MockMvcResultMatchers.model().attribute("booking", Matchers.hasProperty("date", Matchers.is(LocalDate.of(2020, 01, 04)))))
+			.andExpect(MockMvcResultMatchers.model().attribute("booking", Matchers.hasProperty("owner", Matchers.is(this.owner))))
+			.andExpect(MockMvcResultMatchers.model().attribute("booking", Matchers.hasProperty("pet", Matchers.is(this.petTest))))
+			.andExpect(MockMvcResultMatchers.model().attribute("booking", Matchers.hasProperty("room", Matchers.is(this.roomTest))))
+			.andExpect(MockMvcResultMatchers.model().attribute("oldPetId",Matchers.is(TEST_PET_ID)))
+			.andExpect(MockMvcResultMatchers.model().attribute("oldRoomId",Matchers.is(TEST_ROOM_ID)))
+			.andExpect(MockMvcResultMatchers.model().attribute("oldVetId",Matchers.is(TEST_VET_ID)))
+			.andExpect(MockMvcResultMatchers.view().name("bookings/createOrUpdateBookingForm"));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities = "veterinarian")
 	@Test
-	void testProcessEditOpinionFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/opinions/edit/{opinionId}", BookingControllerTests.TEST_OPINION_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("comentary", "Pues no está tan bien.").param("puntuation", "5"))
-			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/opinions/listMine"));
-	}
-
-	@WithMockUser(value = "spring")
-	@Test
-	void testProcessEditOpinionFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/opinions/edit/{opinionId}", BookingControllerTests.TEST_OPINION_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("comentary", "Pues no está tan bien."))
-			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("opinion")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("opinion", "puntuation"))
-			.andExpect(MockMvcResultMatchers.view().name("opinions/createOrUpdateOpinions"));
+	void testProcessEdiBookingFormSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/bookings/edit/{idBooking}", BookingControllerTests.TEST_BOOKING_ID).with(SecurityMockMvcRequestPostProcessors.csrf())
+		.param("fecha", "2020-01-04")
+		.param("petId", "1")
+		.param("vetId", "1")
+		.param("roomId", "1"))
+		.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/bookings/list"));
 	}
 
 	// Test del delete
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring" , authorities = "veterinarian")
 	@Test
 	void testProcessDeleteOpinionSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/{opinionId}/delete", BookingControllerTests.TEST_OPINION_ID)).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-			.andExpect(MockMvcResultMatchers.view().name("redirect:/opinions/listMine"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/bookings/{bookingId}/delete", BookingControllerTests.TEST_BOOKING_ID)).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+			.andExpect(MockMvcResultMatchers.view().name("redirect:/bookings/list"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessDeleteOpinionFail() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/{opinionId}/delete", 2)).andExpect(MockMvcResultMatchers.model().attribute("message", "Opinion not found.")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/bookings/{bookingId}/delete", 2)).andExpect(MockMvcResultMatchers.model().attribute("message", "Booking not found.")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 			.andExpect(MockMvcResultMatchers.view().name("/exception"));
 	}
 }
