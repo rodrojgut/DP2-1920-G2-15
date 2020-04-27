@@ -163,7 +163,7 @@ public class BookingController {
 			this.bookingService.deleteBooking(op.get());
 			ret = "redirect:/bookings/list";
 		} else {
-			modelMap.addAttribute("message", "Opinion not found.");
+			modelMap.addAttribute("message", "Booking not found.");
 		}
 		return ret;
 	}
