@@ -64,4 +64,6 @@ public interface OwnerRepository {
 	 */
 	void save(Owner owner) throws DataAccessException;
 
+	Collection<Owner> findAll();
+
 }

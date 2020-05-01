@@ -112,4 +112,13 @@ INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Bandejas');
 INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Bisturi');
 INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Mascarillas');
 
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-01-04',1,1,1,1);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-03-02',2,2,2,2);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2019-11-04',3,3,3,3);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2019-12-15',4,3,4,4);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-04-02',5,4,5,1);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-02-08',6,5,6,2);
+
+
+
 

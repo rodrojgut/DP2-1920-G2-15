@@ -52,6 +52,7 @@ public class OpinionController {
 		model.put("opinion", opinion);
 		model.put("vetId", vetId);
 		return OpinionController.VIEWS_OPINION_CREATE_OR_UPDATE_FORM;
+
 	}
 
 	@PostMapping(value = "/opinions/new/{vetId}")
@@ -121,9 +122,10 @@ public class OpinionController {
 	@GetMapping(value = "/opinions/{opinionId}/delete")
 	public String deleteOpinion(@PathVariable("opinionId") final Integer opinionId, final ModelMap modelMap) {
 		Optional<Opinion> op = this.opinionService.findOpinionById(opinionId);
+		String ret = "/exception";
 		if (op.isPresent()) {
 			this.opinionService.deleteOpinion(op.get());
-			modelMap.addAttribute("message", "Opinion successfully deleted.");
+			ret = "redirect:/opinions/listMine";
 		} else {
 			modelMap.addAttribute("message", "Opinion not found.");
 		}
