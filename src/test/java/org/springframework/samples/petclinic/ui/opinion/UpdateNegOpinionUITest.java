@@ -20,7 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CreateOpinionUITest {
+public class UpdateNegOpinionUITest {
 
 	@LocalServerPort
 	private int				port;
@@ -40,28 +40,23 @@ public class CreateOpinionUITest {
 	}
 
 	@Test
-	public void testCreateOpinionUI() throws Exception {
+	public void testUpdateOpinionUI() throws Exception {
 		this.driver.get("http://localhost:" + this.port + "/");
 		this.driver.findElement(By.linkText("LOGIN")).click();
 		this.driver.findElement(By.id("username")).clear();
-		this.driver.findElement(By.id("username")).sendKeys("admin1");
-		this.driver.findElement(By.id("password")).click();
+		this.driver.findElement(By.id("username")).sendKeys("owner1");
 		this.driver.findElement(By.id("password")).clear();
-		this.driver.findElement(By.id("password")).sendKeys("4dm1n");
+		this.driver.findElement(By.id("password")).sendKeys("0wn3r");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span[2]")).click();
-		this.driver.findElement(By.linkText("Add Opinion")).click();
-		this.driver.findElement(By.id("comentary")).click();
-		this.driver.findElement(By.id("comentary")).clear();
-		this.driver.findElement(By.id("comentary")).sendKeys("Es un poco tonto");
+		this.driver.findElement(By.linkText("List all opinions")).click();
+		this.driver.findElement(By.linkText("List my opinions")).click();
+		this.driver.findElement(By.linkText("Edit")).click();
 		this.driver.findElement(By.id("puntuation")).click();
 		this.driver.findElement(By.id("puntuation")).clear();
-		this.driver.findElement(By.id("puntuation")).sendKeys("2");
+		this.driver.findElement(By.id("puntuation")).sendKeys("");	// Se intenta dejar vacío el campo.
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.findElement(By.linkText("List all opinions")).click();
-		Assert.assertEquals("James Carter", this.driver.findElement(By.xpath("//table[@id='opinionsTable']/tbody/tr[7]/td")).getText());
-		Assert.assertEquals("2", this.driver.findElement(By.xpath("//table[@id='opinionsTable']/tbody/tr[7]/td[2]")).getText());
-		Assert.assertEquals("Es un poco tonto", this.driver.findElement(By.xpath("//table[@id='opinionsTable']/tbody/tr[7]/td[4]")).getText());
+		Assert.assertTrue(this.driver.findElement(By.xpath("//form[@id='add-opinion-form']/div/div[2]/div/span[2]")).isDisplayed()); // Comprobación del mensaje de error.
 	}
 
 	@AfterEach
