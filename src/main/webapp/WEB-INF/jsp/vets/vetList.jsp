@@ -43,7 +43,7 @@
         </tbody>
     </table>
 	
-	<sec:authorize access= "hasAuthority('owner')">
+	<sec:authorize access= "hasAuthority('owner')||hasAuthority('admin')">
 		<spring:url value="/opinions/list" var="listOpinion"></spring:url>
     	<a href="${fn:escapeXml(listOpinion)}" class="btn btn-default">List all opinions</a>
     </sec:authorize>    
