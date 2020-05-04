@@ -4,6 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+
 
 
 
@@ -41,9 +43,11 @@
         </tbody>
     </table>
 	
-	<spring:url value="/opinions/list" var="listOpinion"></spring:url>
-    <a href="${fn:escapeXml(listOpinion)}" class="btn btn-default">List all opinions</a>
-        
+	<sec:authorize access= "hasAuthority('owner')">
+		<spring:url value="/opinions/list" var="listOpinion"></spring:url>
+    	<a href="${fn:escapeXml(listOpinion)}" class="btn btn-default">List all opinions</a>
+    </sec:authorize>    
+    
     <table class="table-buttons">
         <tr>
             <td>
