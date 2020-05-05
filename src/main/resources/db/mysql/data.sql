@@ -62,9 +62,9 @@ INSERT IGNORE INTO visits(id,pet_id,visit_date,description)  VALUES (2, 8, '2011
 INSERT IGNORE INTO visits(id,pet_id,visit_date,description)  VALUES (3, 8, '2009-06-04', 'neutered');
 INSERT IGNORE INTO visits(id,pet_id,visit_date,description)  VALUES (4, 7, '2008-09-04', 'spayed');
 
-INSERT IGNORE INTO chips VALUES (1, '1', 'model1', true, 1);
-INSERT IGNORE INTO chips VALUES (2, '2', 'model2', true, 1);
-INSERT IGNORE INTO chips VALUES (3, '3', 'model3', false, 1);
+INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (1, '1', 'model1', true, 1);
+INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (2, '2', 'model2', true, 2);
+INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (3, '3', 'model3', false, 3);
 
 INSERT IGNORE INTO diseases VALUES (1, 'malisimo de la muerte', 'LOW', 'compra paracetamol', 1);
 INSERT IGNORE INTO diseases VALUES (2, 'tengo el hambre', 'MEDIUM', 'la vas a espichar', 2);
