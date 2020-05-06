@@ -8,16 +8,16 @@ INSERT INTO authorities VALUES ('owner2','owner');
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities VALUES ('vet1','veterinarian');
 
-INSERT IGNORE INTO vets VALUES (1, 'James', 'Carter');
-INSERT IGNORE INTO vets VALUES (2, 'Helen', 'Leary');
-INSERT IGNORE INTO vets VALUES (3, 'Linda', 'Douglas');
-INSERT IGNORE INTO vets VALUES (4, 'Rafael', 'Ortega');
-INSERT IGNORE INTO vets VALUES (5, 'Henry', 'Stevens');
-INSERT IGNORE INTO vets VALUES (6, 'Sharon', 'Jenkins');
+INSERT IGNORE INTO vets(id,name,surname) VALUES (1, 'James', 'Carter');
+INSERT IGNORE INTO vets(id,name,surname) VALUES (2, 'Helen', 'Leary');
+INSERT IGNORE INTO vets(id,name,surname) VALUES (3, 'Linda', 'Douglas');
+INSERT IGNORE INTO vets(id,name,surname) VALUES (4, 'Rafael', 'Ortega');
+INSERT IGNORE INTO vets(id,name,surname) VALUES (5, 'Henry', 'Stevens');
+INSERT IGNORE INTO vets(id,name,surname) VALUES (6, 'Sharon', 'Jenkins');
 
-INSERT IGNORE INTO specialties VALUES (1, 'radiology');
-INSERT IGNORE INTO specialties VALUES (2, 'surgery');
-INSERT IGNORE INTO specialties VALUES (3, 'dentistry');
+INSERT IGNORE INTO specialties(id,name) VALUES (1, 'radiology');
+INSERT IGNORE INTO specialties(id,name) VALUES (2, 'surgery');
+INSERT IGNORE INTO specialties(id,name) VALUES (3, 'dentistry');
 
 INSERT IGNORE INTO vet_specialties VALUES (2, 1);
 INSERT IGNORE INTO vet_specialties VALUES (3, 2);
@@ -25,23 +25,23 @@ INSERT IGNORE INTO vet_specialties VALUES (3, 3);
 INSERT IGNORE INTO vet_specialties VALUES (4, 2);
 INSERT IGNORE INTO vet_specialties VALUES (5, 1);
 
-INSERT IGNORE INTO types VALUES (1, 'cat');
-INSERT IGNORE INTO types VALUES (2, 'dog');
-INSERT IGNORE INTO types VALUES (3, 'lizard');
-INSERT IGNORE INTO types VALUES (4, 'snake');
-INSERT IGNORE INTO types VALUES (5, 'bird');
-INSERT IGNORE INTO types VALUES (6, 'hamster');
+INSERT IGNORE INTO types(id,name) VALUES (1, 'cat');
+INSERT IGNORE INTO types(id,name) VALUES (2, 'dog');
+INSERT IGNORE INTO types(id,name) VALUES (3, 'lizard');
+INSERT IGNORE INTO types(id,name) VALUES (4, 'snake');
+INSERT IGNORE INTO types(id,name) VALUES (5, 'bird');
+INSERT IGNORE INTO types(id,name) VALUES (6, 'hamster');
 
-INSERT IGNORE INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023','owner1');
-INSERT IGNORE INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749','owner1');
-INSERT IGNORE INTO owners VALUES (3, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763','owner1');
-INSERT IGNORE INTO owners VALUES (4, 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198','owner1');
-INSERT IGNORE INTO owners VALUES (5, 'Peter', 'McTavish', '2387 S. Fair Way', 'Madison', '6085552765','owner1');
-INSERT IGNORE INTO owners VALUES (6, 'Jean', 'Coleman', '105 N. Lake St.', 'Monona', '6085552654','owner1');
-INSERT IGNORE INTO owners VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085555387','owner1');
-INSERT IGNORE INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683','owner1');
-INSERT IGNORE INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435','owner1');
-INSERT IGNORE INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487','owner2');
+INSERT IGNORE INTO owners(id,name,surname,address,city,telephone,user_id) VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023','owner1');
+INSERT IGNORE INTO owners(id,name,surname,address,city,telephone,user_id) VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749','owner1');
+INSERT IGNORE INTO owners(id,name,surname,address,city,telephone,user_id) VALUES (3, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763','owner1');
+INSERT IGNORE INTO owners(id,name,surname,address,city,telephone,user_id) VALUES (4, 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198','owner1');
+INSERT IGNORE INTO owners(id,name,surname,address,city,telephone,user_id) VALUES (5, 'Peter', 'McTavish', '2387 S. Fair Way', 'Madison', '6085552765','owner1');
+INSERT IGNORE INTO owners(id,name,surname,address,city,telephone,user_id) VALUES (6, 'Jean', 'Coleman', '105 N. Lake St.', 'Monona', '6085552654','owner1');
+INSERT IGNORE INTO owners(id,name,surname,address,city,telephone,user_id) VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085555387','owner1');
+INSERT IGNORE INTO owners(id,name,surname,address,city,telephone,user_id) VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683','owner1');
+INSERT IGNORE INTO owners(id,name,surname,address,city,telephone,user_id) VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435','owner1');
+INSERT IGNORE INTO owners(id,name,surname,address,city,telephone,user_id) VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487','owner2');
 
 INSERT IGNORE INTO pets(id,name,birth_date,type_id,owner_id)  VALUES (1, 'Leo', '2000-09-07', 1, 1);
 INSERT IGNORE INTO pets(id,name,birth_date,type_id,owner_id)  VALUES (2, 'Basil', '2002-08-06', 6, 2);
@@ -66,18 +66,18 @@ INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (1, '1'
 INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (2, '2', 'model2', true, 2);
 INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (3, '3', 'model3', false, 3);
 
-INSERT IGNORE INTO diseases VALUES (1, 'malisimo de la muerte', 'LOW', 'compra paracetamol', 1);
-INSERT IGNORE INTO diseases VALUES (2, 'tengo el hambre', 'MEDIUM', 'la vas a espichar', 2);
-INSERT IGNORE INTO diseases VALUES (3, 'necrosis', 'MEDIUM', 'no tenemos na que hacer', 3);
-INSERT IGNORE INTO diseases VALUES (4, 'me duele el costao', 'MEDIUM', 'me duele mucho', 4);
-INSERT IGNORE INTO diseases VALUES (5, 'me pica la cabeza', 'HIGH', 'y no se que hacer', 5);
-INSERT IGNORE INTO diseases VALUES (6, 'dame de comer', 'HIGH', 'humano... me puedes rascar?', 6);
-INSERT IGNORE INTO diseases VALUES (7, 'como una bola me voy a poner', 'HIGH', 'de tanto comer', 7);
+INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (1, 'malisimo de la muerte', 'LOW', 'compra paracetamol', 1);
+INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (2, 'tengo el hambre', 'MEDIUM', 'la vas a espichar', 2);
+INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (3, 'necrosis', 'MEDIUM', 'no tenemos na que hacer', 3);
+INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (4, 'me duele el costao', 'MEDIUM', 'me duele mucho', 4);
+INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (5, 'me pica la cabeza', 'HIGH', 'y no se que hacer', 5);
+INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (6, 'dame de comer', 'HIGH', 'humano... me puedes rascar?', 6);
+INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (7, 'como una bola me voy a poner', 'HIGH', 'de tanto comer', 7);
 
-INSERT IGNORE INTO rooms VALUES (1,'Quirofano1',1);
-INSERT IGNORE INTO rooms VALUES (2,'Quirofano2',1);
-INSERT IGNORE INTO rooms VALUES (3,'Quirofano3',2);
-INSERT IGNORE INTO rooms VALUES (4,'Quirofano4',2);
+INSERT IGNORE INTO rooms(id,name,floor) VALUES (1,'Quirofano1',1);
+INSERT IGNORE INTO rooms(id,name,floor) VALUES (2,'Quirofano2',1);
+INSERT IGNORE INTO rooms(id,name,floor) VALUES (3,'Quirofano3',2);
+INSERT IGNORE INTO rooms(id,name,floor) VALUES (4,'Quirofano4',2);
 
 INSERT IGNORE INTO room_medical_team VALUES (1,'Tijeras');
 INSERT IGNORE INTO room_medical_team VALUES (1,'Pinzas');

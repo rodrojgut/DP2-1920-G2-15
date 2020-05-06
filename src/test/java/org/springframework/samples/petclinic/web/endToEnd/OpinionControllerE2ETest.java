@@ -23,8 +23,6 @@ public class OpinionControllerE2ETest {
 
 	private static final int	TEST_OPINION_ID	= 1;
 
-	private static final String	TEST_USER_ID	= "owner1";
-
 	private static final int	TEST_VET_ID		= 1;
 
 	@Autowired
