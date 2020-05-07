@@ -66,13 +66,13 @@ INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (1, '1'
 INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (2, '2', 'model2', true, 2);
 INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (3, '3', 'model3', false, 3);
 
-INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (1, 'malisimo de la muerte', 'LOW', 'compra paracetamol', 1);
-INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (2, 'tengo el hambre', 'MEDIUM', 'la vas a espichar', 2);
-INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (3, 'necrosis', 'MEDIUM', 'no tenemos na que hacer', 3);
-INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (4, 'me duele el costao', 'MEDIUM', 'me duele mucho', 4);
-INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (5, 'me pica la cabeza', 'HIGH', 'y no se que hacer', 5);
-INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (6, 'dame de comer', 'HIGH', 'humano... me puedes rascar?', 6);
-INSERT IGNORE INTO diseases(id,symptoms,severity,cure,pet_id) VALUES (7, 'como una bola me voy a poner', 'HIGH', 'de tanto comer', 7);
+INSERT IGNORE INTO diseases VALUES (1, 'malisimo de la muerte', 'LOW', 'compra paracetamol', 1);
+INSERT IGNORE INTO diseases VALUES (2, 'tengo el hambre', 'MEDIUM', 'la vas a espichar', 2);
+INSERT IGNORE INTO diseases VALUES (3, 'necrosis', 'MEDIUM', 'no tenemos na que hacer', 3);
+INSERT IGNORE INTO diseases VALUES (4, 'me duele el costao', 'MEDIUM', 'me duele mucho', 4);
+INSERT IGNORE INTO diseases VALUES (5, 'me pica la cabeza', 'HIGH', 'y no se que hacer', 5);
+INSERT IGNORE INTO diseases VALUES (6, 'dame de comer', 'HIGH', 'humano... me puedes rascar?', 6);
+INSERT IGNORE INTO diseases VALUES (7, 'como una bola me voy a poner', 'HIGH', 'de tanto comer', 7);
 
 INSERT IGNORE INTO rooms VALUES (1,'Quirofano1',1);
 INSERT IGNORE INTO rooms VALUES (2,'Quirofano2',1);
