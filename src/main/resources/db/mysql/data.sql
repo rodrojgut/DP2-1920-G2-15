@@ -62,9 +62,9 @@ INSERT IGNORE INTO visits(id,pet_id,visit_date,description)  VALUES (2, 8, '2011
 INSERT IGNORE INTO visits(id,pet_id,visit_date,description)  VALUES (3, 8, '2009-06-04', 'neutered');
 INSERT IGNORE INTO visits(id,pet_id,visit_date,description)  VALUES (4, 7, '2008-09-04', 'spayed');
 
-INSERT IGNORE INTO chips VALUES (1, '1', 'model1', true, 1);
-INSERT IGNORE INTO chips VALUES (2, '2', 'model2', true, 1);
-INSERT IGNORE INTO chips VALUES (3, '3', 'model3', false, 1);
+INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (1, '1', 'model1', true, 1);
+INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (2, '2', 'model2', true, 2);
+INSERT INTO chips(id, serial_number, model, geolocatable, pet_id) VALUES (3, '3', 'model3', false, 3);
 
 INSERT IGNORE INTO diseases VALUES (1, 'malisimo de la muerte', 'LOW', 'compra paracetamol', 1);
 INSERT IGNORE INTO diseases VALUES (2, 'tengo el hambre', 'MEDIUM', 'la vas a espichar', 2);
@@ -102,3 +102,17 @@ INSERT IGNORE INTO room_medical_team VALUES (4,'Pinzas');
 INSERT IGNORE INTO room_medical_team VALUES (4,'Bandejas');
 INSERT IGNORE INTO room_medical_team VALUES (4,'Bisturi');
 INSERT IGNORE INTO room_medical_team VALUES (4,'Mascarillas');
+
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (1, 'Muy buen servicio', '2020-01-04 00:00:00',5,'owner1',1);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (2, 'Me parece un borde', '2020-02-14 00:00:00',2,'owner1',2);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (3, 'Servicio decente', '2020-02-29 00:00:00',4,'owner2',3);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (4, 'Mi perrito ha curado rapido, MUCHAS GRACIAAS', '2020-03-10 00:00:00',5,'owner1',4);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (5, 'Pipo era un buen perro', '2018-06-10 00:00:00',5,'admin1',5);
+INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (6, 'GUAU GUAU GUAAU', '2019-06-10 00:00:00',3,'owner1',6);
+
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-01-04',1,1,1,1);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-03-02',2,2,2,2);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2019-11-04',3,3,3,3);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2019-12-15',4,3,4,4);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-04-02',5,4,5,1);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-02-08',6,5,6,2);
