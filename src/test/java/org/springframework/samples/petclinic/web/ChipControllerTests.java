@@ -136,4 +136,21 @@ public class ChipControllerTests {
 		.andExpect(model().attributeHasFieldErrors("chip", "model"))
 		.andExpect(view().name("chips/createOrUpdateChipForm"));
 	}
+
+	@WithMockUser(value = "spring")
+    @Test
+	void testInitShowForm() throws Exception {
+		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/chips/{chipId}", TEST_OWNER_ID, TEST_PET_ID, TEST_CHIP_ID))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("chip"))
+		.andExpect(view().name("chips/chipDetails"));
+	}
+    
+	@WithMockUser(value = "spring")
+    @Test
+	void testProcessDeleteChipSuccess() throws Exception {
+		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/chips/{chipId}/delete", TEST_OWNER_ID, TEST_PET_ID, TEST_CHIP_ID))
+				.andExpect(status().is3xxRedirection());
+	}
+
 }

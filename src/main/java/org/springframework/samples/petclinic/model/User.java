@@ -20,17 +20,4 @@ public class User {
 	String	password;
 
 	boolean	enabled;
-
-	/*
-	 * //Relations with Opinion
-	 * 
-	 * @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	 * private Collection<Opinion> opinions;
-	 * 
-	 * 
-	 * // Remove Opinion
-	 * public void removeOpinion(final Opinion opinion) {
-	 * this.opinions.remove(opinion);
-	 * }
-	 */
 }

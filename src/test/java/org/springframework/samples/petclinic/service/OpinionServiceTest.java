@@ -5,10 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyList;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Opinion;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 class OpinionServiceTest {
 
     @Autowired
@@ -60,7 +65,8 @@ class OpinionServiceTest {
         Iterable<Opinion> opinionsMine = this.opinionService.findAllMine("userTest");
         assertEquals(opinionsMine.iterator().next(), opinion); //Comprueba que el usuario de pruba contenga SU opinion
         opinionsMine =this.opinionService.findAllMine("NotUser");
-        Iterable<Opinion> vacio=anyList(); 
+        List<Opinion> aux = new ArrayList<>();
+        Iterable<Opinion> vacio= aux; 
         assertEquals(opinionsMine,vacio );
     }
 

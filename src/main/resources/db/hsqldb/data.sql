@@ -82,3 +82,43 @@ INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (3
 INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (4, 'Mi perrito ha curado rapido, MUCHAS GRACIAAS', '2020-03-10 00:00:00',5,'owner1',4);
 INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (5, 'Pipo era un buen perro', '2018-06-10 00:00:00',5,'admin1',5);
 INSERT INTO opinion(id,comentary,date,puntuation,user_username,vet_id) VALUES (6, 'GUAU GUAU GUAAU', '2019-06-10 00:00:00',3,'owner1',6);
+
+INSERT INTO rooms(id,name, floor) VALUES (1,'Quirofano1',1);
+INSERT INTO rooms(id,name, floor) VALUES (2,'Quirofano2',1);
+INSERT INTO rooms(id,name, floor) VALUES (3,'Quirofano3',2);
+INSERT INTO rooms(id,name, floor) VALUES (4,'Quirofano4',2);
+
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (1,'Tijeras');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (1,'Pinzas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (1,'Bandejas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (1,'Bisturi');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (1,'Mascarillas');
+
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (2,'Tijeras');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (2,'Pinzas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (2,'Bandejas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (2,'Bisturi');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (2,'Mascarillas');
+
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (3,'Tijeras');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (3,'Pinzas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (3,'Bandejas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (3,'Bisturi');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (3,'Mascarillas');
+
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Tijeras');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Pinzas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Bandejas');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Bisturi');
+INSERT INTO room_medical_team(room_id, medical_team) VALUES (4,'Mascarillas');
+
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-01-04',1,1,1,1);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-03-02',2,2,2,2);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2019-11-04',3,3,3,3);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2019-12-15',4,3,4,4);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-04-02',5,4,5,1);
+INSERT INTO bookings(date, pet_id, owner_id, vet_id, room_id) VALUES ('2020-02-08',6,5,6,2);
+
+
+
+

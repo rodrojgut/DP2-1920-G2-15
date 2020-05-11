@@ -91,15 +91,15 @@ class OpinionControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/opinions/new/{vetId}", OpinionControllerTests.TEST_VET_ID).param("puntuation", "4").param("comentary", "Successful test").param("date", "2020/04/23 17:50").param("user", "userTest")
-			.with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/opinions/new/{vetId}", OpinionControllerTests.TEST_VET_ID).param("puntuation", "4").param("comentary", "Successful test").with(SecurityMockMvcRequestPostProcessors.csrf()))
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/vets/"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/opinions/new/{vetId}", OpinionControllerTests.TEST_VET_ID).param("date", "2020/04/23 17:50")				// Tanto date como user se asignan en el controller por lo que no se pueden asignar incorrectamente en el formulario.
-			.param("user", "userTest").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("opinion"))	// Comentary es un atributo que puede ir vacío.
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/opinions/new/{vetId}", OpinionControllerTests.TEST_VET_ID)				// Tanto date como user se asignan en el controller por lo que no se pueden asignar incorrectamente en el formulario.
+			.with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("opinion"))	// Comentary es un atributo que puede ir vacío.
 			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("opinion", "puntuation")).andExpect(MockMvcResultMatchers.view().name("opinions/createOrUpdateOpinions"));
 	}
 
@@ -187,13 +187,13 @@ class OpinionControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessDeleteOpinionSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/{opinionId}/delete", OpinionControllerTests.TEST_OPINION_ID)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("/opinions/listMine"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/{opinionId}/delete", OpinionControllerTests.TEST_OPINION_ID)).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+			.andExpect(MockMvcResultMatchers.view().name("redirect:/opinions/listMine"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessDeleteOpinionFail() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/{opinionId}/delete", 2)).andExpect(MockMvcResultMatchers.model().attribute("message", "Opinion not found.")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("/opinions/listMine"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/opinions/{opinionId}/delete", 2)).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/opinions/listMine"));
 	}
 }

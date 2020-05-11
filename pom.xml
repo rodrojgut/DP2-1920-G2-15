@@ -269,9 +269,25 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.2</version>
+			</plugin>
 		</plugins>
 	</build>
 
+<profiles>
+	<profile>
+		<id>mysql</id>
+		<activation>
+		<activeByDefault>false</activeByDefault>
+		</activation>
+		<properties>
+		<spring.profiles.active>mysql</spring.profiles.active>
+		</properties>
+	</profile>
+</profiles>
 	<!-- Apache 2 license -->
 	<licenses>
 		<license>
