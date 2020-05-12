@@ -68,7 +68,7 @@ public class DiseaseControllerE2ETest {
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/diseases/new/{petId}", TEST_PET_ID).requestAttr("petId", TEST_PET_ID).with(csrf())
 				.param("symptoms", "Mareos, vomitos y diarrea...").param("severity", "LOW")
-				.param("cure", "Unas pastillas")).andExpect(status().is3xxRedirection()); // assertion vista
+				.param("cure", "Unas pastillas")).andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/diseases/8"));
 	}
 
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
