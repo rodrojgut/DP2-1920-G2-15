@@ -32,6 +32,10 @@ public class DiseaseControllerE2ETest {
 
 	@Autowired
 	private MockMvc mockMvc;
+    
+    
+	@Autowired
+	private DiseaseService diseaseService;
 
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
@@ -66,9 +70,10 @@ public class DiseaseControllerE2ETest {
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
+        Integer i = diseaseService.findAll().size();
 		mockMvc.perform(post("/diseases/new/{petId}", TEST_PET_ID).requestAttr("petId", TEST_PET_ID).with(csrf())
 				.param("symptoms", "Mareos, vomitos y diarrea...").param("severity", "LOW")
-				.param("cure", "Unas pastillas")).andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/diseases/8"));
+				.param("cure", "Unas pastillas")).andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/diseases/"+(i+1)));
 	}
 
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
