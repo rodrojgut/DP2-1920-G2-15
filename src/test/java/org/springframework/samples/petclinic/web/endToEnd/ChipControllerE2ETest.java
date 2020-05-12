@@ -90,6 +90,6 @@ public class ChipControllerE2ETest {
     @Test
 	void testProcessDeleteChipSuccess() throws Exception {
 		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/chips/{chipId}/delete", TEST_OWNER_ID, TEST_PET_ID, TEST_CHIP_ID))
-				.andExpect(status().is3xxRedirection());
+				.andExpect(status().is3xxRedirection()); //Poner assertion hacia la vista
 	}
 }
