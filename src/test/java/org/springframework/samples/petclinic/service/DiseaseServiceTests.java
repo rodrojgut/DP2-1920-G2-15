@@ -120,7 +120,7 @@ public class DiseaseServiceTests{
 	}
 
 	@ParameterizedTest
-	@ValueSource(ints = {1})
+	@ValueSource(ints = {1,3,7})
 	void shoulThrowExceptionUpdateDisease(int id){
 		Disease disease = this.diseaseService.findDiseaseById(id);
 		String newSymptoms = null;
