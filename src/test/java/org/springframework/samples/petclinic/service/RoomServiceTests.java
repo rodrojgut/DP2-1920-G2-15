@@ -119,7 +119,7 @@ public class RoomServiceTests {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = { 1 })
+    @ValueSource(ints = { 1,2 })
     void shoulThrowExceptionUpdateRoom(int id) {
         Room room = this.roomService.findRoomById(id);
         String newName = null;
