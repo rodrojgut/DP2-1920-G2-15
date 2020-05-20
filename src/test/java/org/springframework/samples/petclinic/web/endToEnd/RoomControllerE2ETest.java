@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import org.junit.jupiter.api.Test;
+import org.springframework.samples.petclinic.service.RoomService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,6 +32,9 @@ public class RoomControllerE2ETest {
 
 	@Autowired
 	private MockMvc mockMvc;
+    
+    @Autowired
+	private RoomService roomService;
 
 	@WithMockUser(username = "admin1", authorities = { "admin" })
 	@Test
@@ -81,9 +85,10 @@ public class RoomControllerE2ETest {
 	@WithMockUser(username = "admin1", authorities = { "admin" })
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
+        Integer i = roomService.findAll().size();
 		mockMvc.perform(post("/rooms/new").with(csrf()).param("floor", "10").param("medicalTeam", "Tijeras")
 				.param("name", "Quirofano 5")).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/rooms/5"));
+				.andExpect(view().name("redirect:/rooms/5"+(i+1)));
 	}
 
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
