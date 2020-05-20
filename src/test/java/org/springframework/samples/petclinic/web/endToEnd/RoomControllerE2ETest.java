@@ -88,7 +88,7 @@ public class RoomControllerE2ETest {
         Integer i = roomService.findAll().size();
 		mockMvc.perform(post("/rooms/new").with(csrf()).param("floor", "10").param("medicalTeam", "Tijeras")
 				.param("name", "Quirofano 5")).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/rooms/5"+(i+1)));
+				.andExpect(view().name("redirect:/rooms/"+(i+1)));
 	}
 
 	@WithMockUser(username = "vet1", authorities = { "veterinarian" })
