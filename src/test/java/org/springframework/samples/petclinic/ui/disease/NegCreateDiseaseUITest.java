@@ -31,11 +31,11 @@ public class NegCreateDiseaseUITest {
     @BeforeEach
     public void setUp() throws Exception {
 
-    	 String pathToGeckoDriver = System.getenv("webdriver.gecko.driver");
-         System.setProperty("webdriver.gecko.driver", pathToGeckoDriver);
-         driver = new FirefoxDriver();
-         baseUrl = "https://www.google.com/";
-         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+      String pathToChromeDriver = System.getenv("webdriver.chrome.driver");
+	  System.setProperty("webdriver.chrome.driver", pathToChromeDriver);
+      driver = new ChromeDriver();
+      baseUrl = "https://www.google.com/";
+      driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @Test
