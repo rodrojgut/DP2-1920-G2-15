@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -26,11 +27,12 @@ public class ShowDiseaseUITest {
 
     @BeforeEach
     public void setUp() throws Exception {
-    	String pathToChromeDriver = System.getenv("webdriver.chrome.driver");
-    	System.setProperty("webdriver.chrome.driver", pathToChromeDriver);
-        driver = new ChromeDriver();
-        baseUrl = "https://www.google.com/";
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+    	 String pathToGeckoDriver = System.getenv("webdriver.gecko.driver");
+         System.setProperty("webdriver.gecko.driver", pathToGeckoDriver);
+         driver = new FirefoxDriver();
+         baseUrl = "https://www.google.com/";
+         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @Test

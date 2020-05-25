@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,9 +28,10 @@ public class DeleteDiseaseUITest {
 
   @BeforeEach
   public void setUp() throws Exception {
-	  String pathToChromeDriver = System.getenv("webdriver.chrome.driver");
-	  System.setProperty("webdriver.chrome.driver", pathToChromeDriver);
-      driver = new ChromeDriver();
+
+	  String pathToGeckoDriver = System.getenv("webdriver.gecko.driver");
+      System.setProperty("webdriver.gecko.driver", pathToGeckoDriver);
+      driver = new FirefoxDriver();
       baseUrl = "https://www.google.com/";
       driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
@@ -44,7 +46,7 @@ public class DeleteDiseaseUITest {
     driver.findElement(By.id("username")).sendKeys("vet1");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[4]/a/span[2]")).click();
-    driver.findElement(By.linkText("Delete")).click();
+    driver.findElement(By.xpath("(//a[contains(text(),'Delete')])[7]")).click();
     assertFalse(driver.findElement(By.cssSelector("BODY")).getText().matches("^[\\s\\S]*//table\\[@id='diseasesTable'\\]/tbody/tr/td[\\s\\S]*$"));
   }
 

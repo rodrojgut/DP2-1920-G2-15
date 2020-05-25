@@ -27,11 +27,11 @@ public class NegUpdateDiseaseUITest {
 
     @BeforeEach
     public void setUp() throws Exception {
-    	String pathToChromeDriver = System.getenv("webdriver.chrome.driver");
-    	System.setProperty("webdriver.chrome.driver", pathToChromeDriver);
-        driver = new ChromeDriver();
-        baseUrl = "https://www.google.com/";
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    	 String pathToGeckoDriver = System.getenv("webdriver.gecko.driver");
+         System.setProperty("webdriver.gecko.driver", pathToGeckoDriver);
+         driver = new FirefoxDriver();
+         baseUrl = "https://www.google.com/";
+         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @Test
@@ -49,7 +49,8 @@ public class NegUpdateDiseaseUITest {
         driver.findElement(By.id("severity")).clear();
         driver.findElement(By.id("severity")).sendKeys("123");
         driver.findElement(By.xpath("//button[@type='submit']")).click();
-        assertEquals("tiene que corresponder a la expresión regular \"LOW|MEDIUM|HIGH\"", driver.findElement(By.xpath("//form[@id='disease']/div/div[2]/div/span[2]")).getText());
+        //assertEquals("tiene que corresponder a la expresión regular \"LOW|MEDIUM|HIGH\"", driver.findElement(By.xpath("//form[@id='disease']/div/div[2]/div/span[2]")).getText());
+        assertEquals("must match LOW|MEDIUM|HIGH", driver.findElement(By.xpath("//form[@id='disease']/div/div[2]/div/span[2]")).getText());
     }
 
     @AfterEach

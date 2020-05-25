@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -29,11 +30,12 @@ public class NegCreateDiseaseUITest {
 
     @BeforeEach
     public void setUp() throws Exception {
-    	String pathToChromeDriver = System.getenv("webdriver.chrome.driver");
-    	System.setProperty("webdriver.chrome.driver", pathToChromeDriver);
-        driver = new ChromeDriver();
-        baseUrl = "https://www.google.com/";
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+    	 String pathToGeckoDriver = System.getenv("webdriver.gecko.driver");
+         System.setProperty("webdriver.gecko.driver", pathToGeckoDriver);
+         driver = new FirefoxDriver();
+         baseUrl = "https://www.google.com/";
+         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @Test
@@ -51,7 +53,8 @@ public class NegCreateDiseaseUITest {
         driver.findElement(By.linkText("Add Disease")).click();
         driver.findElement(By.xpath("//button[@type='submit']")).click();
         assertEquals("no puede estar vacío", driver.findElement(By.xpath("//form[@id='disease']/div/div/div/span[2]")).getText());
-        assertEquals("tiene que corresponder a la expresión regular \"LOW|MEDIUM|HIGH\"", driver.findElement(By.xpath("//form[@id='disease']/div/div[2]/div/span[2]")).getText());
+       // assertEquals("tiene que corresponder a la expresión regular \"LOW|MEDIUM|HIGH\"", driver.findElement(By.xpath("//form[@id='disease']/div/div[2]/div/span[2]")).getText());
+        assertEquals("must match LOW|MEDIUM|HIGH", driver.findElement(By.xpath("//form[@id='disease']/div/div[2]/div/span[2]")).getText());
         assertEquals("no puede estar vacío", driver.findElement(By.xpath("//form[@id='disease']/div/div[3]/div/span[2]")).getText());
     }
 
