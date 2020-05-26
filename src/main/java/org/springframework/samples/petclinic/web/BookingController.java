@@ -74,10 +74,17 @@ public class BookingController {
 	@PostMapping(value = "/new")
 	public String proccessCreationForm(@Valid final Booking booking, final BindingResult result, final ModelMap model, final HttpServletRequest request, @RequestParam(value = "roomId") final Integer roomId,
 		@RequestParam(value = "petId") final Integer petId, @RequestParam(value = "vetId") final Integer vetId, @RequestParam(value = "fecha") final String date) {
+			
+			if(date=="") {
+				this.init(model);
+				return VIEWS_BOOKING_CREATE_OR_UPDATE_FORM;
+			}
 
 		if (result.hasErrors()) {
-			model.put("booking", booking);
 			this.init(model);
+		
+			model.put("booking", booking);
+			
 			return BookingController.VIEWS_BOOKING_CREATE_OR_UPDATE_FORM;
 		} else {
 
@@ -132,6 +139,11 @@ public class BookingController {
 	public String proccessUpdateForm(@Valid final Booking booking, @PathVariable("idBooking") final Integer idBooking, final BindingResult result, final ModelMap model, final HttpServletRequest request, @RequestParam(value = "roomId") final String roomId,
 		@RequestParam(value = "petId") final Integer petId, @RequestParam(value = "vetId") final Integer vetId, @RequestParam(value = "fecha") final String date) {
 
+		if(date=="") {
+			this.init(model);
+			return VIEWS_BOOKING_CREATE_OR_UPDATE_FORM;
+		}
+			
 		if (result.hasErrors()) {
 			model.put("booking", booking);
 			this.init(model);
