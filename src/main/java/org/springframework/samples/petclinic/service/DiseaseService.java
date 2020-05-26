@@ -33,7 +33,7 @@ public class DiseaseService {
 		this.diseaseRepository.save(disease);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	@Cacheable("AllDiseases")
 	public Collection<Disease> findAll() {
 		return this.diseaseRepository.findAll();
