@@ -17,7 +17,9 @@
         <tr>
             <th>Name</th>
             <th>Specialties</th>
+             <sec:authorize access= "!hasAuthority('veterinarian')">
             <th>Opinion</th>
+            </sec:authorize>
         </tr>
         </thead>
         <tbody>
@@ -32,12 +34,14 @@
                     </c:forEach>
                     <c:if test="${vet.nrOfSpecialties == 0}">none</c:if>
                 </td>
+                <sec:authorize access= "!hasAuthority('veterinarian')">
                 <td>
                    	<spring:url value="/opinions/new/{vetId}" var="addOpinion">
                    	<spring:param name="vetId" value="${vet.id}"/>
                    	</spring:url>
                     <a href="${fn:escapeXml(addOpinion)}" class="btn btn-default">Add Opinion</a>
                 </td>
+                </sec:authorize>
             </tr>
         </c:forEach>
         </tbody>
