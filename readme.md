@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/antromcac/DP2-1920-G2-15.svg?branch=master)](https://travis-ci.org/antromcac/DP2-1920-G2-15)
-
+[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=antromcac_DP2-1920-G2-15)](https://sonarcloud.io/dashboard/index/antromcac_DP2-1920-G2-15)
 
 # Spring PetClinic Sample Application 
 
